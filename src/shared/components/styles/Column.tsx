@@ -8,7 +8,9 @@ interface Props {
 
 const Column = ({ children, gap, className }: Props) => {
   return (
-    <div className={`flex flex-col gap-[${gap}px] ${className}`}>
+    <div
+      className={`flex flex-col ${gap ? `gap-[${gap}px]` : ""} ${className}`}
+    >
       {children}
     </div>
   );

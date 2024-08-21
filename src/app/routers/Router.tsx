@@ -7,6 +7,7 @@ import { PrivateRoute } from "./Private.route";
 import { ROUTES } from "../../shared/consts/route.const";
 import HomePage from "@/pages/HomePage";
 import { SellerRoute } from "./Seller.route";
+import DashBoardPage from "@/pages/DashBoardPage";
 
 export const Router = () => {
   return (
@@ -20,10 +21,7 @@ export const Router = () => {
           <Route path={ROUTES.MY} element={<Button>my</Button>} />
 
           <Route element={<SellerRoute />}>
-            <Route
-              path={ROUTES.DASHBOARD}
-              element={<Button>Dashboard</Button>}
-            />
+            <Route path={ROUTES.DASHBOARD} element={<DashBoardPage />} />
           </Route>
         </Route>
       </Routes>
