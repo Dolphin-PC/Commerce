@@ -1,1 +1,2 @@
-export { signup } from "./sign-up/sign-up.api";
+export { signup } from "./sign-up.api";
+export { signInWithPassword } from "./sign-in.api";

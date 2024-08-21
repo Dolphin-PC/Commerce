@@ -1,16 +1,16 @@
-import { SignUpForm } from "@/features/sign-up/SignUpForm.ui";
+import { SignInForm } from "@/features/sign-in/SignInForm.ui";
 import CenterLayout from "@/shared/ui/templates/CenterLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/ui/card";
 
-export const SignupPage = () => {
+export const SignInPage = () => {
   return (
     <CenterLayout>
       <Card className="w-[350px] flex flex-col">
         <CardHeader>
-          <CardTitle>회원가입</CardTitle>
+          <CardTitle>로그인</CardTitle>
         </CardHeader>
         <CardContent>
-          <SignUpForm />
+          <SignInForm />
         </CardContent>
       </Card>
     </CenterLayout>

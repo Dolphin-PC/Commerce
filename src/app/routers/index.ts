@@ -1,2 +1,2 @@
-export { Router } from "./ui/Router";
+export { Router } from "./Router";
 export { ROUTES } from "./route.const";

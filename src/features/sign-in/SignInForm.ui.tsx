@@ -1,10 +1,5 @@
 import Column from "@/shared/ui/templates/Column";
 import { Button } from "@/shared/ui/ui/button";
-import { Input } from "@/shared/ui/ui/input";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { SignUpSchema } from "./sign-up.zod";
 import {
   Form,
   FormControl,
@@ -13,42 +8,44 @@ import {
   FormLabel,
   FormMessage,
 } from "@/shared/ui/ui/form";
-import { signup } from "@/entities/user";
+import { Input } from "@/shared/ui/ui/input";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
-import { toast } from "@/shared/ui/ui/use-toast";
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { z } from "zod";
+import { SignInSchema } from "./sign-in.zod";
+import { signInWithPassword } from "@/entities/user";
+import { toast } from "@/shared/ui/ui/use-toast";
 
-export const SignUpForm = () => {
+export const SignInForm = () => {
   const navigate = useNavigate();
 
   const [passwordVisible, setPasswordVisible] = useState(false);
   const togglePasswordVisibility = () => setPasswordVisible((prev) => !prev);
 
-  const form = useForm<z.infer<typeof SignUpSchema>>({
-    resolver: zodResolver(SignUpSchema),
+  const form = useForm<z.infer<typeof SignInSchema>>({
+    resolver: zodResolver(SignInSchema),
     defaultValues: {
       email: "",
       password: "",
-      nickname: "",
     },
   });
 
-  const handleSignup = async (data: z.infer<typeof SignUpSchema>) => {
-    signup({
+  const handleSignIn = async (data: z.infer<typeof SignInSchema>) => {
+    signInWithPassword({
       email: data.email,
       password: data.password,
-      nickname: data.nickname,
     })
       .then(() => {
         toast({
-          title: "회원가입이 완료되었습니다.",
-          description: "로그인 페이지로 이동합니다.",
+          title: "로그인이 완료되었습니다.",
         });
-        navigate("/sign-in");
+        navigate("/");
       })
       .catch((err) => {
         toast({
-          title: "회원가입에 실패했습니다.",
+          title: "로그인에 실패했습니다.",
           description: err,
         });
       });
@@ -56,7 +53,7 @@ export const SignUpForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSignup)}>
+      <form onSubmit={form.handleSubmit(handleSignIn)}>
         <Column gap={20}>
           <FormField
             control={form.control}
@@ -93,38 +90,7 @@ export const SignUpForm = () => {
             )}
           />
 
-          <FormField
-            control={form.control}
-            name="confirmPassword"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Confirm Password</FormLabel>
-                <FormControl>
-                  <Input
-                    type="password"
-                    placeholder="Confirm Password"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="nickname"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Nickname</FormLabel>
-                <FormControl>
-                  <Input placeholder="Nickname" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button type="submit">Sign Up</Button>
+          <Button type="submit">Sign In</Button>
         </Column>
       </form>
     </Form>
