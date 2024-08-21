@@ -1,6 +1,11 @@
 import { SignInForm } from "@/features/sign-in/SignInForm.ui";
-import CenterLayout from "@/shared/ui/templates/CenterLayout";
-import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/ui/card";
+import CenterLayout from "@/shared/components/templates/CenterLayout";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/shared/components/ui/card";
 
 export const SignInPage = () => {
   return (

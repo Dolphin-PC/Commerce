@@ -1,6 +1,11 @@
 import { SignUpForm } from "@/features/sign-up/SignUpForm.ui";
-import CenterLayout from "@/shared/ui/templates/CenterLayout";
-import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/ui/card";
+import CenterLayout from "@/shared/components/templates/CenterLayout";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/shared/components/ui/card";
 
 export const SignupPage = () => {
   return (

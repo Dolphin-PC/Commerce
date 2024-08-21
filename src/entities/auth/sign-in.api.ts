@@ -6,9 +6,12 @@ interface Props {
   password: string;
 }
 
-export const signInWithPassword = async ({ email, password }: Props) => {
+export const signInWithPassword = async ({
+  email,
+  password,
+}: Props): Promise<string | undefined> => {
   try {
-    const { error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
@@ -16,6 +19,8 @@ export const signInWithPassword = async ({ email, password }: Props) => {
     if (error) {
       throw error;
     }
+
+    return data.user.email;
   } catch (error) {
     if (error instanceof AuthError) {
       throw error.message;

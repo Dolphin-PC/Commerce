@@ -1,2 +1,2 @@
 export { Router } from "./Router";
-export { ROUTES } from "./route.const";
+export { ROUTES } from "../../shared/consts/route.const";

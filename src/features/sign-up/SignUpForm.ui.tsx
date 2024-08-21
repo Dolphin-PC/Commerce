@@ -1,6 +1,5 @@
-import { signup } from "@/entities/user";
-import Column from "@/shared/ui/templates/Column";
-import { Button } from "@/shared/ui/ui/button";
+import Column from "@/shared/components/styles/Column";
+import { Button } from "@/shared/components/ui/button";
 import {
   Form,
   FormControl,
@@ -8,15 +7,16 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/shared/ui/ui/form";
-import { Input } from "@/shared/ui/ui/input";
-import { toast } from "@/shared/ui/ui/use-toast";
+} from "@/shared/components/ui/form";
+import { Input } from "@/shared/components/ui/input";
+import { toast } from "@/shared/components/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { SignUpSchema } from "./sign-up.zod";
+import { signup } from "@/entities/auth/sign-up.api";
 
 export const SignUpForm = () => {
   const navigate = useNavigate();

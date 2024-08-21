@@ -7,7 +7,11 @@ interface Props {
   nickname: string;
 }
 
-export const signup = async ({ email, password, nickname }: Props) => {
+export const signup = async ({
+  email,
+  password,
+  nickname,
+}: Props): Promise<void> => {
   try {
     const { data, error } = await supabase.auth.signUp({
       email,
@@ -25,6 +29,7 @@ export const signup = async ({ email, password, nickname }: Props) => {
 
     if (data.user?.email) {
       const { email } = data.user;
+      supabase.from("user");
       await supabase.from("user").insert([
         {
           email,
