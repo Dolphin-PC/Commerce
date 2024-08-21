@@ -10,7 +10,7 @@ const Row = ({ children, gap, className }: Props) => {
   return (
     <div
       className={`flex flex-row items-center 
-        ${gap ? `gap-[${gap}px]` : ""} ${className}`}
+        ${gap ? `gap-[${gap}px]` : ""} ${className && className}`}
     >
       {children}
     </div>

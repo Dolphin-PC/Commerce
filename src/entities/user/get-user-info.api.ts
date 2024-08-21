@@ -6,7 +6,7 @@ export const getUserInfo = async (email: string): Promise<User> => {
     .from("user")
     .select("*")
     .eq("email", email)
-    .single();
+    .maybeSingle();
 
   if (error) throw error;
   if (!data) throw new Error("사용자를 찾을 수 없습니다.");

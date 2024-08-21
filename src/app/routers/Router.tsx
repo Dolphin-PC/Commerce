@@ -9,6 +9,7 @@ import HomePage from "@/pages/HomePage";
 import { SellerRoute } from "./Seller.route";
 import DashBoardPage from "@/pages/DashBoardPage";
 import ProductPage from "@/pages/ProductPage";
+import ProductNewPage from "@/pages/ProductNewPage";
 
 export const Router = () => {
   return (
@@ -24,6 +25,7 @@ export const Router = () => {
           <Route element={<SellerRoute />}>
             <Route path={ROUTES.DASHBOARD} element={<DashBoardPage />} />
             <Route path={ROUTES.PRODUCTS} element={<ProductPage />} />
+            <Route path={ROUTES.PRODUCTS_NEW} element={<ProductNewPage />} />
           </Route>
         </Route>
       </Routes>

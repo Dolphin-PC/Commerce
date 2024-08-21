@@ -10,4 +10,5 @@ export const ROUTES = {
   // seller
   DASHBOARD: "/dashboard",
   PRODUCTS: "/products",
+  PRODUCTS_NEW: "/products/new",
 } as const;
