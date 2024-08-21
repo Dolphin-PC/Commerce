@@ -1,3 +1,2 @@
-export { PrivateRoute } from "./Private.route";
-export { SellerRoute } from "./Seller.route";
-export { BuyerRoute } from "./Buyer.route";
+export { Router } from "./ui/Router";
+export { ROUTES } from "./route.const";

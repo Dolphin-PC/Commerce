@@ -30,17 +30,10 @@ export const SignUpSchema = z
 
     confirmPassword: z.string(),
   })
-  // 비밀번호에 이메일 주소가 포함되어 있는지 확인
-  .refine(
-    (data) => {
-      console.log({ data });
-      return !data.password.includes(data.email.split("@")[0]);
-    },
-    {
-      message: "비밀번호가 일치하지 않습니다.",
-      path: ["passwordIncludeEmail"],
-    }
-  )
+  .refine((data) => !data.password.includes(data.email.split("@")[0]), {
+    message: "비밀번호에 이메일 아이디를 포함할 수 없습니다.",
+    path: ["password"],
+  })
   .refine((data) => data.password === data.confirmPassword, {
     message: "비밀번호가 일치하지 않습니다.",
     path: ["confirmPassword"],

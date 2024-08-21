@@ -14,8 +14,16 @@ import {
   FormMessage,
 } from "@/shared/ui/ui/form";
 import { signup } from "@/entities/user";
+import { useState } from "react";
+import { toast } from "@/shared/ui/ui/use-toast";
+import { useNavigate } from "react-router-dom";
 
 export const SignUpForm = () => {
+  const navigate = useNavigate();
+
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const togglePasswordVisibility = () => setPasswordVisible((prev) => !prev);
+
   const form = useForm<z.infer<typeof SignUpSchema>>({
     resolver: zodResolver(SignUpSchema),
     defaultValues: {
@@ -30,7 +38,20 @@ export const SignUpForm = () => {
       email: data.email,
       password: data.password,
       nickname: data.nickname,
-    });
+    })
+      .then(() => {
+        toast({
+          title: "회원가입이 완료되었습니다.",
+          description: "로그인 페이지로 이동합니다.",
+        });
+        navigate("/sign-in");
+      })
+      .catch((err) => {
+        toast({
+          title: "회원가입에 실패했습니다.",
+          description: err,
+        });
+      });
   };
 
   return (
@@ -58,8 +79,15 @@ export const SignUpForm = () => {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input placeholder="Password" {...field} />
+                  <Input
+                    type={passwordVisible ? "text" : "password"}
+                    placeholder="Password"
+                    {...field}
+                  />
                 </FormControl>
+                <button type="button" onClick={togglePasswordVisibility}>
+                  <small>{passwordVisible ? "Hide" : "Show"}</small>
+                </button>
                 <FormMessage />
               </FormItem>
             )}
