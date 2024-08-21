@@ -5,11 +5,11 @@ import { Card } from "../ui/card";
 
 const LogoIcon = () => {
   return (
-    <Link to={ROUTES.HOME}>
-      <Card className="p-4 bg-yellow-200">
+    <Card className="p-4 bg-yellow-200">
+      <Link to={ROUTES.HOME}>
         <Banana />
-      </Card>
-    </Link>
+      </Link>
+    </Card>
   );
 };
 

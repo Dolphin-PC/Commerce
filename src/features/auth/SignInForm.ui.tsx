@@ -17,8 +17,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
-import { useAuthStore } from "../auth/auth.store";
-import { SignInSchema } from "./sign-in.zod";
+import { useAuthStore } from "./auth.store";
+import { SignInSchema } from "./auth.zod";
 
 export const SignInForm = () => {
   const navigate = useNavigate();

@@ -13,24 +13,24 @@ interface Props {
 const DashBoardLayout = ({ children }: Props) => {
   return (
     <Row>
-      <Column className="w-[200px] items-center" gap={20}>
+      <Column gap={10} className="w-[200px] items-center">
         <LogoIcon />
-        <Link to={ROUTES.DASHBOARD}>
-          <Button variant="outline" className="h-[100px] w-[100px] p-4">
+        <Button variant="outline" className="h-[100px] w-[100px] p-4" asChild>
+          <Link to={ROUTES.DASHBOARD}>
             <Column gap={10} className="items-center">
               <LayoutDashboard />
               <small>대시보드</small>
             </Column>
-          </Button>
-        </Link>
-        <Link to={ROUTES.PRODUCTS}>
-          <Button variant="outline" className="h-[100px] w-[100px] p-4">
+          </Link>
+        </Button>
+        <Button variant="outline" className="h-[100px] w-[100px] p-4" asChild>
+          <Link to={ROUTES.PRODUCTS}>
             <Column gap={10} className="items-center">
               <ShoppingCart />
               <small>상품</small>
             </Column>
-          </Button>
-        </Link>
+          </Link>
+        </Button>
       </Column>
 
       <div className="bg-slate-100 w-full h-screen p-5">{children}</div>

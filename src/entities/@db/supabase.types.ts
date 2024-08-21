@@ -1,6 +1,5 @@
 import { Cart } from "../cart/type";
 import { Category } from "../category/type";
-import { CategoryGroup } from "../category_group/type";
 import { Coupon } from "../coupon/type";
 import { Order } from "../order/type";
 import { OrderDetail } from "../order_detail/type";
@@ -73,18 +72,6 @@ export type Database = {
             referencedColumns: ["id"];
           }
         ];
-      };
-      category_group: {
-        Row: CategoryGroup;
-        Insert: {
-          groupName: string;
-          id?: number;
-        };
-        Update: {
-          groupName?: string;
-          id?: number;
-        };
-        Relationships: [];
       };
       coupon: {
         Row: Coupon;

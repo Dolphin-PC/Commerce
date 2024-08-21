@@ -1,4 +1,4 @@
-import { SignUpForm } from "@/features/sign-up/SignUpForm.ui";
+import { SignUpForm } from "@/features/auth/SignUpForm.ui";
 import Column from "@/shared/components/styles/Column";
 import CenterLayout from "@/shared/components/templates/CenterLayout";
 import { Button } from "@/shared/components/ui/button";
