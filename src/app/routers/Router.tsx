@@ -3,11 +3,10 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { SignInPage } from "@/pages/SignInPage";
 import { SignupPage } from "@/pages/SignupPage";
-import { BuyerRoute } from "./Buyer.route";
 import { PrivateRoute } from "./Private.route";
-import { SellerRoute } from "./Seller.route";
 import { ROUTES } from "../../shared/consts/route.const";
 import HomePage from "@/pages/HomePage";
+import { SellerRoute } from "./Seller.route";
 
 export const Router = () => {
   return (
@@ -17,15 +16,14 @@ export const Router = () => {
         <Route path={ROUTES.SIGNIN} element={<SignInPage />} />
         <Route path={ROUTES.SIGNUP} element={<SignupPage />} />
 
-        <Route element={<PrivateRoute isNeedAuth />}>
-          <Route element={<SellerRoute isSeller />}>
+        <Route element={<PrivateRoute />}>
+          <Route path={ROUTES.MY} element={<Button>my</Button>} />
+
+          <Route element={<SellerRoute />}>
             <Route
               path={ROUTES.DASHBOARD}
               element={<Button>Dashboard</Button>}
             />
-          </Route>
-          <Route element={<BuyerRoute isBuyer />}>
-            <Route path={ROUTES.MY} element={<Button>my</Button>} />
           </Route>
         </Route>
       </Routes>

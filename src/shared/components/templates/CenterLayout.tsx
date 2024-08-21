@@ -3,7 +3,9 @@ interface Props {
 }
 const CenterLayout = ({ children }: Props) => {
   return (
-    <div className="flex justify-center items-center h-screen">{children}</div>
+    <div className="flex flex-col justify-center items-center h-screen">
+      {children}
+    </div>
   );
 };
 

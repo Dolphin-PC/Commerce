@@ -36,27 +36,28 @@ export const SignInForm = () => {
   });
 
   const handleSignIn = async (data: z.infer<typeof SignInSchema>) => {
-    signInWithPassword({
-      email: data.email,
-      password: data.password,
-    })
-      .then((email) => {
-        if (!email) throw new Error("로그인에 실패했습니다.");
-
-        getUserInfo(email).then((user) => {
-          setSignedIn(user);
-          toast({
-            title: "로그인이 완료되었습니다.",
-          });
-          navigate("/");
-        });
-      })
-      .catch((err) => {
-        toast({
-          title: "로그인에 실패했습니다.",
-          description: err,
-        });
+    try {
+      const email = await signInWithPassword({
+        email: data.email,
+        password: data.password,
       });
+      const user = await getUserInfo(email);
+
+      setSignedIn(user);
+      toast({
+        title: "로그인이 완료되었습니다.",
+      });
+      if (user.isseller) {
+        navigate("/dashboard");
+      } else {
+        navigate("/");
+      }
+    } catch (err) {
+      console.error(err);
+      toast({
+        title: "로그인에 실패했습니다.",
+      });
+    }
   };
 
   return (

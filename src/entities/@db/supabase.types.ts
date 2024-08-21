@@ -16,6 +16,7 @@ export type Database = {
         Insert: {
           email: string;
           nickname: string;
+          isseller: boolean;
         };
         Update: {
           createdat?: string;

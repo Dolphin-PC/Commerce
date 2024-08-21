@@ -32,6 +32,7 @@ export const SignUpSchema = z
     nickname,
     password,
     confirmPassword: z.string(),
+    isSeller: z.boolean(),
   })
   .refine((data) => !data.password.includes(data.email.split("@")[0]), {
     message: "비밀번호에 이메일 아이디를 포함할 수 없습니다.",

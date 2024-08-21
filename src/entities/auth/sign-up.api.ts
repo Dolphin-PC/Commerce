@@ -5,12 +5,14 @@ interface Props {
   email: string;
   password: string;
   nickname: string;
+  isseller: boolean;
 }
 
 export const signup = async ({
   email,
   password,
   nickname,
+  isseller,
 }: Props): Promise<void> => {
   try {
     const { data, error } = await supabase.auth.signUp({
@@ -29,11 +31,12 @@ export const signup = async ({
 
     if (data.user?.email) {
       const { email } = data.user;
-      supabase.from("user");
+
       await supabase.from("user").insert([
         {
           email,
           nickname,
+          isseller,
         },
       ]);
     }

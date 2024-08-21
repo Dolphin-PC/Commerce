@@ -1,12 +1,12 @@
+import { useAuthStore } from "@/features/auth/auth.store";
+import { ROUTES } from "@/shared/consts/route.const";
 import { Navigate, Outlet } from "react-router-dom";
 
-interface Props {
-  isSeller: boolean;
-}
+export const SellerRoute = () => {
+  const user = useAuthStore((state) => state.user);
 
-export const SellerRoute = ({ isSeller }: Props) => {
-  if (!isSeller) {
-    return <Navigate to="/login" />;
+  if (user!.isseller === false) {
+    return <Navigate to={ROUTES.HOME} />;
   }
   return <Outlet />;
 };
