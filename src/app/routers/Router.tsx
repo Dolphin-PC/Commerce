@@ -8,6 +8,7 @@ import { ROUTES } from "../../shared/consts/route.const";
 import HomePage from "@/pages/HomePage";
 import { SellerRoute } from "./Seller.route";
 import DashBoardPage from "@/pages/DashBoardPage";
+import ProductPage from "@/pages/ProductPage";
 
 export const Router = () => {
   return (
@@ -22,6 +23,7 @@ export const Router = () => {
 
           <Route element={<SellerRoute />}>
             <Route path={ROUTES.DASHBOARD} element={<DashBoardPage />} />
+            <Route path={ROUTES.PRODUCTS} element={<ProductPage />} />
           </Route>
         </Route>
       </Routes>

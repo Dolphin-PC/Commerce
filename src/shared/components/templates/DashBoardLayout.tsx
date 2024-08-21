@@ -2,10 +2,10 @@ import LogoIcon from "../atoms/LogoIcon";
 import Column from "../styles/Column";
 import Row from "../styles/Row";
 
-import { ROUTES } from "@/app/routers";
+import { ROUTES } from "@/shared/consts/route.const";
 import { LayoutDashboard, ShoppingCart } from "lucide-react";
 import { Link } from "react-router-dom";
-import { Card } from "../ui/card";
+import { Button } from "../ui/button";
 
 interface Props {
   children: React.ReactNode;
@@ -16,20 +16,20 @@ const DashBoardLayout = ({ children }: Props) => {
       <Column className="w-[200px] items-center" gap={20}>
         <LogoIcon />
         <Link to={ROUTES.DASHBOARD}>
-          <Card className="w-[100px] p-4">
+          <Button variant="outline" className="h-[100px] w-[100px] p-4">
             <Column gap={10} className="items-center">
               <LayoutDashboard />
               <small>대시보드</small>
             </Column>
-          </Card>
+          </Button>
         </Link>
-        <Link to={ROUTES.DASHBOARD}>
-          <Card className="w-[100px] p-4">
+        <Link to={ROUTES.PRODUCTS}>
+          <Button variant="outline" className="h-[100px] w-[100px] p-4">
             <Column gap={10} className="items-center">
               <ShoppingCart />
               <small>상품</small>
             </Column>
-          </Card>
+          </Button>
         </Link>
       </Column>
 

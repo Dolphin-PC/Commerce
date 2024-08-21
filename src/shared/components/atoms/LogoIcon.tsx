@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom";
+import { ROUTES } from "@/shared/consts/route.const";
 import { Banana } from "lucide-react";
-import { ROUTES } from "@/app/routers";
+import { Link } from "react-router-dom";
 import { Card } from "../ui/card";
 
 const LogoIcon = () => {

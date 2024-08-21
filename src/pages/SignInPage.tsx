@@ -1,4 +1,3 @@
-import { ROUTES } from "@/app/routers";
 import { SignInForm } from "@/features/sign-in/SignInForm.ui";
 import Column from "@/shared/components/styles/Column";
 import CenterLayout from "@/shared/components/templates/CenterLayout";
@@ -9,6 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shared/components/ui/card";
+import { ROUTES } from "@/shared/consts/route.const";
 import { Link } from "react-router-dom";
 
 export const SignInPage = () => {

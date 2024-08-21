@@ -3,9 +3,9 @@ import { useAuthStore } from "@/features/auth/auth.store";
 import Row from "../../shared/components/styles/Row";
 import { Button } from "../../shared/components/ui/button";
 import { Link } from "react-router-dom";
-import { ROUTES } from "@/app/routers";
 import { toast } from "@/shared/components/ui/use-toast";
 import LogoIcon from "@/shared/components/atoms/LogoIcon";
+import { ROUTES } from "@/shared/consts/route.const";
 
 const Header = () => {
   const user = useAuthStore((state) => state.user);
