@@ -4,7 +4,7 @@ import Row from "../../shared/components/styles/Row";
 import { Button } from "../../shared/components/ui/button";
 import { Link } from "react-router-dom";
 import { toast } from "@/shared/components/ui/use-toast";
-import LogoIcon from "@/shared/components/atoms/LogoIcon";
+import LogoIcon from "@/shared/components/molecules/LogoIcon";
 import { ROUTES } from "@/shared/consts/route.const";
 
 const Header = () => {

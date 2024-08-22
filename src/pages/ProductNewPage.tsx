@@ -17,7 +17,7 @@ const ProductNewPage = () => {
       <Card>
         <CardHeader>
           <Row gap={20}>
-            <Link to={ROUTES.PRODUCTS}>
+            <Link to={ROUTES.DASHBOARD__PRODUCTS}>
               <SquareChevronLeft size={40} />
             </Link>
             <CardTitle>상품 등록</CardTitle>

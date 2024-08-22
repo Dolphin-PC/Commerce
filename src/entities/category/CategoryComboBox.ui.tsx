@@ -19,7 +19,7 @@ import { Check, ChevronsUpDown } from "lucide-react";
 import { ProductFormDataType } from "@/features/product/product.zod";
 import { useEffect, useState } from "react";
 import { ControllerRenderProps, UseFormReturn } from "react-hook-form";
-import { getCategoryList } from "./category.api";
+import { getCategoryList } from "./category-get.api";
 import { Category } from "./type";
 
 interface Props {

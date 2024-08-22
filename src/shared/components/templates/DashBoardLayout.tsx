@@ -1,4 +1,4 @@
-import LogoIcon from "../atoms/LogoIcon";
+import LogoIcon from "../molecules/LogoIcon";
 import Column from "../styles/Column";
 import Row from "../styles/Row";
 
@@ -24,7 +24,7 @@ const DashBoardLayout = ({ children }: Props) => {
           </Link>
         </Button>
         <Button variant="outline" className="h-[100px] w-[100px] p-4" asChild>
-          <Link to={ROUTES.PRODUCTS}>
+          <Link to={ROUTES.DASHBOARD__PRODUCTS}>
             <Column gap={10} className="items-center">
               <ShoppingCart />
               <small>상품</small>

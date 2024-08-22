@@ -12,7 +12,7 @@ const ProductPage = () => {
       <Row gap={20}>
         <H2>내 상품</H2>
         <Button asChild>
-          <Link to={ROUTES.PRODUCTS_NEW}>상품 등록</Link>
+          <Link to={ROUTES.DASHBOARD__PRODUCTS__NEW}>상품 등록</Link>
         </Button>
       </Row>
     </DashBoardLayout>
