@@ -68,7 +68,7 @@ const ProductForm = () => {
             name="categoryId"
             render={({ field }) => (
               <FormItem>
-                <Column gap={10}>
+                <Column className="gap-[10px]">
                   <FormLabel>상품 카테고리</FormLabel>
                   <FormControl>
                     <CategoryComboBox field={field} form={form} />

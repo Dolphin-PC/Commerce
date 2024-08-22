@@ -63,7 +63,7 @@ export const SignInForm = () => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSignIn)}>
-        <Column gap={20}>
+        <Column className="gap-[20px]">
           <FormField
             control={form.control}
             name="email"
