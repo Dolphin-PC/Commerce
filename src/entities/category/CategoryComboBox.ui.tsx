@@ -16,13 +16,19 @@ import {
 import { cn } from "@/shared/lib/shadcn-util";
 import { Check, ChevronsUpDown } from "lucide-react";
 
+import { ProductFormDataType } from "@/features/product/product.zod";
 import { useEffect, useState } from "react";
+import { ControllerRenderProps, UseFormReturn } from "react-hook-form";
 import { getCategoryList } from "./category.api";
 import { Category } from "./type";
 
-const CategoryComboBox = () => {
+interface Props {
+  field: ControllerRenderProps<ProductFormDataType>;
+  form: UseFormReturn<ProductFormDataType>;
+}
+
+const CategoryComboBox = ({ field, form }: Props) => {
   const [open, setOpen] = useState(false);
-  const [categoryName, setCategoryName] = useState<string>("");
 
   const [categoryList, setCategoryList] = useState<Category[]>([]);
 
@@ -41,8 +47,8 @@ const CategoryComboBox = () => {
           aria-expanded={open}
           className="w-[200px] justify-between"
         >
-          {categoryName
-            ? categoryList.find((c) => c.categoryName === categoryName)
+          {field.value
+            ? categoryList.find((c) => c.categoryName === field.value)
                 ?.categoryName
             : "카테고리 선택"}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -59,14 +65,15 @@ const CategoryComboBox = () => {
                   key={c.id}
                   value={c.categoryName}
                   onSelect={(categoryName) => {
-                    setCategoryName(categoryName);
+                    form.setValue("categoryName", categoryName);
+                    form.trigger("categoryName");
                     setOpen(false);
                   }}
                 >
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
-                      categoryName === c.categoryName
+                      field.value === c.categoryName
                         ? "opacity-100"
                         : "opacity-0"
                     )}

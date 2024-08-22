@@ -1,4 +1,4 @@
-import CategoryComboBox from "@/entities/category/CategoryComboBox.ui";
+import ProductForm from "@/features/product/ProductForm.ui";
 import Row from "@/shared/components/styles/Row";
 import DashBoardLayout from "@/shared/components/templates/DashBoardLayout";
 import {
@@ -25,7 +25,7 @@ const ProductNewPage = () => {
         </CardHeader>
 
         <CardContent>
-          <CategoryComboBox />
+          <ProductForm />
         </CardContent>
       </Card>
     </DashBoardLayout>

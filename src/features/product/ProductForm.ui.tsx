@@ -1,6 +1,5 @@
-import { Form, useForm } from "react-hook-form";
-import { z } from "zod";
-import { ProductSchema } from "./product.zod";
+import { useForm } from "react-hook-form";
+import { ProductFormDataType, ProductSchema } from "./product.zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Column from "@/shared/components/styles/Column";
 import { Button } from "@/shared/components/ui/button";
@@ -10,28 +9,52 @@ import {
   FormLabel,
   FormControl,
   FormMessage,
+  Form,
 } from "@/shared/components/ui/form";
 import { Input } from "@/shared/components/ui/input";
+import CategoryComboBox from "@/entities/category/CategoryComboBox.ui";
 
 const ProductForm = () => {
-  const form = useForm<z.infer<typeof ProductSchema>>({
+  const form = useForm<ProductFormDataType>({
     resolver: zodResolver(ProductSchema),
+    defaultValues: {
+      categoryName: "",
+      name: "",
+    },
   });
 
-  const handleNew = () => {};
+  const handleNew = (data: ProductFormDataType) => {
+    console.log({ data });
+  };
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleNew)}>
-        <Column gap={20}>
+        <Column gap={10}>
           <FormField
             control={form.control}
-            name=""
+            name="categoryName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <Column gap={10}>
+                  <FormLabel>상품 카테고리</FormLabel>
+                  <FormControl>
+                    <CategoryComboBox field={field} form={form} />
+                  </FormControl>
+                </Column>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>상품명</FormLabel>
                 <FormControl>
-                  <Input placeholder="Email" {...field} />
+                  <Input type="text" placeholder="상품명" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -40,26 +63,19 @@ const ProductForm = () => {
 
           <FormField
             control={form.control}
-            name="password"
+            name="price"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Password</FormLabel>
+                <FormLabel>상품가격</FormLabel>
                 <FormControl>
-                  <Input
-                    type={passwordVisible ? "text" : "password"}
-                    placeholder="Password"
-                    {...field}
-                  />
+                  <Input type="number" placeholder="상품가격" {...field} />
                 </FormControl>
-                <button type="button" onClick={togglePasswordVisibility}>
-                  <small>{passwordVisible ? "Hide" : "Show"}</small>
-                </button>
                 <FormMessage />
               </FormItem>
             )}
           />
 
-          <Button type="submit">Sign In</Button>
+          <Button type="submit">저장하기</Button>
         </Column>
       </form>
     </Form>
