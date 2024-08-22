@@ -13,6 +13,7 @@ import {
 } from "@/shared/components/ui/form";
 import { Input } from "@/shared/components/ui/input";
 import CategoryComboBox from "@/entities/category/CategoryComboBox.ui";
+import { Textarea } from "@/shared/components/ui/textarea";
 
 const ProductForm = () => {
   const form = useForm<ProductFormDataType>({
@@ -20,6 +21,10 @@ const ProductForm = () => {
     defaultValues: {
       categoryName: "",
       name: "",
+      desc: "",
+      price: 0,
+      quantity: 0,
+      productImages: [],
     },
   });
 
@@ -63,6 +68,20 @@ const ProductForm = () => {
 
           <FormField
             control={form.control}
+            name="desc"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>상품설명</FormLabel>
+                <FormControl>
+                  <Textarea placeholder="상품설명" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
             name="price"
             render={({ field }) => (
               <FormItem>
@@ -74,6 +93,67 @@ const ProductForm = () => {
               </FormItem>
             )}
           />
+
+          <FormField
+            control={form.control}
+            name="quantity"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>상품수량</FormLabel>
+                <FormControl>
+                  <Input type="number" placeholder="상품수량" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* <FormField
+            control={form.control}
+            name="discountType"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>상품할인 구분</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="할인 구분을 선택해주세요." />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value={null}>미선택</SelectItem>
+                    <SelectItem value={discountTypes.PERCENT}>
+                      퍼센트
+                    </SelectItem>
+                    <SelectItem value={discountTypes.COST}>가격</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="discountValue"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>상품할인 가격</FormLabel>
+                <FormControl>
+                  <Input
+                    type="number"
+                    min={0}
+                    placeholder="상품할인 가격"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          /> */}
 
           <Button type="submit">저장하기</Button>
         </Column>
