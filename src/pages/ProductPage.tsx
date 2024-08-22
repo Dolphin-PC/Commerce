@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 const ProductPage = () => {
   return (
     <DashBoardLayout>
-      <Row gap={20}>
+      <Row className="gap-[20px]">
         <H2>내 상품</H2>
         <Button asChild>
           <Link to={ROUTES.DASHBOARD__PRODUCTS__NEW}>상품 등록</Link>

@@ -16,7 +16,7 @@ const ProductNewPage = () => {
     <DashBoardLayout>
       <Card>
         <CardHeader>
-          <Row gap={20}>
+          <Row className="gap-[20px]">
             <Link to={ROUTES.DASHBOARD__PRODUCTS}>
               <SquareChevronLeft size={40} />
             </Link>

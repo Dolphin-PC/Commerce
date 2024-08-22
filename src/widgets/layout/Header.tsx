@@ -1,11 +1,11 @@
 import { signOut } from "@/entities/@auth/sign-out.api";
 import { useAuthStore } from "@/features/auth/auth.store";
+import LogoIcon from "@/shared/components/molecules/LogoIcon";
+import { toast } from "@/shared/components/ui/use-toast";
+import { ROUTES } from "@/shared/consts/route.const";
+import { Link } from "react-router-dom";
 import Row from "../../shared/components/styles/Row";
 import { Button } from "../../shared/components/ui/button";
-import { Link } from "react-router-dom";
-import { toast } from "@/shared/components/ui/use-toast";
-import LogoIcon from "@/shared/components/molecules/LogoIcon";
-import { ROUTES } from "@/shared/consts/route.const";
 
 const Header = () => {
   const user = useAuthStore((state) => state.user);
@@ -20,7 +20,7 @@ const Header = () => {
     });
   };
   return (
-    <Row gap={40} className="w-full justify-between">
+    <Row className="w-full justify-between gap-[40px]">
       <LogoIcon />
       {!user && (
         <Link to={ROUTES.SIGNIN}>
