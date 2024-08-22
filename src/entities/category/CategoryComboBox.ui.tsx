@@ -35,6 +35,7 @@ const CategoryComboBox = ({ field, form }: Props) => {
   useEffect(() => {
     getCategoryList().then((res) => {
       setCategoryList(res);
+      console.log({ res });
     });
   }, []);
 
@@ -48,8 +49,7 @@ const CategoryComboBox = ({ field, form }: Props) => {
           className="w-[200px] justify-between"
         >
           {field.value
-            ? categoryList.find((c) => c.categoryName === field.value)
-                ?.categoryName
+            ? categoryList.find((c) => c.id === field.value)?.categoryName
             : "카테고리 선택"}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
@@ -63,10 +63,11 @@ const CategoryComboBox = ({ field, form }: Props) => {
               {categoryList.map((c) => (
                 <CommandItem
                   key={c.id}
-                  value={c.categoryName}
-                  onSelect={(categoryName) => {
-                    form.setValue("categoryName", categoryName);
-                    form.trigger("categoryName");
+                  value={String(c.id)}
+                  onSelect={(id) => {
+                    console.log({ id });
+                    form.setValue("categoryId", Number(id));
+                    form.trigger("categoryId");
                     setOpen(false);
                   }}
                 >

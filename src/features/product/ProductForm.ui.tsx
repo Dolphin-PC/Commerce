@@ -14,12 +14,15 @@ import {
 import { Input } from "@/shared/components/ui/input";
 import CategoryComboBox from "@/entities/category/CategoryComboBox.ui";
 import { Textarea } from "@/shared/components/ui/textarea";
+import { addProduct } from "@/entities/product/product-new.api";
+import { useAuthStore } from "../auth/auth.store";
 
 const ProductForm = () => {
+  const user = useAuthStore((state) => state.user);
   const form = useForm<ProductFormDataType>({
     resolver: zodResolver(ProductSchema),
     defaultValues: {
-      categoryName: "",
+      categoryId: 0,
       name: "",
       desc: "",
       price: 0,
@@ -28,8 +31,19 @@ const ProductForm = () => {
     },
   });
 
-  const handleNew = (data: ProductFormDataType) => {
-    console.log({ data });
+  const handleNew = async (formData: ProductFormDataType) => {
+    if (user === null) throw Error("로그인이 필요합니다.");
+
+    const { data: newProduct } = await addProduct({
+      categoryId: formData.categoryId,
+      name: formData.name,
+      desc: formData.desc,
+      price: formData.price,
+      quantity: formData.quantity,
+      sellerId: user.id,
+    });
+
+    console.log({ newProduct });
   };
 
   return (
@@ -38,7 +52,7 @@ const ProductForm = () => {
         <Column gap={10}>
           <FormField
             control={form.control}
-            name="categoryName"
+            name="categoryId"
             render={({ field }) => (
               <FormItem>
                 <Column gap={10}>
@@ -154,6 +168,29 @@ const ProductForm = () => {
               </FormItem>
             )}
           /> */}
+
+          <FormField
+            control={form.control}
+            name="productImages"
+            render={({ field: { onChange, ...fieldProps } }) => (
+              <FormItem>
+                <FormLabel>상품이미지</FormLabel>
+                <FormControl>
+                  <Input
+                    {...fieldProps}
+                    type="file"
+                    accept="image/png, image/jpeg, image/jpg"
+                    multiple
+                    placeholder="상품 이미지"
+                    onChange={(event) =>
+                      onChange(event.target.files && event.target.files[0])
+                    }
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
           <Button type="submit">저장하기</Button>
         </Column>

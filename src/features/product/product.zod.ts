@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const ProductSchema = z.object({
-  categoryName: z.string().min(1, {
+  categoryId: z.coerce.number().min(1, {
     message: "카테고리를 선택해주세요.",
   }),
   name: z.string().min(1, {
@@ -18,9 +18,7 @@ export const ProductSchema = z.object({
   }),
   // discountType: z.string(),
   // discountValue: z.coerce.number(),
-  productImages: z.array(z.any(), {
-    message: "1개 이상의 상품 이미지를 업로드해주세요.",
-  }),
+  productImages: z.array(z.string()),
 });
 
 export type ProductFormDataType = z.infer<typeof ProductSchema>;

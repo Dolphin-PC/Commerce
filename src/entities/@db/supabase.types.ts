@@ -186,8 +186,8 @@ export type Database = {
           categoryId: number;
           createDAt?: string;
           desc: string;
-          discountType: string;
-          discountValue: number;
+          discountType?: string;
+          discountValue?: number;
           id?: number;
           isDelete?: boolean;
           name: string;
