@@ -18,7 +18,6 @@ export const ProductSchema = z.object({
   }),
   // discountType: z.string(),
   // discountValue: z.coerce.number(),
-  productImages: z.array(z.string()),
 });
 
 export type ProductFormDataType = z.infer<typeof ProductSchema>;

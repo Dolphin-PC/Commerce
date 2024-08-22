@@ -1,4 +1,4 @@
-import { signup } from "@/entities/auth/sign-up.api";
+import { signup } from "@/entities/@auth/sign-up.api";
 import Column from "@/shared/components/styles/Column";
 import { Button } from "@/shared/components/ui/button";
 import {

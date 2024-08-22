@@ -14,8 +14,11 @@ import {
 import { Input } from "@/shared/components/ui/input";
 import CategoryComboBox from "@/entities/category/CategoryComboBox.ui";
 import { Textarea } from "@/shared/components/ui/textarea";
-import { addProduct } from "@/entities/product/product-new.api";
 import { useAuthStore } from "../auth/auth.store";
+import { ChangeEvent, useState } from "react";
+import Row from "@/shared/components/styles/Row";
+import { addProduct } from "@/entities/product/product-new.api";
+import { addProductImage } from "@/entities/product_image/product-image-new.api";
 
 const ProductForm = () => {
   const user = useAuthStore((state) => state.user);
@@ -27,14 +30,26 @@ const ProductForm = () => {
       desc: "",
       price: 0,
       quantity: 0,
-      productImages: [],
     },
   });
+
+  const [images, setImages] = useState<(File | null)[]>([
+    null,
+    null,
+    null,
+    null,
+    null,
+  ]);
 
   const handleNew = async (formData: ProductFormDataType) => {
     if (user === null) throw Error("로그인이 필요합니다.");
 
-    const { data: newProduct } = await addProduct({
+    const uploadImages = images.filter((e) => e !== null) as File[];
+
+    if (uploadImages.length === 0)
+      return alert("하나 이상의 이미지를 업로드해주세요.");
+
+    const newProduct = await addProduct({
       categoryId: formData.categoryId,
       name: formData.name,
       desc: formData.desc,
@@ -43,13 +58,53 @@ const ProductForm = () => {
       sellerId: user.id,
     });
 
-    console.log({ newProduct });
+    if (newProduct === null) return alert("상품 등록에 실패했습니다.");
+
+    await Promise.all(
+      uploadImages.map((image) => addProductImage(newProduct.id, image))
+    );
+  };
+
+  const handleFileChange = (
+    e: ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    if (e.target.files) {
+      const file = e.target.files[0];
+      setImages((prev) => {
+        const newImages = [...prev];
+        newImages[index] = file;
+        return newImages;
+      });
+    }
+  };
+
+  const deleteImage = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    index: number
+  ) => {
+    setImages((prev) => {
+      const newImages = [...prev];
+      newImages[index] = null;
+      return newImages;
+    });
+
+    // 버튼의 부모 요소를 찾고, 그 부모 요소의 자식 요소 중 파일 입력 요소를 선택합니다.
+    const parentElement = e.currentTarget.parentElement;
+    if (parentElement) {
+      const inputElement = parentElement.querySelector(
+        'input[type="file"]'
+      ) as HTMLInputElement;
+      if (inputElement) {
+        inputElement.value = ""; // 파일 입력 요소의 값을 초기화합니다.
+      }
+    }
   };
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleNew)}>
-        <Column gap={10}>
+        <Column className="gap-3">
           <FormField
             control={form.control}
             name="categoryId"
@@ -169,28 +224,15 @@ const ProductForm = () => {
             )}
           /> */}
 
-          <FormField
-            control={form.control}
-            name="productImages"
-            render={({ field: { onChange, ...fieldProps } }) => (
-              <FormItem>
-                <FormLabel>상품이미지</FormLabel>
-                <FormControl>
-                  <Input
-                    {...fieldProps}
-                    type="file"
-                    accept="image/png, image/jpeg, image/jpg"
-                    multiple
-                    placeholder="상품 이미지"
-                    onChange={(event) =>
-                      onChange(event.target.files && event.target.files[0])
-                    }
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <FormLabel>상품 이미지</FormLabel>
+          {images.map((_, index) => (
+            <Row key={index}>
+              <Input type="file" onChange={(e) => handleFileChange(e, index)} />
+              <Button type="button" onClick={(e) => deleteImage(e, index)}>
+                삭제
+              </Button>
+            </Row>
+          ))}
 
           <Button type="submit">저장하기</Button>
         </Column>

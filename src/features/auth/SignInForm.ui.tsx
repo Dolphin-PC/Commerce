@@ -1,4 +1,4 @@
-import { signInWithPassword } from "@/entities/auth/sign-in.api";
+import { signInWithPassword } from "@/entities/@auth/sign-in.api";
 import { getUserInfo } from "@/entities/user/get-user-info.api";
 import Column from "@/shared/components/styles/Column";
 import { Button } from "@/shared/components/ui/button";

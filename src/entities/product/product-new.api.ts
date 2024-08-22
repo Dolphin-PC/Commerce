@@ -2,9 +2,17 @@ import { supabase } from "../@db/supabase.config";
 import { Database } from "../@db/supabase.types";
 
 export const addProduct = async (
-  data: Database["public"]["Tables"]["product"]["Insert"]
+  insertData: Database["public"]["Tables"]["product"]["Insert"]
 ) => {
-  const res = supabase.from("product").insert([data]).select();
+  const { data, error } = await supabase
+    .from("product")
+    .insert([insertData])
+    .select()
+    .maybeSingle();
 
-  return res;
+  if (error) {
+    throw error;
+  }
+
+  return data;
 };

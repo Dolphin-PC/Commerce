@@ -1,4 +1,4 @@
-import { signOut } from "@/entities/auth/sign-out.api";
+import { signOut } from "@/entities/@auth/sign-out.api";
 import { useAuthStore } from "@/features/auth/auth.store";
 import Row from "../../shared/components/styles/Row";
 import { Button } from "../../shared/components/ui/button";
