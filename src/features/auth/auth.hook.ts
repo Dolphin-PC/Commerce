@@ -7,14 +7,17 @@ export const useAuth = (): void => {
   const setSignedIn = useAuthStore((state) => state.setSignedIn);
 
   useEffect(() => {
-    (async () => {
+    const handleSignIn = async () => {
       const { data } = await supabase.auth.getUser();
-      if (!data.user) return null;
+      if (!data.user) return setSignedIn(null);
 
       const { email } = data.user;
-      if (email === undefined) return null;
+      if (email === undefined) return setSignedIn(null);
 
-      getUserInfo(email).then(setSignedIn);
-    })();
+      const user = await getUserInfo(email);
+      setSignedIn(user);
+    };
+
+    handleSignIn();
   }, [setSignedIn]);
 };

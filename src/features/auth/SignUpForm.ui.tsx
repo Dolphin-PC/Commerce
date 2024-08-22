@@ -1,3 +1,4 @@
+import { signup } from "@/entities/@auth/sign-up.api";
 import Column from "@/shared/components/styles/Column";
 import { Button } from "@/shared/components/ui/button";
 import {
@@ -10,13 +11,13 @@ import {
 } from "@/shared/components/ui/form";
 import { Input } from "@/shared/components/ui/input";
 import { toast } from "@/shared/components/ui/use-toast";
+import { Checkbox } from "@/shared/components/ui/checkbox";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
-import { SignUpSchema } from "./sign-up.zod";
-import { signup } from "@/entities/auth/sign-up.api";
+import { SignUpSchema } from "./auth.zod";
 
 export const SignUpForm = () => {
   const navigate = useNavigate();
@@ -30,6 +31,7 @@ export const SignUpForm = () => {
       email: "",
       password: "",
       nickname: "",
+      isSeller: false,
     },
   });
 
@@ -38,6 +40,7 @@ export const SignUpForm = () => {
       email: data.email,
       password: data.password,
       nickname: data.nickname,
+      isseller: data.isSeller,
     })
       .then(() => {
         toast({
@@ -120,6 +123,23 @@ export const SignUpForm = () => {
                 <FormControl>
                   <Input placeholder="Nickname" {...field} />
                 </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="isSeller"
+            render={({ field }) => (
+              <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                <FormControl>
+                  <Checkbox
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+                <FormLabel>판매자로 가입하시겠습니까?</FormLabel>
                 <FormMessage />
               </FormItem>
             )}

@@ -1,15 +1,14 @@
+import { useAuthStore } from "@/features/auth/auth.store";
+import { ROUTES } from "@/shared/consts/route.const";
 import { Navigate, Outlet } from "react-router-dom";
 
-interface Props {
-  isNeedAuth: boolean;
-}
+export const PrivateRoute = () => {
+  const user = useAuthStore((state) => state.user);
+  const isLoading = useAuthStore((state) => state.isLoading);
 
-export const PrivateRoute = ({ isNeedAuth }: Props) => {
-  if (isNeedAuth) {
-    // check if user is authenticated
-    // if not, redirect to login page
-    return <Navigate to="/login" />;
-  }
+  if (isLoading) return <div>Loading</div>;
+
+  if (user === null) return <Navigate to={ROUTES.SIGNIN} />;
 
   return <Outlet />;
 };

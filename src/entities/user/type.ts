@@ -4,6 +4,6 @@ export type User = {
   nickname: string | null;
   isseller: boolean | null;
   createdat: string;
-  deletedat: string;
+  deletedat: string | null;
   updatedat: string;
 };
