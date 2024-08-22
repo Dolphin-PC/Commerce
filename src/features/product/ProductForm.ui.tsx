@@ -15,10 +15,10 @@ import { Input } from "@/shared/components/ui/input";
 import CategoryComboBox from "@/entities/category/CategoryComboBox.ui";
 import { Textarea } from "@/shared/components/ui/textarea";
 import { useAuthStore } from "../auth/auth.store";
-import { ChangeEvent, useState } from "react";
-import Row from "@/shared/components/styles/Row";
+import { useState } from "react";
 import { addProduct } from "@/entities/product/product-new.api";
 import { addProductImage } from "@/entities/product_image/product-image-new.api";
+import ProductImageSection from "./ProductImageSection.ui";
 
 const ProductForm = () => {
   const user = useAuthStore((state) => state.user);
@@ -33,13 +33,7 @@ const ProductForm = () => {
     },
   });
 
-  const [images, setImages] = useState<(File | null)[]>([
-    null,
-    null,
-    null,
-    null,
-    null,
-  ]);
+  const [images, setImages] = useState<File[]>([]);
 
   const handleNew = async (formData: ProductFormDataType) => {
     if (user === null) throw Error("로그인이 필요합니다.");
@@ -63,42 +57,6 @@ const ProductForm = () => {
     await Promise.all(
       uploadImages.map((image) => addProductImage(newProduct.id, image))
     );
-  };
-
-  const handleFileChange = (
-    e: ChangeEvent<HTMLInputElement>,
-    index: number
-  ) => {
-    if (e.target.files) {
-      const file = e.target.files[0];
-      setImages((prev) => {
-        const newImages = [...prev];
-        newImages[index] = file;
-        return newImages;
-      });
-    }
-  };
-
-  const deleteImage = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    index: number
-  ) => {
-    setImages((prev) => {
-      const newImages = [...prev];
-      newImages[index] = null;
-      return newImages;
-    });
-
-    // 버튼의 부모 요소를 찾고, 그 부모 요소의 자식 요소 중 파일 입력 요소를 선택합니다.
-    const parentElement = e.currentTarget.parentElement;
-    if (parentElement) {
-      const inputElement = parentElement.querySelector(
-        'input[type="file"]'
-      ) as HTMLInputElement;
-      if (inputElement) {
-        inputElement.value = ""; // 파일 입력 요소의 값을 초기화합니다.
-      }
-    }
   };
 
   return (
@@ -225,14 +183,7 @@ const ProductForm = () => {
           /> */}
 
           <FormLabel>상품 이미지</FormLabel>
-          {images.map((_, index) => (
-            <Row key={index}>
-              <Input type="file" onChange={(e) => handleFileChange(e, index)} />
-              <Button type="button" onClick={(e) => deleteImage(e, index)}>
-                삭제
-              </Button>
-            </Row>
-          ))}
+          <ProductImageSection images={images} setImages={setImages} />
 
           <Button type="submit">저장하기</Button>
         </Column>
