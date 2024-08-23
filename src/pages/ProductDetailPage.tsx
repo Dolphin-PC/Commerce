@@ -10,15 +10,24 @@ import CenterLayout from "@/shared/components/templates/CenterLayout";
 import DashBoardLayout from "@/shared/components/templates/DashBoardLayout";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/shared/components/ui/card";
-import { useParams } from "react-router-dom";
+import { ROUTES } from "@/shared/consts/route.const";
+import { useLayoutEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 const ProductDetailPage = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const user = useAuthStore((state) => state.user);
 
   const product = useProductQuery(id!, String(user!.id));
   const category = useCategoryQuery(product.data?.categoryId);
   const productImage = useProductImageQuery(product.data?.id);
+
+  useLayoutEffect(() => {
+    if (product.isLoading === false && !product.data) {
+      navigate(ROUTES.DASHBOARD__PRODUCTS);
+    }
+  }, [product, navigate]);
 
   if (product.isLoading || category.isLoading || productImage.isLoading)
     return (
@@ -68,6 +77,9 @@ const ProductDetailPage = () => {
           <CardContent>
             <H4>상품 이미지</H4>
             <Row className="gap-5 flex-wrap">
+              {productImage.data?.length === 0 && (
+                <p>등록된 이미지가 없습니다.</p>
+              )}
               {productImage.data?.map((image) => (
                 <img
                   key={image.id}
