@@ -10,6 +10,7 @@ import { SellerRoute } from "./Seller.route";
 import DashBoardPage from "@/pages/DashBoardPage";
 import ProductPage from "@/pages/ProductPage";
 import ProductNewPage from "@/pages/ProductNewPage";
+import ProductDetailPage from "@/pages/ProductDetailPage";
 
 export const Router = () => {
   return (
@@ -24,8 +25,18 @@ export const Router = () => {
 
           <Route element={<SellerRoute />}>
             <Route path={ROUTES.DASHBOARD} element={<DashBoardPage />} />
-            <Route path={ROUTES.PRODUCTS} element={<ProductPage />} />
-            <Route path={ROUTES.PRODUCTS_NEW} element={<ProductNewPage />} />
+            <Route
+              path={ROUTES.DASHBOARD__PRODUCTS}
+              element={<ProductPage />}
+            />
+            <Route
+              path={ROUTES.DASHBOARD__PRODUCTS__NEW}
+              element={<ProductNewPage />}
+            />
+            <Route
+              path={ROUTES.DASHBOARD__PRODUCTS_ID}
+              element={<ProductDetailPage />}
+            />
           </Route>
         </Route>
       </Routes>

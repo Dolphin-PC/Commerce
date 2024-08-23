@@ -1,5 +1,5 @@
-import { SignInForm } from "@/features/auth/SignInForm.ui";
-import Column from "@/shared/components/styles/Column";
+import { SignInForm } from "@/features/@auth/ui/SignInForm";
+import Column from "@/shared/components/atoms/Column";
 import CenterLayout from "@/shared/components/templates/CenterLayout";
 import { Button } from "@/shared/components/ui/button";
 import {
@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 export const SignInPage = () => {
   return (
     <CenterLayout>
-      <Column gap={10} className="items-center">
+      <Column className="items-center gap-[10px]">
         <Card className="w-[350px] flex flex-col">
           <CardHeader>
             <CardTitle>로그인</CardTitle>

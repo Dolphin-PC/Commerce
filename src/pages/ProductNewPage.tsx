@@ -1,5 +1,5 @@
-import ProductForm from "@/features/product/ProductForm.ui";
-import Row from "@/shared/components/styles/Row";
+import ProductForm from "@/features/product/ui/ProductForm";
+import Row from "@/shared/components/atoms/Row";
 import DashBoardLayout from "@/shared/components/templates/DashBoardLayout";
 import {
   Card,
@@ -16,8 +16,8 @@ const ProductNewPage = () => {
     <DashBoardLayout>
       <Card>
         <CardHeader>
-          <Row gap={20}>
-            <Link to={ROUTES.PRODUCTS}>
+          <Row className="gap-[20px]">
+            <Link to={ROUTES.DASHBOARD__PRODUCTS}>
               <SquareChevronLeft size={40} />
             </Link>
             <CardTitle>상품 등록</CardTitle>

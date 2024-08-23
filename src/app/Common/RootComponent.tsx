@@ -1,9 +1,9 @@
-import { useAuth } from "@/features/auth/auth.hook";
+import { useAutoAuth } from "@/features/@auth/hooks/useAutoAuth";
 import { Toaster } from "@/shared/components/ui/toaster";
 import { Fragment } from "react/jsx-runtime";
 
 const RootComponent = () => {
-  useAuth();
+  useAutoAuth();
   return (
     <Fragment>
       <Toaster />
