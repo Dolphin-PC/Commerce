@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "../@db/supabase.config";
+import { supabase } from "../../entities/@db/supabase.config";
 import { ProductImage } from "./type";
 
 const baseUrl = import.meta.env.VITE_BUCKET_BASE_URL as string;

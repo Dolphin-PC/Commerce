@@ -1,4 +1,4 @@
-import { User } from "@/entities/user/type";
+import { User } from "@/features/user/model/type";
 import { create } from "zustand";
 
 interface Props {

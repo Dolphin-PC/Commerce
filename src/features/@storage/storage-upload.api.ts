@@ -1,4 +1,4 @@
-import { supabase } from "../@db/supabase.config";
+import { supabase } from "../../shared/config/@db/supabase.config";
 import { productImageBuket } from "./storage.const";
 
 export const uploadImage = async (

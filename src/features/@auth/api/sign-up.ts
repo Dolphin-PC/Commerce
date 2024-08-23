@@ -1,4 +1,4 @@
-import { supabase } from "@/entities/@db/supabase.config";
+import { supabase } from "@/shared/config/@db/supabase.config";
 import { AuthError } from "@supabase/supabase-js";
 
 interface Props {

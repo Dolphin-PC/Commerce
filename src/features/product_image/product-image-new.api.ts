@@ -1,5 +1,5 @@
-import { supabase } from "../@db/supabase.config";
-import { uploadImage } from "../@storage/storage-upload.api";
+import { supabase } from "../../entities/@db/supabase.config";
+import { uploadImage } from "../../entities/@storage/storage-upload.api";
 
 export const addProductImage = async (productId: number, file: File) => {
   const fullPath = await uploadImage(file, productId);

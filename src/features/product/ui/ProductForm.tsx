@@ -14,10 +14,10 @@ import {
 import { Input } from "@/shared/components/ui/input";
 import CategoryComboBox from "@/features/category/ui/CategoryComboBox";
 import { Textarea } from "@/shared/components/ui/textarea";
-import { useAuthStore } from "../../auth/auth.store";
+import { useAuthStore } from "../../@auth/store/auth.store";
 import { useState } from "react";
 import { addProduct } from "@/features/product/api/post-product";
-import { addProductImage } from "@/entities/product_image/product-image-new.api";
+import { addProductImage } from "@/features/product_image/product-image-new.api";
 import ProductImageSection from "./ProductImageSection";
 
 const ProductForm = () => {

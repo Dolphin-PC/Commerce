@@ -1,5 +1,5 @@
-import { Tables } from "@/entities/@db/database-generated.type";
 import { Category } from "@/features/category/model/type";
+import { Tables } from "@/shared/config/@db/database-generated.type";
 
 
 

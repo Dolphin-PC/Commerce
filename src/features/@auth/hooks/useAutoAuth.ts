@@ -1,9 +1,9 @@
 import { supabase } from "@/entities/@db/supabase.config";
-import { getUserInfo } from "@/entities/user/get-user-info.api";
+import { getUserInfo } from "@/features/user/api/get-user";
 import { useEffect } from "react";
-import { useAuthStore } from "./auth.store";
+import { useAuthStore } from "../store/auth.store";
 
-export const useAuth = (): void => {
+export const useAutoAuth = (): void => {
   const setSignedIn = useAuthStore((state) => state.setSignedIn);
 
   useEffect(() => {
@@ -14,8 +14,8 @@ export const useAuth = (): void => {
       const { email } = data.user;
       if (email === undefined) return setSignedIn(null);
 
-      const user = await getUserInfo(email);
-      setSignedIn(user);
+      const {data:userInfo} = await getUserInfo({email});
+      setSignedIn(userInfo);
     };
 
     handleSignIn();

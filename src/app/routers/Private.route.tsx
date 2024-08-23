@@ -1,4 +1,4 @@
-import { useAuthStore } from "@/features/auth/auth.store";
+import { useAuthStore } from "@/features/@auth/store/auth.store";
 import Loading from "@/shared/components/molecules/Loading";
 import CenterLayout from "@/shared/components/templates/CenterLayout";
 import { ROUTES } from "@/shared/consts/route.const";

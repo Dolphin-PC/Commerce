@@ -1,5 +1,5 @@
 import { signInWithPassword } from "@/entities/@auth/sign-in.api";
-import { getUserInfo } from "@/entities/user/get-user-info.api";
+import { getUserInfo } from "@/features/user/api/get-user";
 import Column from "@/shared/components/styles/Column";
 import { Button } from "@/shared/components/ui/button";
 import {
@@ -17,8 +17,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
-import { useAuthStore } from "./auth.store";
-import { SignInSchema } from "./auth.zod";
+import { useAuthStore } from "../store/auth.store";
+import { SignInSchema } from "../model/auth.zod";
 
 export const SignInForm = () => {
   const navigate = useNavigate();
@@ -41,13 +41,13 @@ export const SignInForm = () => {
         email: data.email,
         password: data.password,
       });
-      const user = await getUserInfo(email);
+      const { data: userInfo } = await getUserInfo({ email });
 
-      setSignedIn(user);
+      setSignedIn(userInfo);
       toast({
         title: "로그인이 완료되었습니다.",
       });
-      if (user.isseller) {
+      if (userInfo.isseller) {
         navigate("/dashboard");
       } else {
         navigate("/");

@@ -1,5 +1,5 @@
 import { signOut } from "@/entities/@auth/sign-out.api";
-import { useAuthStore } from "@/features/auth/auth.store";
+import { useAuthStore } from "@/features/@auth/store/auth.store";
 import LogoIcon from "@/shared/components/molecules/LogoIcon";
 import { toast } from "@/shared/components/ui/use-toast";
 import { ROUTES } from "@/shared/consts/route.const";

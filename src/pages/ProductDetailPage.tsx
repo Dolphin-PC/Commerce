@@ -1,5 +1,5 @@
-import { useProductImageQuery } from "@/entities/product_image/product-image-get.api";
-import { useAuthStore } from "@/features/auth/auth.store";
+import { useProductImageQuery } from "@/features/product_image/product-image-get.api";
+import { useAuthStore } from "@/features/@auth/store/auth.store";
 import { useProductCategoryQuery } from "@/features/product/api/get-product_category";
 import { H2, H4 } from "@/shared/components/atoms/Typography";
 import Error from "@/shared/components/molecules/Error";

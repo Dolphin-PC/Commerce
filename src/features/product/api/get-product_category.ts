@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { ProductCategory } from "../model/type";
-import { supabase } from "@/entities/@db/supabase.config";
+import { supabase } from "@/shared/config/@db/supabase.config";
 
 /**
  * 제품 상세 조회(카테고리 포함)
