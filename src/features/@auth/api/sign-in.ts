@@ -1,15 +1,24 @@
 import { supabase } from "@/shared/config/@db/supabase.config";
-import { AuthError } from "@supabase/supabase-js";
+import { AuthError, User } from "@supabase/supabase-js";
+
+
+/**
+ * 사용자 로그인
+ */
+
+
 
 interface Props {
   email: string;
   password: string;
 }
 
+type Return = User
+
 export const signInWithPassword = async ({
   email,
   password,
-}: Props): Promise<string> => {
+}: Props): Promise<Return> => {
   try {
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
@@ -19,7 +28,7 @@ export const signInWithPassword = async ({
     if (error) throw error;
     if (!data.user.email) throw new AuthError("로그인에 실패했습니다.");
 
-    return data.user.email;
+    return data.user;
   } catch (error) {
     if (error instanceof AuthError) {
       throw error.message;

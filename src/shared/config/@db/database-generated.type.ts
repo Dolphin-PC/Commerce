@@ -14,19 +14,19 @@ export type Database = {
           createdAt: string
           id: number
           productId: number
-          userId: number
+          userId: string | null
         }
         Insert: {
           createdAt?: string
           id?: number
           productId: number
-          userId: number
+          userId?: string | null
         }
         Update: {
           createdAt?: string
           id?: number
           productId?: number
-          userId?: number
+          userId?: string | null
         }
         Relationships: [
           {
@@ -37,7 +37,7 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "cart_userId_fkey"
+            foreignKeyName: "fk_user"
             columns: ["userId"]
             isOneToOne: false
             referencedRelation: "user"
@@ -66,28 +66,28 @@ export type Database = {
           createdat: string
           expiredat: string
           id: number
-          userid: number | null
+          userid: string
           useyn: boolean | null
         }
         Insert: {
           couponkey: string
           createdat?: string
           expiredat?: string
-          id?: never
-          userid?: number | null
+          id?: number
+          userid: string
           useyn?: boolean | null
         }
         Update: {
           couponkey?: string
           createdat?: string
           expiredat?: string
-          id?: never
-          userid?: number | null
+          id?: number
+          userid?: string
           useyn?: boolean | null
         }
         Relationships: [
           {
-            foreignKeyName: "coupon_userid_fkey"
+            foreignKeyName: "fk_user"
             columns: ["userid"]
             isOneToOne: false
             referencedRelation: "user"
@@ -100,23 +100,23 @@ export type Database = {
           createdAt: string
           id: number
           status: string
-          userId: number
+          userId: string | null
         }
         Insert: {
           createdAt?: string
           id?: number
           status: string
-          userId: number
+          userId?: string | null
         }
         Update: {
           createdAt?: string
           id?: number
           status?: string
-          userId?: number
+          userId?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "order_userId_fkey"
+            foreignKeyName: "fk_user"
             columns: ["userId"]
             isOneToOne: false
             referencedRelation: "user"
@@ -201,7 +201,7 @@ export type Database = {
           name: string
           price: number
           quantity: number
-          sellerId: number
+          sellerId: string | null
           updatedAt: string
         }
         Insert: {
@@ -215,7 +215,7 @@ export type Database = {
           name: string
           price: number
           quantity: number
-          sellerId: number
+          sellerId?: string | null
           updatedAt?: string
         }
         Update: {
@@ -229,22 +229,22 @@ export type Database = {
           name?: string
           price?: number
           quantity?: number
-          sellerId?: number
+          sellerId?: string | null
           updatedAt?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "fk_user"
+            columns: ["sellerId"]
+            isOneToOne: false
+            referencedRelation: "user"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "product_categoryId_fkey"
             columns: ["categoryId"]
             isOneToOne: false
             referencedRelation: "category"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "product_sellerId_fkey"
-            columns: ["sellerId"]
-            isOneToOne: false
-            referencedRelation: "user"
             referencedColumns: ["id"]
           },
         ]
@@ -306,7 +306,7 @@ export type Database = {
           createdat: string
           deletedat: string | null
           email: string
-          id: number
+          id: string
           isseller: boolean | null
           nickname: string | null
           updatedat: string
@@ -315,7 +315,7 @@ export type Database = {
           createdat?: string
           deletedat?: string | null
           email: string
-          id?: number
+          id?: string
           isseller?: boolean | null
           nickname?: string | null
           updatedat?: string
@@ -324,12 +324,20 @@ export type Database = {
           createdat?: string
           deletedat?: string | null
           email?: string
-          id?: number
+          id?: string
           isseller?: boolean | null
           nickname?: string | null
           updatedat?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "user_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {

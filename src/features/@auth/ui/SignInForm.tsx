@@ -1,4 +1,3 @@
-import { signInWithPassword } from "@/entities/@auth/sign-in.api";
 import { getUserInfo } from "@/features/user/api/get-user";
 import Column from "@/shared/components/styles/Column";
 import { Button } from "@/shared/components/ui/button";
@@ -17,8 +16,9 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
-import { useAuthStore } from "../store/auth.store";
+import { signInWithPassword } from "../api/sign-in";
 import { SignInSchema } from "../model/auth.zod";
+import { useAuthStore } from "../store/auth.store";
 
 export const SignInForm = () => {
   const navigate = useNavigate();
@@ -37,11 +37,13 @@ export const SignInForm = () => {
 
   const handleSignIn = async (data: z.infer<typeof SignInSchema>) => {
     try {
-      const email = await signInWithPassword({
+      const user = await signInWithPassword({
         email: data.email,
         password: data.password,
       });
-      const { data: userInfo } = await getUserInfo({ email });
+
+      const userInfo = await getUserInfo({ id: user.id });
+      if (userInfo === null) throw new Error("사용자를 찾을 수 없습니다.");
 
       setSignedIn(userInfo);
       toast({

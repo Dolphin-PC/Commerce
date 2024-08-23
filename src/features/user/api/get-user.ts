@@ -7,24 +7,22 @@ import { User } from "../model/type";
 
 //* 추상
 interface Props {
-  email: string;
+  id: string;
 }
 
-interface Return {
-  data: User;
-}
+type Return = User | null;
 
 
 //* 구현
-export const getUserInfo = async ({email}:Props): Promise<Return> => {
+export const getUserInfo = async ({id}:Props): Promise<Return> => {
   const { data, error } = await supabase
     .from("user")
     .select("*")
-    .eq("email", email)
+    .eq("id", id)
     .maybeSingle();
 
   if (error) throw error;
   if (!data) throw new Error("사용자를 찾을 수 없습니다.");
 
-  return {data};
+  return data;
 };

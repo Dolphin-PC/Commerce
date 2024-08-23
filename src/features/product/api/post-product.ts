@@ -1,12 +1,19 @@
-import { Database } from "../../../entities/@db/database-generated.type";
-import { supabase } from "../../../entities/@db/supabase.config";
+import { supabase } from "@/shared/config/@db/supabase.config";
+import { Product, ProductInsert } from "../type/type";
 
-export const addProduct = async (
-  insertData: Database["public"]["Tables"]["product"]["Insert"]
-) => {
+/**
+ * 제품 등록 
+ */
+
+type Props = ProductInsert;
+
+type Return = Product | null
+
+
+export const addProduct = async (insert:Props):Promise<Return> => {
   const { data, error } = await supabase
     .from("product")
-    .insert([insertData])
+    .insert([insert])
     .select()
     .maybeSingle();
 
@@ -14,5 +21,5 @@ export const addProduct = async (
     throw error;
   }
 
-  return data;
+  return data
 };

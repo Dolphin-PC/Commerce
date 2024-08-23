@@ -17,7 +17,7 @@ import { Textarea } from "@/shared/components/ui/textarea";
 import { useAuthStore } from "../../@auth/store/auth.store";
 import { useState } from "react";
 import { addProduct } from "@/features/product/api/post-product";
-import { addProductImage } from "@/features/product_image/product-image-new.api";
+import { addProductImage } from "@/features/product_image/api/product-image-new.api";
 import ProductImageSection from "./ProductImageSection";
 
 const ProductForm = () => {
@@ -55,7 +55,12 @@ const ProductForm = () => {
     if (newProduct === null) return alert("상품 등록에 실패했습니다.");
 
     await Promise.all(
-      uploadImages.map((image) => addProductImage(newProduct.id, image))
+      uploadImages.map((image) =>
+        addProductImage({
+          productId: newProduct.id,
+          file: image,
+        })
+      )
     );
   };
 

@@ -1,4 +1,4 @@
-import { useProductListCategoryQuery } from "@/features/product/api/get-list-product_category";
+import { useProductListCategoryQuery } from "@/features/product/api/get_list-product_category";
 import { useAuthStore } from "@/features/@auth/store/auth.store";
 import Row from "@/shared/components/styles/Row";
 import DashBoardLayout from "@/shared/components/templates/DashBoardLayout";

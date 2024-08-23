@@ -1,6 +1,6 @@
-import { signup } from "@/entities/@auth/sign-up.api";
 import Column from "@/shared/components/styles/Column";
 import { Button } from "@/shared/components/ui/button";
+import { Checkbox } from "@/shared/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -11,13 +11,14 @@ import {
 } from "@/shared/components/ui/form";
 import { Input } from "@/shared/components/ui/input";
 import { toast } from "@/shared/components/ui/use-toast";
-import { Checkbox } from "@/shared/components/ui/checkbox";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
+import { signup } from "../api/sign-up";
 import { SignUpSchema } from "../model/auth.zod";
+import { addNewUser } from "@/features/user/api/post-user";
 
 export const SignUpForm = () => {
   const navigate = useNavigate();
@@ -35,26 +36,31 @@ export const SignUpForm = () => {
     },
   });
 
-  const handleSignup = (data: z.infer<typeof SignUpSchema>) => {
-    signup({
+  const handleSignup = async (data: z.infer<typeof SignUpSchema>) => {
+    const auth = await signup({
       email: data.email,
       password: data.password,
+    });
+    if (auth.user === null) throw new Error("회원가입에 실패했습니다.");
+
+    await addNewUser({
+      id: auth.user.id,
+      email: data.email,
       nickname: data.nickname,
       isseller: data.isSeller,
-    })
-      .then(() => {
-        toast({
-          title: "회원가입이 완료되었습니다.",
-          description: "로그인 페이지로 이동합니다.",
-        });
-        navigate("/sign-in");
-      })
-      .catch((err) => {
-        toast({
-          title: "회원가입에 실패했습니다.",
-          description: err,
-        });
-      });
+    });
+
+    toast({
+      title: "회원가입이 완료되었습니다.",
+      description: "로그인 페이지로 이동합니다.",
+    });
+    navigate("/sign-in");
+    // .catch((err) => {
+    //   toast({
+    //     title: "회원가입에 실패했습니다.",
+    //     description: err,
+    //   });
+    // });
   };
 
   return (

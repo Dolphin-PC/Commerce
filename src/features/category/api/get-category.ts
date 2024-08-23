@@ -1,30 +1,25 @@
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "../../../entities/@db/supabase.config";
 import { Category } from "../model/type";
+import { supabase } from "@/shared/config/@db/supabase.config";
+import { Tables } from "@/shared/config/@db/database-generated.type";
 
-/** 카테고리 이름으로 목록 조회 */
-export const getCategoryList = async (
-  categoryName?: string
-): Promise<Category[]> => {
-  const res = await supabase
-    .from("category")
-    .select("*")
-    .like("categoryName", `%${categoryName ?? ""}%`);
+interface Props {
+  id: Tables<"category">["id"];
+}
 
-  return res.data ?? [];
-};
+type Return = Category | null;
 
-const getCategoryById = async (id: number): Promise<Category | null> => {
+const getCategoryById = async ({id}:Props): Promise<Return> => {
   const res = await supabase.from("category").select("*").eq("id", id).single();
 
   return res.data;
 };
 
-export const useCategoryQuery = (id: number | undefined) => {
+export const useCategoryQuery = (props:Props) => {
   return useQuery({
-    queryKey: ["category", id],
-    queryFn: () => getCategoryById(id!),
+    queryKey: ["category", {...props}],
+    queryFn: () => getCategoryById(props),
     staleTime: Infinity,
-    enabled: !!id,
+    enabled: !!props.id,
   });
 };

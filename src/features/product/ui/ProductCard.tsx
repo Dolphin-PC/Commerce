@@ -1,5 +1,5 @@
 import { Card, CardHeader, CardTitle } from "@/shared/components/ui/card";
-import { ProductCategory } from "../model/type";
+import { ProductCategory } from "../type/type";
 
 interface Props {
   product: ProductCategory;
@@ -9,7 +9,7 @@ const ProductCard = ({ product }: Props) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle></CardTitle>
+        <CardTitle>{product.category?.categoryName}</CardTitle>
       </CardHeader>
     </Card>
   );

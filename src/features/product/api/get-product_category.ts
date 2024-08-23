@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { ProductCategory } from "../model/type";
+import { Product, ProductCategory } from "../type/type";
 import { supabase } from "@/shared/config/@db/supabase.config";
 
 /**
@@ -8,13 +8,11 @@ import { supabase } from "@/shared/config/@db/supabase.config";
 
 //* 추상
 interface Props {
-  id: number;
-  sellerId?: number;
+  id: Product["id"];
+  sellerId?: Product["sellerId"];
 }
 
-interface Return {
-  data: ProductCategory | null;
-}
+type Return = ProductCategory | null
 
 
 //* 구현
@@ -27,7 +25,7 @@ const getProductCategory = async ({id,sellerId}:Props): Promise<Return> => {
   const { data, error } = await q.maybeSingle();
   if (error) throw error;
 
-  return {data};
+  return data;
 };
 
 export const useProductCategoryQuery = (props:Props) => {

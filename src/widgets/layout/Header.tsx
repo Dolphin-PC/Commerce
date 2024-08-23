@@ -1,4 +1,4 @@
-import { signOut } from "@/entities/@auth/sign-out.api";
+import { signOut } from "@/features/@auth/api/sign-out";
 import { useAuthStore } from "@/features/@auth/store/auth.store";
 import LogoIcon from "@/shared/components/molecules/LogoIcon";
 import { toast } from "@/shared/components/ui/use-toast";

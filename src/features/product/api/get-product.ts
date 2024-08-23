@@ -1,6 +1,6 @@
+import { supabase } from "@/shared/config/@db/supabase.config";
 import { useQuery } from "@tanstack/react-query";
-import { Product } from "../model/type";
-import { supabase } from "@/entities/@db/supabase.config";
+import { Product } from "../type/type";
 
 /**
  * 제품 상세 조회
@@ -12,9 +12,7 @@ interface Props {
   sellerId?: number;
 }
 
-interface Return {
-  data: Product | null;
-}
+type Return = Product | null
 
 
 //* 구현
@@ -26,7 +24,7 @@ const getProduct = async ({id,sellerId}:Props): Promise<Return> => {
 
   const { data, error } = await q.maybeSingle();
   if (error) throw error;
-  return {data};
+  return data
 };
 
 export const useProductQuery = (props:Props) => {
