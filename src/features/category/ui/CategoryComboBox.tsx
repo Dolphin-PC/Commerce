@@ -16,11 +16,11 @@ import {
 import { cn } from "@/shared/lib/shadcn-util";
 import { Check, ChevronsUpDown } from "lucide-react";
 
-import { ProductFormDataType } from "@/features/product/product.zod";
+import { ProductFormDataType } from "@/features/product/model/product.zod";
 import { useEffect, useState } from "react";
 import { ControllerRenderProps, UseFormReturn } from "react-hook-form";
-import { getCategoryList } from "./category-get.api";
-import { Category } from "./type";
+import { getCategoryList } from "../api/get-category";
+import { Category } from "../model/type";
 
 interface Props {
   field: ControllerRenderProps<ProductFormDataType>;

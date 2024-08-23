@@ -1,5 +1,5 @@
-import { ProductCategory } from "@/entities/product/product_category-get.api";
 import { Card, CardHeader, CardTitle } from "@/shared/components/ui/card";
+import { ProductCategory } from "../model/type";
 
 interface Props {
   product: ProductCategory;

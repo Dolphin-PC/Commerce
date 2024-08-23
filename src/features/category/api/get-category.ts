@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "../@db/supabase.config";
-import { Category } from "./type";
+import { supabase } from "../../../entities/@db/supabase.config";
+import { Category } from "../model/type";
 
 /** 카테고리 이름으로 목록 조회 */
 export const getCategoryList = async (

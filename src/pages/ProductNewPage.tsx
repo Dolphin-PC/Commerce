@@ -1,4 +1,4 @@
-import ProductForm from "@/features/product/ProductForm.ui";
+import ProductForm from "@/features/product/ui/ProductForm";
 import Row from "@/shared/components/styles/Row";
 import DashBoardLayout from "@/shared/components/templates/DashBoardLayout";
 import {

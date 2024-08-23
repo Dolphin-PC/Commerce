@@ -1,5 +1,5 @@
-import { Database } from "../@db/database-generated.type";
-import { supabase } from "../@db/supabase.config";
+import { Database } from "../../../entities/@db/database-generated.type";
+import { supabase } from "../../../entities/@db/supabase.config";
 
 export const addProduct = async (
   insertData: Database["public"]["Tables"]["product"]["Insert"]

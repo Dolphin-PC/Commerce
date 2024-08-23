@@ -1,7 +1,6 @@
-import { useCategoryQuery } from "@/entities/category/category-get.api";
-import { useProductQuery } from "@/entities/product/product-get.api";
 import { useProductImageQuery } from "@/entities/product_image/product-image-get.api";
 import { useAuthStore } from "@/features/auth/auth.store";
+import { useProductCategoryQuery } from "@/features/product/api/get-product_category";
 import { H2, H4 } from "@/shared/components/atoms/Typography";
 import Error from "@/shared/components/molecules/Error";
 import Loading from "@/shared/components/molecules/Loading";
@@ -20,23 +19,25 @@ const ProductDetailPage = () => {
   const navigate = useNavigate();
   const user = useAuthStore((state) => state.user);
 
-  const product = useProductQuery(id!, String(user!.id));
-  const category = useCategoryQuery(product.data?.categoryId);
-  const productImage = useProductImageQuery(product.data?.id);
+  const productCategory = useProductCategoryQuery({
+    id: Number(id),
+    sellerId: user?.id,
+  });
+  const productImage = useProductImageQuery(productCategory.data?.data?.id);
 
   useLayoutEffect(() => {
-    if (product.isLoading === false && !product.data) {
+    if (productCategory.isLoading === false && !productCategory.data) {
       navigate(ROUTES.DASHBOARD__PRODUCTS);
     }
-  }, [product, navigate]);
+  }, [productCategory, navigate]);
 
-  if (product.isLoading || category.isLoading || productImage.isLoading)
+  if (productCategory.isLoading || productImage.isLoading)
     return (
       <CenterLayout>
         <Loading />
       </CenterLayout>
     );
-  if (product.error || category.error || productImage.error) {
+  if (productCategory.error || productImage.error) {
     return (
       <CenterLayout>
         <Error />
@@ -65,19 +66,24 @@ const ProductDetailPage = () => {
           <CardContent>
             <CardContent>
               <H4>상품 카테고리</H4>
-              <p>{category.data?.categoryName}</p>
+              <p>{productCategory.data?.data?.category?.categoryName}</p>
             </CardContent>
             <CardContent>
               <H4>상품 명</H4>
-              <p>{product.data?.name}</p>
+              <p>{productCategory.data?.data?.name}</p>
             </CardContent>
             <CardContent>
               <H4>상품 가격</H4>
-              <p>{product.data?.price.toLocaleString("ko-KR")} 원</p>
+              <p>
+                {productCategory.data?.data?.price.toLocaleString("ko-KR")} 원
+              </p>
             </CardContent>
             <CardContent>
               <H4>상품 수량</H4>
-              <p>{product.data?.quantity.toLocaleString("ko-KR")} 개</p>
+              <p>
+                {productCategory.data?.data?.quantity.toLocaleString("ko-KR")}{" "}
+                개
+              </p>
             </CardContent>
             <CardContent>
               <H4>상품 이미지</H4>
@@ -89,7 +95,7 @@ const ProductDetailPage = () => {
                   <img
                     key={image.id}
                     src={image.imgUrl}
-                    alt={product.data?.name}
+                    alt={productCategory.data?.data?.name}
                     style={{ width: "100px" }}
                   />
                 ))}

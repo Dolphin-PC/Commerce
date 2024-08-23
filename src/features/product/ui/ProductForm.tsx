@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { ProductFormDataType, ProductSchema } from "./product.zod";
+import { ProductFormDataType, ProductSchema } from "../model/product.zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Column from "@/shared/components/styles/Column";
 import { Button } from "@/shared/components/ui/button";
@@ -12,13 +12,13 @@ import {
   Form,
 } from "@/shared/components/ui/form";
 import { Input } from "@/shared/components/ui/input";
-import CategoryComboBox from "@/entities/category/CategoryComboBox.ui";
+import CategoryComboBox from "@/features/category/ui/CategoryComboBox";
 import { Textarea } from "@/shared/components/ui/textarea";
-import { useAuthStore } from "../auth/auth.store";
+import { useAuthStore } from "../../auth/auth.store";
 import { useState } from "react";
-import { addProduct } from "@/entities/product/product-new.api";
+import { addProduct } from "@/features/product/api/post-product";
 import { addProductImage } from "@/entities/product_image/product-image-new.api";
-import ProductImageSection from "./ProductImageSection.ui";
+import ProductImageSection from "./ProductImageSection";
 
 const ProductForm = () => {
   const user = useAuthStore((state) => state.user);

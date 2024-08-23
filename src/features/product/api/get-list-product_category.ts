@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "../@db/supabase.config";
-import { QueryData } from "@supabase/supabase-js";
+import { supabase } from "../../../entities/@db/supabase.config";
+import { Product } from "../model/type";
 
 /**
  * 제품 목록 조회 (카테고리 포함)
@@ -12,16 +12,14 @@ interface Props {
 }
 
 interface Return {
-  data : ProductCategoryList
+  data : Product[]
 }
-export type ProductCategoryList = QueryData<typeof productCategoryListQuery>
+
 
 
 //* 구현
-const productCategoryListQuery = supabase.from("product").select("*, category(*)");
-
 const getProductListWithCategory = async ({sellerId}:Props):Promise<Return> => {
-  let q = productCategoryListQuery;
+  let q = supabase.from("product").select("*, category(*)");
   if(sellerId){
     q = q.eq("sellerId", sellerId);
   }
