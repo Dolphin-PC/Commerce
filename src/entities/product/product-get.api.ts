@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../@db/supabase.config";
 import { Product } from "./type";
 
-const getProductDetail = async (
+const getProduct = async (
   id: string,
   sellerId: string
 ): Promise<Product | null> => {
@@ -21,7 +21,7 @@ const getProductDetail = async (
 export const useProductQuery = (id: string, sellerId: string) => {
   return useQuery({
     queryKey: ["product", id, sellerId],
-    queryFn: () => getProductDetail(id, sellerId),
+    queryFn: () => getProduct(id, sellerId),
     staleTime: Infinity,
   });
 };
