@@ -1,5 +1,5 @@
 import { getUserInfo } from "@/features/user/api/get-user";
-import Column from "@/shared/components/styles/Column";
+import Column from "@/shared/components/atoms/Column";
 import { Button } from "@/shared/components/ui/button";
 import {
   Form,

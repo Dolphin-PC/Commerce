@@ -1,5 +1,5 @@
-import Column from "@/shared/components/styles/Column";
-import Row from "@/shared/components/styles/Row";
+import Column from "@/shared/components/atoms/Column";
+import Row from "@/shared/components/atoms/Row";
 import { Button } from "@/shared/components/ui/button";
 import { ImageUp, CircleMinus, ImagePlus } from "lucide-react";
 

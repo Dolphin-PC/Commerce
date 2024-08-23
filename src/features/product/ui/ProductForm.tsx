@@ -1,7 +1,7 @@
 import CategoryComboBox from "@/features/category/ui/CategoryComboBox";
 import { addProduct } from "@/features/product/api/post-product";
 import { addProductImage } from "@/features/product_image/api/product-image-new.api";
-import Column from "@/shared/components/styles/Column";
+import Column from "@/shared/components/atoms/Column";
 import { Button } from "@/shared/components/ui/button";
 import {
   Form,

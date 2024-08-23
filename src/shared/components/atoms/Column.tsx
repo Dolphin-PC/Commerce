@@ -6,7 +6,11 @@ interface Props {
 }
 
 const Column = ({ children, className }: Props) => {
-  return <div className={`flex flex-col ${className}`}>{children}</div>;
+  return (
+    <div className={`flex flex-col ${className ? className : ""}`}>
+      {children}
+    </div>
+  );
 };
 
 export default Column;

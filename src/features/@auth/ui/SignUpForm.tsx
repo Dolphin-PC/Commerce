@@ -1,5 +1,5 @@
 import { addNewUser } from "@/features/user/api/post-user";
-import Column from "@/shared/components/styles/Column";
+import Column from "@/shared/components/atoms/Column";
 import { Button } from "@/shared/components/ui/button";
 import { Checkbox } from "@/shared/components/ui/checkbox";
 import {

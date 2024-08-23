@@ -1,6 +1,6 @@
 import LogoIcon from "../molecules/LogoIcon";
-import Column from "../styles/Column";
-import Row from "../styles/Row";
+import Column from "../atoms/Column";
+import Row from "../atoms/Row";
 
 import { ROUTES } from "@/shared/consts/route.const";
 import { LayoutDashboard, ShoppingCart } from "lucide-react";
@@ -33,7 +33,9 @@ const DashBoardLayout = ({ children }: Props) => {
         </Button>
       </Column>
 
-      <div className="bg-slate-100 w-full h-screen p-5">{children}</div>
+      <div className="bg-slate-100 w-full h-screen p-5 overflow-scroll">
+        {children}
+      </div>
     </Row>
   );
 };

@@ -1,5 +1,5 @@
 import ProductForm from "@/features/product/ui/ProductForm";
-import Row from "@/shared/components/styles/Row";
+import Row from "@/shared/components/atoms/Row";
 import DashBoardLayout from "@/shared/components/templates/DashBoardLayout";
 import {
   Card,

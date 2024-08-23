@@ -1,4 +1,4 @@
-import Column from "../styles/Column";
+import Column from "../atoms/Column";
 import { H2 } from "../atoms/Typography";
 import { Ban } from "lucide-react";
 

@@ -1,5 +1,5 @@
 import { Loader } from "lucide-react";
-import Column from "../styles/Column";
+import Column from "../atoms/Column";
 import { H4 } from "../atoms/Typography";
 
 interface Props {

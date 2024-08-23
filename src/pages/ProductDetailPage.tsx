@@ -4,8 +4,8 @@ import { useProductCategoryQuery } from "@/features/product/api/get-product_cate
 import { H2, H4 } from "@/shared/components/atoms/Typography";
 import Error from "@/shared/components/molecules/Error";
 import Loading from "@/shared/components/molecules/Loading";
-import Column from "@/shared/components/styles/Column";
-import Row from "@/shared/components/styles/Row";
+import Column from "@/shared/components/atoms/Column";
+import Row from "@/shared/components/atoms/Row";
 import CenterLayout from "@/shared/components/templates/CenterLayout";
 import DashBoardLayout from "@/shared/components/templates/DashBoardLayout";
 import { Button } from "@/shared/components/ui/button";
