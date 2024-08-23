@@ -1,26 +1,30 @@
-import { useForm } from "react-hook-form";
-import { ProductFormDataType, ProductSchema } from "../model/product.zod";
-import { zodResolver } from "@hookform/resolvers/zod";
+import CategoryComboBox from "@/features/category/ui/CategoryComboBox";
+import { addProduct } from "@/features/product/api/post-product";
+import { addProductImage } from "@/features/product_image/api/product-image-new.api";
 import Column from "@/shared/components/styles/Column";
 import { Button } from "@/shared/components/ui/button";
 import {
+  Form,
+  FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormControl,
   FormMessage,
-  Form,
 } from "@/shared/components/ui/form";
 import { Input } from "@/shared/components/ui/input";
-import CategoryComboBox from "@/features/category/ui/CategoryComboBox";
 import { Textarea } from "@/shared/components/ui/textarea";
-import { useAuthStore } from "../../@auth/store/auth.store";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
-import { addProduct } from "@/features/product/api/post-product";
-import { addProductImage } from "@/features/product_image/api/product-image-new.api";
+import { useForm } from "react-hook-form";
+import { useAuthStore } from "../../@auth/store/auth.store";
+import { ProductFormDataType, ProductSchema } from "../model/product.zod";
 import ProductImageSection from "./ProductImageSection";
+import { toast } from "@/shared/components/ui/use-toast";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "@/shared/consts/route.const";
 
 const ProductForm = () => {
+  const navigate = useNavigate();
   const user = useAuthStore((state) => state.user);
   const form = useForm<ProductFormDataType>({
     resolver: zodResolver(ProductSchema),
@@ -38,30 +42,40 @@ const ProductForm = () => {
   const handleNew = async (formData: ProductFormDataType) => {
     if (user === null) throw Error("로그인이 필요합니다.");
 
-    const uploadImages = images.filter((e) => e !== null) as File[];
+    try {
+      const uploadImages = images.filter((e) => e !== null) as File[];
 
-    if (uploadImages.length === 0)
-      return alert("하나 이상의 이미지를 업로드해주세요.");
+      if (uploadImages.length === 0)
+        return alert("하나 이상의 이미지를 업로드해주세요.");
 
-    const newProduct = await addProduct({
-      categoryId: formData.categoryId,
-      name: formData.name,
-      desc: formData.desc,
-      price: formData.price,
-      quantity: formData.quantity,
-      sellerId: user.id,
-    });
+      const newProduct = await addProduct({
+        categoryId: formData.categoryId,
+        name: formData.name,
+        desc: formData.desc,
+        price: formData.price,
+        quantity: formData.quantity,
+        sellerId: user.id,
+      });
 
-    if (newProduct === null) return alert("상품 등록에 실패했습니다.");
+      if (newProduct === null) return alert("상품 등록에 실패했습니다.");
 
-    await Promise.all(
-      uploadImages.map((image) =>
-        addProductImage({
-          productId: newProduct.id,
-          file: image,
-        })
-      )
-    );
+      await Promise.all(
+        uploadImages.map((image) =>
+          addProductImage({
+            productId: newProduct.id,
+            file: image,
+          })
+        )
+      );
+
+      toast({
+        title: "상품 등록이 완료되었습니다.",
+        description: "등록된 상품 페이지로 이동합니다.",
+      });
+      navigate(ROUTES.DASHBOARD__PRODUCTS__ID(newProduct.id));
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (

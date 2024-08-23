@@ -19,8 +19,8 @@ import { Check, ChevronsUpDown } from "lucide-react";
 import { ProductFormDataType } from "@/features/product/model/product.zod";
 import { useEffect, useState } from "react";
 import { ControllerRenderProps, UseFormReturn } from "react-hook-form";
-import { getCategoryList } from "../api/get-category";
 import { Category } from "../model/type";
+import { getCategoryList } from "../api/get_list-category";
 
 interface Props {
   field: ControllerRenderProps<ProductFormDataType>;
@@ -33,7 +33,7 @@ const CategoryComboBox = ({ field, form }: Props) => {
   const [categoryList, setCategoryList] = useState<Category[]>([]);
 
   useEffect(() => {
-    getCategoryList().then((res) => {
+    getCategoryList({}).then((res) => {
       setCategoryList(res);
       console.log({ res });
     });

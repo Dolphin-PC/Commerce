@@ -22,7 +22,6 @@ export const getUserInfo = async ({id}:Props): Promise<Return> => {
     .maybeSingle();
 
   if (error) throw error;
-  if (!data) throw new Error("사용자를 찾을 수 없습니다.");
 
   return data;
 };

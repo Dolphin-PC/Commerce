@@ -1,3 +1,4 @@
+import { addNewUser } from "@/features/user/api/post-user";
 import Column from "@/shared/components/styles/Column";
 import { Button } from "@/shared/components/ui/button";
 import { Checkbox } from "@/shared/components/ui/checkbox";
@@ -18,7 +19,7 @@ import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { signup } from "../api/sign-up";
 import { SignUpSchema } from "../model/auth.zod";
-import { addNewUser } from "@/features/user/api/post-user";
+import { AuthError } from "@supabase/supabase-js";
 
 export const SignUpForm = () => {
   const navigate = useNavigate();
@@ -31,30 +32,46 @@ export const SignUpForm = () => {
     defaultValues: {
       email: "",
       password: "",
+      confirmPassword: "",
       nickname: "",
       isSeller: false,
     },
   });
 
   const handleSignup = async (data: z.infer<typeof SignUpSchema>) => {
-    const auth = await signup({
-      email: data.email,
-      password: data.password,
-    });
-    if (auth.user === null) throw new Error("회원가입에 실패했습니다.");
+    try {
+      const auth = await signup({
+        email: data.email,
+        password: data.password,
+      });
+      if (auth.user === null) throw new Error("회원가입에 실패했습니다.");
 
-    await addNewUser({
-      id: auth.user.id,
-      email: data.email,
-      nickname: data.nickname,
-      isseller: data.isSeller,
-    });
+      await addNewUser({
+        id: auth.user.id,
+        email: data.email,
+        nickname: data.nickname,
+        isseller: data.isSeller,
+      });
 
-    toast({
-      title: "회원가입이 완료되었습니다.",
-      description: "로그인 페이지로 이동합니다.",
-    });
-    navigate("/sign-in");
+      toast({
+        title: "회원가입이 완료되었습니다.",
+        description: "로그인 페이지로 이동합니다.",
+      });
+      navigate("/sign-in");
+    } catch (error) {
+      if (error instanceof AuthError) {
+        toast({
+          title: "회원가입에 실패했습니다.",
+          description: error.message,
+        });
+      } else {
+        toast({
+          title: "회원가입에 실패했습니다.",
+        });
+        console.error(error);
+      }
+    }
+
     // .catch((err) => {
     //   toast({
     //     title: "회원가입에 실패했습니다.",
@@ -74,7 +91,11 @@ export const SignUpForm = () => {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="Email" {...field} />
+                  <Input
+                    placeholder="Email"
+                    {...field}
+                    autoComplete="username"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -92,6 +113,7 @@ export const SignUpForm = () => {
                     type={passwordVisible ? "text" : "password"}
                     placeholder="Password"
                     {...field}
+                    autoComplete="new-password"
                   />
                 </FormControl>
                 <button type="button" onClick={togglePasswordVisibility}>
@@ -113,6 +135,7 @@ export const SignUpForm = () => {
                     type="password"
                     placeholder="Confirm Password"
                     {...field}
+                    autoComplete="new-password"
                   />
                 </FormControl>
                 <FormMessage />

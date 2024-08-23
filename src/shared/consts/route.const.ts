@@ -11,5 +11,6 @@ export const ROUTES = {
   DASHBOARD: "/dashboard",
   DASHBOARD__PRODUCTS: "/dashboard/products",
   DASHBOARD__PRODUCTS_ID: "/dashboard/products/:id",
+  DASHBOARD__PRODUCTS__ID: (id:number) => `/dashboard/products/${id}`,
   DASHBOARD__PRODUCTS__NEW: "/dashboard/products/new",
 } as const;

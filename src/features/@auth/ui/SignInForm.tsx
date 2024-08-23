@@ -73,7 +73,11 @@ export const SignInForm = () => {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="Email" {...field} />
+                  <Input
+                    placeholder="Email"
+                    {...field}
+                    autoComplete="username"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -91,6 +95,7 @@ export const SignInForm = () => {
                     type={passwordVisible ? "text" : "password"}
                     placeholder="Password"
                     {...field}
+                    autoComplete="current-password"
                   />
                 </FormControl>
                 <button type="button" onClick={togglePasswordVisibility}>
