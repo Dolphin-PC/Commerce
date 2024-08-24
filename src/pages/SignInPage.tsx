@@ -8,7 +8,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/shared/c
 import { ROUTES } from "@/shared/consts/route.const";
 import { Link } from "react-router-dom";
 
-export const SignInPage = () => {
+const SignInPage = () => {
   return (
     <CenterLayout>
       <Column className="items-center gap-[10px]">
@@ -30,3 +30,5 @@ export const SignInPage = () => {
     </CenterLayout>
   );
 };
+
+export default SignInPage;

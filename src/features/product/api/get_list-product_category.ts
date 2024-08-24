@@ -1,5 +1,5 @@
 import { supabase } from "@/shared/config/@db/supabase.config";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
 import { Product, ProductCategory } from "../type/type";
 import { K } from "@/shared/consts/queryKey";
 
@@ -46,7 +46,7 @@ const getProductListWithCategory = async ({ sellerId, pageNumber = 0, pageSize =
 };
 
 export const useProductListCategoryInfiniteQuery = (props: Props) => {
-  return useInfiniteQuery({
+  return useSuspenseInfiniteQuery({
     initialPageParam: 0,
     queryKey: [K.product, K.infinite, { ...props }],
     queryFn: ({ pageParam }) => getProductListWithCategory({ ...props, pageNumber: pageParam }),
