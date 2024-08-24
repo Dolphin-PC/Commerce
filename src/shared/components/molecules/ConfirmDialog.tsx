@@ -21,7 +21,7 @@ interface Props {
   confirmAction?: () => void;
 }
 
-export const ConfirmDialog = ({ children, triggerComponent, title, description, cancelText, cancelAction, confirmText = "확인", confirmAction = () => {} }: Props) => {
+export const ConfirmDialog = ({ children, triggerComponent, title, description, cancelText, cancelAction = () => {}, confirmText = "확인", confirmAction = () => {} }: Props) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>{triggerComponent}</AlertDialogTrigger>
@@ -33,7 +33,7 @@ export const ConfirmDialog = ({ children, triggerComponent, title, description, 
         </AlertDialogHeader>
 
         <AlertDialogFooter>
-          {cancelAction && cancelText && <AlertDialogCancel onClick={cancelAction}>{cancelText}</AlertDialogCancel>}
+          {cancelText && <AlertDialogCancel onClick={cancelAction}>{cancelText}</AlertDialogCancel>}
           <AlertDialogAction onClick={confirmAction}>{confirmText}</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

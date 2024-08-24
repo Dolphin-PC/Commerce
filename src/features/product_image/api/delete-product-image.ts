@@ -1,7 +1,7 @@
 import { supabase } from "@/shared/config/@db/supabase.config";
 import { ProductImage } from "../type/type";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { QueryKey } from "@/shared/consts/queryKey";
+import { K } from "@/shared/consts/queryKey";
 import { deleteUpload } from "@/features/@storage/storage.api";
 
 /**
@@ -26,7 +26,7 @@ export const useDeleteProductImage = () => {
     mutationKey: ["deleteProductImage"],
     mutationFn: deleteProductImage,
     onSuccess: (productId) => {
-      queryClient.refetchQueries({ queryKey: [QueryKey.productImage, productId] });
+      queryClient.refetchQueries({ queryKey: [K.product, productId, K.image] });
     },
   });
 };

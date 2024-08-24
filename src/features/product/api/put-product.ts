@@ -1,7 +1,7 @@
 import { supabase } from "@/shared/config/@db/supabase.config";
 import { Product, ProductUpdate } from "../type/type";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { QueryKey } from "@/shared/consts/queryKey";
+import { K } from "@/shared/consts/queryKey";
 import { Tables } from "@/shared/config/@db/database-generated.type";
 
 /**
@@ -29,6 +29,6 @@ export const useProductPut = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (props: Props) => putProduct(props),
-    onSuccess: (res) => queryClient.refetchQueries({ queryKey: [QueryKey.productCategory, res.id] }),
+    onSuccess: (res) => queryClient.refetchQueries({ queryKey: [K.product, res.id, K.category] }),
   });
 };

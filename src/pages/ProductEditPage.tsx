@@ -7,6 +7,7 @@ import { useProductImageQuery } from "@/features/product_image/api/get_list-prod
 import { useAddProductImage } from "@/features/product_image/api/post-product-image";
 import Column from "@/shared/components/atoms/Column";
 import Row from "@/shared/components/atoms/Row";
+import { ConfirmDialog } from "@/shared/components/molecules/ConfirmDialog";
 import { CenterError } from "@/shared/components/molecules/Error";
 import { CenterLoading } from "@/shared/components/molecules/Loading";
 import DashBoardLayout from "@/shared/components/templates/DashBoardLayout";
@@ -83,9 +84,15 @@ const ProductEditPage = () => {
             <Row className="justify-between">
               <CardTitle>상품 정보</CardTitle>
 
-              <Row className="gap-5">
-                <Button>삭제</Button>
-              </Row>
+              <ConfirmDialog
+                title="상세보기로 돌아가시겠습니까?"
+                description="수정하신 내용은 저장되지 않습니다."
+                confirmText="돌아가기"
+                confirmAction={() => navigate(ROUTES.DASHBOARD__PRODUCTS__ID(productId))}
+                cancelText="취소"
+                cancelAction={() => {}}
+                triggerComponent={<Button>돌아가기</Button>}
+              />
             </Row>
           </CardHeader>
 

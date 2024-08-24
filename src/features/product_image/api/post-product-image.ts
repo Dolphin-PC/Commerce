@@ -2,7 +2,7 @@ import { supabase } from "@/shared/config/@db/supabase.config";
 import { upload } from "../../@storage/storage.api";
 import { ProductImage } from "../type/type";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { QueryKey } from "@/shared/consts/queryKey";
+import { K } from "@/shared/consts/queryKey";
 
 /**
  * 제품이미지 등록
@@ -29,7 +29,7 @@ export const useAddProductImage = () => {
   return useMutation({
     mutationFn: (props: Props) => addProductImage(props),
     onSuccess: (res) => {
-      queryClient.refetchQueries({ queryKey: [QueryKey.productImage, res.productId] });
+      queryClient.refetchQueries({ queryKey: [K.product, res.productId, K.image] });
     },
   });
 };

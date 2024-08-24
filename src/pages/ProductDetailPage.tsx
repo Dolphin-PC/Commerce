@@ -1,4 +1,5 @@
 import { useAuthStore } from "@/features/@auth/store/auth.store";
+import { useDeleteProduct } from "@/features/product/api/delete-product";
 import { useProductCategoryQuery } from "@/features/product/api/get-product_category";
 import { useProductImageQuery } from "@/features/product_image/api/get_list-product-image";
 import { bucketBaseUrl } from "@/features/product_image/const/bucket";
@@ -11,6 +12,7 @@ import { CenterLoading } from "@/shared/components/molecules/Loading";
 import DashBoardLayout from "@/shared/components/templates/DashBoardLayout";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui/card";
+import { toast } from "@/shared/components/ui/use-toast";
 import { ROUTES } from "@/shared/consts/route.const";
 import { useLayoutEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -22,14 +24,21 @@ const ProductDetailPage = () => {
   const navigate = useNavigate();
   const user = useAuthStore((state) => state.user);
 
-  const productCategory = useProductCategoryQuery({
-    id: productId,
-    sellerId: user?.id,
-  });
+  const productCategory = useProductCategoryQuery({ id: productId, sellerId: user?.id });
+  const productImage = useProductImageQuery({ productId });
 
-  const productImage = useProductImageQuery({
-    productId: Number(productCategory.data?.id),
-  });
+  const deleteMutation = useDeleteProduct();
+  const handleDelete = () => {
+    deleteMutation.mutate(
+      { productId },
+      {
+        onSuccess: () => {
+          toast({ title: "상품이 삭제되었습니다." });
+          navigate(ROUTES.DASHBOARD__PRODUCTS);
+        },
+      }
+    );
+  };
 
   useLayoutEffect(() => {
     if (productCategory.isLoading === false && productCategory.data === null) {
@@ -51,7 +60,8 @@ const ProductDetailPage = () => {
               <CardTitle>상품 정보</CardTitle>
 
               <Row className="gap-5">
-                <Button>삭제</Button>
+                <ConfirmDialog title="상품 삭제" description="상품을 삭제하시겠습니까?" cancelText="취소" confirmText="삭제" confirmAction={handleDelete} triggerComponent={<Button>삭제</Button>} />
+
                 <Button asChild>
                   <Link to={ROUTES.DASHBOARD__PRODUCTS__EDIT__ID(productId)}>수정</Link>
                 </Button>

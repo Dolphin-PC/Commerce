@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Product, ProductCategory } from "../type/type";
 import { supabase } from "@/shared/config/@db/supabase.config";
-import { QueryKey } from "@/shared/consts/queryKey";
+import { K } from "@/shared/consts/queryKey";
 
 /**
  * 제품 상세 조회(카테고리 포함)
@@ -30,7 +30,7 @@ const getProductCategory = async ({ id, sellerId }: Props): Promise<Return> => {
 
 export const useProductCategoryQuery = (props: Props) => {
   return useQuery({
-    queryKey: [QueryKey.productCategory, props.id],
+    queryKey: [K.product, props.id, K.category],
     queryFn: () => getProductCategory(props),
     staleTime: Infinity,
   });
