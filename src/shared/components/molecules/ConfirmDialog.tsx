@@ -1,0 +1,42 @@
+import {
+  AlertDialogHeader,
+  AlertDialogFooter,
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogCancel,
+  AlertDialogAction,
+} from "../ui/alert-dialog";
+
+interface Props {
+  children?: React.ReactNode;
+  triggerComponent: React.ReactNode;
+  title: string;
+  description: string;
+  cancelText: string;
+  confirmText: string;
+  cancelAction: () => void;
+  confirmAction: () => void;
+}
+
+export const ConfirmDialog = ({ children, triggerComponent, title, description, cancelText, cancelAction, confirmText, confirmAction }: Props) => {
+  return (
+    <AlertDialog>
+      <AlertDialogTrigger asChild>{triggerComponent}</AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>{title}</AlertDialogTitle>
+          <AlertDialogDescription>{description}</AlertDialogDescription>
+          {children && children}
+        </AlertDialogHeader>
+
+        <AlertDialogFooter>
+          <AlertDialogCancel onClick={cancelAction}>{cancelText}</AlertDialogCancel>
+          <AlertDialogAction onClick={confirmAction}>{confirmText}</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+};

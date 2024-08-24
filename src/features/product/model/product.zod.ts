@@ -16,8 +16,8 @@ export const ProductSchema = z.object({
   quantity: z.coerce.number().min(1, {
     message: "1개 이상의 상품 수량을 입력해주세요.",
   }),
-  // discountType: z.string(),
-  // discountValue: z.coerce.number(),
+  discountType: z.any(),
+  discountValue: z.coerce.number(),
 });
 
 export type ProductFormDataType = z.infer<typeof ProductSchema>;

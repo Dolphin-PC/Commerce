@@ -47,30 +47,18 @@ const ProductPage = () => {
         <CardContent>
           {q.data ? (
             <Grid className="grid-cols-3 gap-3">
-              {/* {q.data.pages.map((page) => page.map(() => <ProductCard key={product.id} product={product} />))} */}
               {q.data.pages.map((page) =>
                 page.data.map((product) => {
                   return <ProductCard key={product.id} product={product} />;
                 })
               )}
-              {/* {q.data.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))} */}
             </Grid>
           ) : (
             <p>데이터가 없어요.</p>
           )}
         </CardContent>
 
-        <CardFooter ref={viewRef}>
-          <Button
-            onClick={() => {
-              q.fetchNextPage();
-            }}
-          >
-            더보기
-          </Button>
-        </CardFooter>
+        <CardFooter ref={viewRef}></CardFooter>
       </Card>
     </DashBoardLayout>
   );

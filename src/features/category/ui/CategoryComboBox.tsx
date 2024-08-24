@@ -1,17 +1,6 @@
 import { Button } from "@/shared/components/ui/button";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/shared/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/shared/components/ui/popover";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/shared/components/ui/command";
+import { Popover, PopoverContent, PopoverTrigger } from "@/shared/components/ui/popover";
 
 import { cn } from "@/shared/lib/shadcn-util";
 import { Check, ChevronsUpDown } from "lucide-react";
@@ -25,6 +14,7 @@ import { getCategoryList } from "../api/get_list-category";
 interface Props {
   field: ControllerRenderProps<ProductFormDataType>;
   form: UseFormReturn<ProductFormDataType>;
+  defaultCategoryId?: number;
 }
 
 const CategoryComboBox = ({ field, form }: Props) => {
@@ -35,22 +25,14 @@ const CategoryComboBox = ({ field, form }: Props) => {
   useEffect(() => {
     getCategoryList({}).then((res) => {
       setCategoryList(res);
-      console.log({ res });
     });
   }, []);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          role="combobox"
-          aria-expanded={open}
-          className="w-[200px] justify-between"
-        >
-          {field.value
-            ? categoryList.find((c) => c.id === field.value)?.categoryName
-            : "카테고리 선택"}
+        <Button variant="outline" role="combobox" aria-expanded={open} className="w-[200px] justify-between">
+          {field.value ? categoryList.find((c) => c.id === field.value)?.categoryName : "카테고리 선택"}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
@@ -65,20 +47,12 @@ const CategoryComboBox = ({ field, form }: Props) => {
                   key={c.id}
                   value={String(c.id)}
                   onSelect={(id) => {
-                    console.log({ id });
                     form.setValue("categoryId", Number(id));
                     form.trigger("categoryId");
                     setOpen(false);
                   }}
                 >
-                  <Check
-                    className={cn(
-                      "mr-2 h-4 w-4",
-                      field.value === c.categoryName
-                        ? "opacity-100"
-                        : "opacity-0"
-                    )}
-                  />
+                  <Check className={cn("mr-2 h-4 w-4", field.value === c.categoryName ? "opacity-100" : "opacity-0")} />
                   {c.categoryName}
                 </CommandItem>
               ))}

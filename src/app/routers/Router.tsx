@@ -11,6 +11,7 @@ import DashBoardPage from "@/pages/DashBoardPage";
 import ProductPage from "@/pages/ProductPage";
 import ProductNewPage from "@/pages/ProductNewPage";
 import ProductDetailPage from "@/pages/ProductDetailPage";
+import ProductEditPage from "@/pages/ProductEditPage";
 
 export const Router = () => {
   return (
@@ -23,20 +24,13 @@ export const Router = () => {
         <Route element={<PrivateRoute />}>
           <Route path={ROUTES.MY} element={<Button>my</Button>} />
 
+          {/* 판매자 전용 */}
           <Route element={<SellerRoute />}>
             <Route path={ROUTES.DASHBOARD} element={<DashBoardPage />} />
-            <Route
-              path={ROUTES.DASHBOARD__PRODUCTS}
-              element={<ProductPage />}
-            />
-            <Route
-              path={ROUTES.DASHBOARD__PRODUCTS__NEW}
-              element={<ProductNewPage />}
-            />
-            <Route
-              path={ROUTES.DASHBOARD__PRODUCTS_ID}
-              element={<ProductDetailPage />}
-            />
+            <Route path={ROUTES.DASHBOARD__PRODUCTS} element={<ProductPage />} />
+            <Route path={ROUTES.DASHBOARD__PRODUCTS__NEW} element={<ProductNewPage />} />
+            <Route path={ROUTES.DASHBOARD__PRODUCTS_ID} element={<ProductDetailPage />} />
+            <Route path={ROUTES.DASHBOARD__PRODUCTS__EDIT_ID} element={<ProductEditPage />} />
           </Route>
         </Route>
       </Routes>
