@@ -11,12 +11,11 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { ProductFormDataType, ProductSchema } from "../model/product.zod";
 import { discountTypes, ProductCategory } from "../type/type";
-import ProductImageSection from "./ProductImageSection";
+import ProductImageSection from "../../product_image/ui/ProductImageSection";
 
 interface Props {
   productCategory?: ProductCategory;
   productImages?: ProductImage[];
-  // handleSave: (data: ProductInsert) => Promise<Product | null>;
   onSave: (formData: ProductFormDataType, images: File[]) => void;
 }
 
@@ -27,7 +26,7 @@ interface Props {
  *
  * @example <ProductForm productCategory={productCategory} productImage={productImage} />
  */
-const ProductForm = ({ productCategory: prdt, productImages: imgs, onSave }: Props) => {
+const ProductForm = ({ productCategory: prdt, productImages, onSave }: Props) => {
   const form = useForm<ProductFormDataType>({
     resolver: zodResolver(ProductSchema),
     defaultValues: {
@@ -41,12 +40,9 @@ const ProductForm = ({ productCategory: prdt, productImages: imgs, onSave }: Pro
     },
   });
 
-  const [savedImages, setSavedImages] = useState<ProductImage[]>(imgs ?? []);
   const [images, setImages] = useState<File[]>([]);
 
-  const onSubmit = (formData: ProductFormDataType) => {
-    onSave(formData, images);
-  };
+  const onSubmit = (formData: ProductFormDataType) => onSave(formData, images);
 
   return (
     <Form {...form}>
@@ -162,7 +158,7 @@ const ProductForm = ({ productCategory: prdt, productImages: imgs, onSave }: Pro
           />
 
           <FormLabel>상품 이미지</FormLabel>
-          <ProductImageSection images={images} setImages={setImages} savedImages={savedImages} setSavedImages={setSavedImages} />
+          <ProductImageSection images={images} setImages={setImages} savedImages={productImages} />
 
           <Button type="submit">저장하기</Button>
         </Column>

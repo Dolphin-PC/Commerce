@@ -1,19 +1,23 @@
+import { useDeleteProductImage } from "@/features/product_image/api/delete-product-image";
 import { ProductImage } from "@/features/product_image/type/type";
 import { Column } from "@/shared/components/atoms/Column";
 import Row from "@/shared/components/atoms/Row";
 import { ConfirmDialog } from "@/shared/components/molecules/ConfirmDialog";
 import { Button } from "@/shared/components/ui/button";
+import { toast } from "@/shared/components/ui/use-toast";
 import { ImageUp, CircleMinus, ImagePlus } from "lucide-react";
+import { bucketBaseUrl } from "../const/bucket";
 
 interface Props {
   images: File[];
   setImages: React.Dispatch<React.SetStateAction<File[]>>;
 
   savedImages?: ProductImage[];
-  setSavedImages?: React.Dispatch<React.SetStateAction<ProductImage[]>>;
 }
 
-const ProductImageSection = ({ images, setImages, savedImages = [], setSavedImages }: Props) => {
+const ProductImageSection = ({ images, setImages, savedImages = [] }: Props) => {
+  const deleteMutation = useDeleteProductImage();
+
   //* 이미지 업로드 버튼 클릭 이벤트
   const handleClickFile = () => {
     const hiddenFileInput = document.createElement("input");
@@ -33,19 +37,24 @@ const ProductImageSection = ({ images, setImages, savedImages = [], setSavedImag
   const deleteImage = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, index: number) => {
     setImages((prev) => prev.filter((_, i) => i !== index));
 
-    // 버튼의 부모 요소를 찾고, 그 부모 요소의 자식 요소 중 파일 입력 요소를 선택합니다.
     const parentElement = e.currentTarget.parentElement;
     if (parentElement) {
       const inputElement = parentElement.querySelector('input[type="file"]') as HTMLInputElement;
       if (inputElement) {
-        inputElement.value = ""; // 파일 입력 요소의 값을 초기화합니다.
+        inputElement.value = "";
       }
     }
   };
 
-  // 기존 이미지 bucket에서 삭제
+  // 기존에 저장된 이미지를 bucket에서 삭제
   const deleteSavedImage = async (index: number) => {
-    console.log("deleteSavedImage", index);
+    if (!savedImages[index].imgUrl) throw new Error("imgUrl is not exist");
+
+    deleteMutation.mutate(savedImages[index], {
+      onSuccess: () => {
+        toast({ title: "삭제되었습니다." });
+      },
+    });
   };
 
   return (
@@ -77,7 +86,7 @@ const ProductImageSection = ({ images, setImages, savedImages = [], setSavedImag
         {/* 기존 이미지 */}
         {savedImages.map((image, index) => (
           <div key={index} className="relative">
-            <img src={image.imgUrl} alt={image.imgUrl} className="w-24 h-24 object-cover" />
+            <img src={bucketBaseUrl + "/" + image.imgUrl} alt={image.imgUrl} className="w-24 h-24 object-cover" />
             <ConfirmDialog
               title="정말 삭제하시겠습니까?"
               description="삭제된 이미지는 복구 불가합니다."
@@ -91,7 +100,7 @@ const ProductImageSection = ({ images, setImages, savedImages = [], setSavedImag
                 </Button>
               }
             >
-              <img src={image.imgUrl} alt={image.imgUrl} className="w-full max-h-32 object-cover" />
+              <img src={bucketBaseUrl + "/" + image.imgUrl} alt={image.imgUrl} className="w-full max-h-32 object-cover" />
             </ConfirmDialog>
           </div>
         ))}

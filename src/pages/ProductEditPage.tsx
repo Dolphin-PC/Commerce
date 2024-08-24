@@ -4,7 +4,7 @@ import { useProductPut } from "@/features/product/api/put-product";
 import { ProductFormDataType } from "@/features/product/model/product.zod";
 import ProductForm from "@/features/product/ui/ProductForm";
 import { useProductImageQuery } from "@/features/product_image/api/get_list-product-image";
-import { addProductImage } from "@/features/product_image/api/product-image-new.api";
+import { useAddProductImage } from "@/features/product_image/api/post-product-image";
 import Column from "@/shared/components/atoms/Column";
 import Row from "@/shared/components/atoms/Row";
 import { CenterError } from "@/shared/components/molecules/Error";
@@ -26,16 +26,19 @@ const ProductEditPage = () => {
 
   const productCategory = useProductCategoryQuery({ id: productId, sellerId: user?.id });
   const productImage = useProductImageQuery({ productId: Number(productCategory.data?.id) });
-  const mtt = useProductPut();
+  const putProductMutation = useProductPut();
+  const postImageMutation = useAddProductImage();
 
+  /** 상품 수정 */
   const handlePutProduct = async (formData: ProductFormDataType, images: File[]) => {
     if (user === null) throw Error("로그인이 필요합니다.");
+    if (!productImage.data) throw Error("저장된 상품이미지를 불러오는데 실패했습니다.");
 
     const uploadImages = images.filter((e) => e !== null) as File[];
 
-    if (uploadImages.length) return alert("하나 이상의 이미지를 업로드해주세요.");
+    if (uploadImages.length + productImage.data.length === 0) return alert("하나 이상의 이미지를 업로드해주세요.");
 
-    mtt.mutate(
+    putProductMutation.mutate(
       {
         id: productId,
         update: {
@@ -47,14 +50,15 @@ const ProductEditPage = () => {
         },
       },
       {
-        onSuccess: async (res) => {
-          await Promise.all(uploadImages.map((image) => addProductImage({ productId: res.id, file: image })));
-          toast({ title: "상품 등록이 완료되었습니다.", description: "상품 페이지로 이동합니다." });
-          navigate(ROUTES.DASHBOARD__PRODUCTS__ID(res.id));
+        onSuccess: (res) => {
+          Promise.all(uploadImages.map((image) => postImageMutation.mutate({ productId: res.id, file: image }))).then(() => {
+            toast({ title: "상품 수정이 완료되었습니다.", description: "상품 페이지로 이동합니다." });
+            navigate(ROUTES.DASHBOARD__PRODUCTS__ID(res.id));
+          });
         },
         onError: (err) => {
           console.error(err);
-          toast({ title: "상품 등록에 실패했습니다.", description: "다시 시도해주세요." });
+          toast({ title: "상품 수정에 실패했습니다.", description: "다시 시도해주세요." });
         },
       }
     );

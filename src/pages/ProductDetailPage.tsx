@@ -1,6 +1,7 @@
 import { useAuthStore } from "@/features/@auth/store/auth.store";
 import { useProductCategoryQuery } from "@/features/product/api/get-product_category";
 import { useProductImageQuery } from "@/features/product_image/api/get_list-product-image";
+import { bucketBaseUrl } from "@/features/product_image/const/bucket";
 import Column from "@/shared/components/atoms/Column";
 import Row from "@/shared/components/atoms/Row";
 import { H4 } from "@/shared/components/atoms/Typography";
@@ -79,7 +80,7 @@ const ProductDetailPage = () => {
               <Row className="gap-5 flex-wrap">
                 {productImage.data?.length === 0 && <p>등록된 이미지가 없습니다.</p>}
                 {productImage.data?.map((image) => (
-                  <img key={image.id} src={image.imgUrl} alt={productCategory.data?.name} style={{ width: "100px" }} />
+                  <img key={image.id} src={bucketBaseUrl + "/" + image.imgUrl} alt={productCategory.data?.name} style={{ width: "100px" }} />
                 ))}
               </Row>
             </CardContent>

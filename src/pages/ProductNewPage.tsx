@@ -2,7 +2,7 @@ import { useAuthStore } from "@/features/@auth/store/auth.store";
 import { addProduct } from "@/features/product/api/post-product";
 import { ProductFormDataType } from "@/features/product/model/product.zod";
 import ProductForm from "@/features/product/ui/ProductForm";
-import { addProductImage } from "@/features/product_image/api/product-image-new.api";
+import { addProductImage } from "@/features/product_image/api/post-product-image";
 import Column from "@/shared/components/atoms/Column";
 import Row from "@/shared/components/atoms/Row";
 import DashBoardLayout from "@/shared/components/templates/DashBoardLayout";
@@ -22,7 +22,7 @@ const ProductNewPage = () => {
     try {
       const uploadImages = images.filter((e) => e !== null) as File[];
 
-      if (uploadImages.length) return alert("하나 이상의 이미지를 업로드해주세요.");
+      if (uploadImages.length == 0) return alert("하나 이상의 이미지를 업로드해주세요.");
 
       const newProduct = await addProduct({
         categoryId: formData.categoryId,
@@ -35,21 +35,9 @@ const ProductNewPage = () => {
         discountValue: formData.discountValue,
       });
 
-      if (newProduct === null) return alert("상품 등록에 실패했습니다.");
+      await Promise.all(uploadImages.map((image) => addProductImage({ productId: newProduct.id, file: image })));
 
-      await Promise.all(
-        uploadImages.map((image) =>
-          addProductImage({
-            productId: newProduct.id,
-            file: image,
-          })
-        )
-      );
-
-      toast({
-        title: "상품 등록이 완료되었습니다.",
-        description: "상품 페이지로 이동합니다.",
-      });
+      toast({ title: "상품 등록이 완료되었습니다.", description: "상품 페이지로 이동합니다." });
       navigate(ROUTES.DASHBOARD__PRODUCTS__ID(newProduct.id));
     } catch (err) {
       console.error(err);

@@ -29,6 +29,6 @@ export const useProductPut = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (props: Props) => putProduct(props),
-    onSuccess: (res) => queryClient.invalidateQueries({ queryKey: [QueryKey.productCategory, res?.id] }),
+    onSuccess: (res) => queryClient.refetchQueries({ queryKey: [QueryKey.productCategory, res.id] }),
   });
 };
