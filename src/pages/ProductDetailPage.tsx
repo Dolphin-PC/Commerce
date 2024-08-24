@@ -5,6 +5,7 @@ import { bucketBaseUrl } from "@/features/product_image/const/bucket";
 import Column from "@/shared/components/atoms/Column";
 import Row from "@/shared/components/atoms/Row";
 import { H4 } from "@/shared/components/atoms/Typography";
+import { ConfirmDialog } from "@/shared/components/molecules/ConfirmDialog";
 import { CenterError } from "@/shared/components/molecules/Error";
 import { CenterLoading } from "@/shared/components/molecules/Loading";
 import DashBoardLayout from "@/shared/components/templates/DashBoardLayout";
@@ -80,7 +81,14 @@ const ProductDetailPage = () => {
               <Row className="gap-5 flex-wrap">
                 {productImage.data?.length === 0 && <p>등록된 이미지가 없습니다.</p>}
                 {productImage.data?.map((image) => (
-                  <img key={image.id} src={bucketBaseUrl + "/" + image.imgUrl} alt={productCategory.data?.name} style={{ width: "100px" }} />
+                  <ConfirmDialog
+                    key={image.id}
+                    title="업로드 이미지"
+                    description=""
+                    triggerComponent={<img key={image.id} src={bucketBaseUrl + "/" + image.imgUrl} alt={image.imgUrl} className="w-24 h-24 object-cover" />}
+                  >
+                    <img src={bucketBaseUrl + "/" + image.imgUrl} alt={image.imgUrl} className="w-full max-h-32 object-cover" />
+                  </ConfirmDialog>
                 ))}
               </Row>
             </CardContent>

@@ -15,13 +15,13 @@ interface Props {
   triggerComponent: React.ReactNode;
   title: string;
   description: string;
-  cancelText: string;
-  confirmText: string;
-  cancelAction: () => void;
-  confirmAction: () => void;
+  cancelText?: string;
+  cancelAction?: () => void;
+  confirmText?: string;
+  confirmAction?: () => void;
 }
 
-export const ConfirmDialog = ({ children, triggerComponent, title, description, cancelText, cancelAction, confirmText, confirmAction }: Props) => {
+export const ConfirmDialog = ({ children, triggerComponent, title, description, cancelText, cancelAction, confirmText = "확인", confirmAction = () => {} }: Props) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>{triggerComponent}</AlertDialogTrigger>
@@ -33,7 +33,7 @@ export const ConfirmDialog = ({ children, triggerComponent, title, description, 
         </AlertDialogHeader>
 
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={cancelAction}>{cancelText}</AlertDialogCancel>
+          {cancelAction && cancelText && <AlertDialogCancel onClick={cancelAction}>{cancelText}</AlertDialogCancel>}
           <AlertDialogAction onClick={confirmAction}>{confirmText}</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
