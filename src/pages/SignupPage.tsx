@@ -2,16 +2,11 @@ import { SignUpForm } from "@/features/@auth/ui/SignUpForm";
 import Column from "@/shared/components/atoms/Column";
 import CenterLayout from "@/shared/components/templates/CenterLayout";
 import { Button } from "@/shared/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/shared/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui/card";
 import { ROUTES } from "@/shared/consts/route.const";
 import { Link } from "react-router-dom";
 
-export const SignupPage = () => {
+const SignupPage = () => {
   return (
     <CenterLayout>
       <Column className="items-center gap-[10px]">
@@ -30,3 +25,5 @@ export const SignupPage = () => {
     </CenterLayout>
   );
 };
+
+export default SignupPage;

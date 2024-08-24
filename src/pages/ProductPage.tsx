@@ -3,8 +3,6 @@ import { useProductListCategoryInfiniteQuery } from "@/features/product/api/get_
 import ProductCard from "@/features/product/ui/ProductCard";
 import Grid from "@/shared/components/atoms/Grid";
 import Row from "@/shared/components/atoms/Row";
-import Loading from "@/shared/components/molecules/Loading";
-import CenterLayout from "@/shared/components/templates/CenterLayout";
 import DashBoardLayout from "@/shared/components/templates/DashBoardLayout";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/shared/components/ui/card";
@@ -24,13 +22,6 @@ const ProductPage = () => {
       q.fetchNextPage();
     }
   }, [q, inView]);
-
-  if (q.isLoading)
-    return (
-      <CenterLayout>
-        <Loading />
-      </CenterLayout>
-    );
 
   return (
     <DashBoardLayout>
