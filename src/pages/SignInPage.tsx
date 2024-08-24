@@ -1,13 +1,10 @@
+import { signInOAuth } from "@/features/@auth/api/sign-in-oauth";
+import { GoogleLoginButton } from "@/features/@auth/ui/OAuthButton";
 import { SignInForm } from "@/features/@auth/ui/SignInForm";
 import Column from "@/shared/components/atoms/Column";
 import CenterLayout from "@/shared/components/templates/CenterLayout";
 import { Button } from "@/shared/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/shared/components/ui/card";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/shared/components/ui/card";
 import { ROUTES } from "@/shared/consts/route.const";
 import { Link } from "react-router-dom";
 
@@ -22,6 +19,9 @@ export const SignInPage = () => {
           <CardContent>
             <SignInForm />
           </CardContent>
+          <CardFooter>
+            <GoogleLoginButton onClick={() => signInOAuth({ provider: "google" })} />
+          </CardFooter>
         </Card>
         <Link to={ROUTES.SIGNUP}>
           <Button variant="outline">회원가입</Button>
