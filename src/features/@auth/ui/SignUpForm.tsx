@@ -2,14 +2,7 @@ import { addNewUser } from "@/features/user/api/post-user";
 import Column from "@/shared/components/atoms/Column";
 import { Button } from "@/shared/components/ui/button";
 import { Checkbox } from "@/shared/components/ui/checkbox";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/shared/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/shared/components/ui/form";
 import { Input } from "@/shared/components/ui/input";
 import { toast } from "@/shared/components/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,6 +13,7 @@ import { z } from "zod";
 import { signup } from "../api/sign-up";
 import { SignUpSchema } from "../model/auth.zod";
 import { AuthError } from "@supabase/supabase-js";
+import { ROUTES } from "@/shared/consts/route.const";
 
 export const SignUpForm = () => {
   const navigate = useNavigate();
@@ -57,7 +51,7 @@ export const SignUpForm = () => {
         title: "회원가입이 완료되었습니다.",
         description: "로그인 페이지로 이동합니다.",
       });
-      navigate("/sign-in");
+      navigate(ROUTES.SIGNIN);
     } catch (error) {
       if (error instanceof AuthError) {
         toast({
@@ -71,13 +65,6 @@ export const SignUpForm = () => {
         console.error(error);
       }
     }
-
-    // .catch((err) => {
-    //   toast({
-    //     title: "회원가입에 실패했습니다.",
-    //     description: err,
-    //   });
-    // });
   };
 
   return (
@@ -91,11 +78,7 @@ export const SignUpForm = () => {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="Email"
-                    {...field}
-                    autoComplete="username"
-                  />
+                  <Input placeholder="Email" {...field} autoComplete="username" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -109,12 +92,7 @@ export const SignUpForm = () => {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input
-                    type={passwordVisible ? "text" : "password"}
-                    placeholder="Password"
-                    {...field}
-                    autoComplete="new-password"
-                  />
+                  <Input type={passwordVisible ? "text" : "password"} placeholder="Password" {...field} autoComplete="new-password" />
                 </FormControl>
                 <button type="button" onClick={togglePasswordVisibility}>
                   <small>{passwordVisible ? "Hide" : "Show"}</small>
@@ -131,12 +109,7 @@ export const SignUpForm = () => {
               <FormItem>
                 <FormLabel>Confirm Password</FormLabel>
                 <FormControl>
-                  <Input
-                    type="password"
-                    placeholder="Confirm Password"
-                    {...field}
-                    autoComplete="new-password"
-                  />
+                  <Input type="password" placeholder="Confirm Password" {...field} autoComplete="new-password" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -163,10 +136,7 @@ export const SignUpForm = () => {
             render={({ field }) => (
               <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
                 <FormControl>
-                  <Checkbox
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                  />
+                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                 </FormControl>
                 <FormLabel>판매자로 가입하시겠습니까?</FormLabel>
                 <FormMessage />

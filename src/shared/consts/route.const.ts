@@ -3,6 +3,7 @@ export const ROUTES = {
   HOME: "/",
   SIGNIN: "/sign-in",
   SIGNUP: "/sign-up",
+  SIGNUP__OAUTH: "/sign-up/oauth",
 
   // private
   MY: "/my",

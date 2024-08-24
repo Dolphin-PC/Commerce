@@ -26,6 +26,8 @@ const password = z
     message: "키보드 상에 나란히 있는 문자열을 포함할 수 없습니다.",
   });
 
+const isSeller = z.boolean();
+
 /** 회원가입 스키마 */
 export const SignUpSchema = z
   .object({
@@ -33,7 +35,7 @@ export const SignUpSchema = z
     nickname,
     password,
     confirmPassword: z.string(),
-    isSeller: z.boolean(),
+    isSeller,
   })
   .refine((data) => !data.password.includes(data.email.split("@")[0]), {
     message: "비밀번호에 이메일 아이디를 포함할 수 없습니다.",
@@ -43,6 +45,12 @@ export const SignUpSchema = z
     message: "비밀번호가 일치하지 않습니다.",
     path: ["confirmPassword"],
   });
+
+/** 소셜로그인 회원가입 스키마 */
+export const OAuthSignUpSchema = z.object({
+  nickname,
+  isSeller,
+});
 
 /** 로그인 스키마 */
 export const SignInSchema = z.object({

@@ -299,7 +299,7 @@ export type Database = {
         Row: {
           createdat: string;
           deletedat: string | null;
-          email: string;
+          email: string | null;
           id: string;
           isseller: boolean | null;
           nickname: string | null;
@@ -308,7 +308,7 @@ export type Database = {
         Insert: {
           createdat?: string;
           deletedat?: string | null;
-          email: string;
+          email?: string | null;
           id?: string;
           isseller?: boolean | null;
           nickname?: string | null;
@@ -317,7 +317,7 @@ export type Database = {
         Update: {
           createdat?: string;
           deletedat?: string | null;
-          email?: string;
+          email?: string | null;
           id?: string;
           isseller?: boolean | null;
           nickname?: string | null;
