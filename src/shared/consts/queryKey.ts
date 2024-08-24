@@ -1,8 +1,7 @@
-export const QueryKey = {
-    infinite: "infinite",
-    user: "user",
-    product: "product",
-    productCategory: "productCategory",
-
-
-}
+export const K = {
+  infinite: "infinite",
+  user: "user",
+  product: "product",
+  category: "category",
+  image: "image",
+};

@@ -5,12 +5,8 @@ interface Props {
   className?: HTMLAttributes<HTMLDivElement>["className"];
 }
 
-const Column = ({ children, className }: Props) => {
-  return (
-    <div className={`flex flex-col ${className ? className : ""}`}>
-      {children}
-    </div>
-  );
+export const Column = ({ children, className }: Props) => {
+  return <div className={`flex flex-col ${className ? className : ""}`}>{children}</div>;
 };
 
 export default Column;

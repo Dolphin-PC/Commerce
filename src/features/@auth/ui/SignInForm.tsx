@@ -1,14 +1,7 @@
 import { getUserInfo } from "@/features/user/api/get-user";
-import Column from "@/shared/components/atoms/Column";
+import { Column } from "@/shared/components/atoms/Column";
 import { Button } from "@/shared/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/shared/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/shared/components/ui/form";
 import { Input } from "@/shared/components/ui/input";
 import { toast } from "@/shared/components/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -73,11 +66,7 @@ export const SignInForm = () => {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="Email"
-                    {...field}
-                    autoComplete="username"
-                  />
+                  <Input placeholder="Email" {...field} autoComplete="username" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -91,12 +80,7 @@ export const SignInForm = () => {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input
-                    type={passwordVisible ? "text" : "password"}
-                    placeholder="Password"
-                    {...field}
-                    autoComplete="current-password"
-                  />
+                  <Input type={passwordVisible ? "text" : "password"} placeholder="Password" {...field} autoComplete="current-password" />
                 </FormControl>
                 <button type="button" onClick={togglePasswordVisibility}>
                   <small>{passwordVisible ? "Hide" : "Show"}</small>

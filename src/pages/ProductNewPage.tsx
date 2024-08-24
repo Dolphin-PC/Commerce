@@ -1,33 +1,67 @@
+import { useAuthStore } from "@/features/@auth/store/auth.store";
+import { addProduct } from "@/features/product/api/post-product";
+import { ProductFormDataType } from "@/features/product/model/product.zod";
 import ProductForm from "@/features/product/ui/ProductForm";
+import { addProductImage } from "@/features/product_image/api/post-product-image";
+import Column from "@/shared/components/atoms/Column";
 import Row from "@/shared/components/atoms/Row";
 import DashBoardLayout from "@/shared/components/templates/DashBoardLayout";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/shared/components/ui/card";
+import { Button } from "@/shared/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui/card";
+import { toast } from "@/shared/components/ui/use-toast";
 import { ROUTES } from "@/shared/consts/route.const";
-import { SquareChevronLeft } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const ProductNewPage = () => {
+  const navigate = useNavigate();
+  const user = useAuthStore((state) => state.user);
+
+  const handleAddProduct = async (formData: ProductFormDataType, images: File[]) => {
+    if (user === null) throw Error("로그인이 필요합니다.");
+
+    try {
+      const uploadImages = images.filter((e) => e !== null) as File[];
+
+      if (uploadImages.length == 0) return alert("하나 이상의 이미지를 업로드해주세요.");
+
+      const newProduct = await addProduct({
+        categoryId: formData.categoryId,
+        name: formData.name,
+        desc: formData.desc,
+        price: formData.price,
+        quantity: formData.quantity,
+        sellerId: user.id,
+        discountType: formData.discountType,
+        discountValue: formData.discountValue,
+      });
+
+      await Promise.all(uploadImages.map((image) => addProductImage({ productId: newProduct.id, file: image })));
+
+      toast({ title: "상품 등록이 완료되었습니다.", description: "상품 페이지로 이동합니다." });
+      navigate(ROUTES.DASHBOARD__PRODUCTS__ID(newProduct.id));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <DashBoardLayout>
-      <Card>
-        <CardHeader>
-          <Row className="gap-[20px]">
-            <Link to={ROUTES.DASHBOARD__PRODUCTS}>
-              <SquareChevronLeft size={40} />
-            </Link>
-            <CardTitle>상품 등록</CardTitle>
-          </Row>
-        </CardHeader>
+      <Column className="gap-3">
+        <Button asChild className="w-[100px]">
+          <Link to={ROUTES.DASHBOARD__PRODUCTS}>상품 목록</Link>
+        </Button>
+        <Card>
+          <CardHeader>
+            <Row className="gap-[20px]">
+              <CardTitle>상품 등록</CardTitle>
+            </Row>
+          </CardHeader>
 
-        <CardContent>
-          <ProductForm />
-        </CardContent>
-      </Card>
+          <CardContent>
+            <ProductForm onSave={handleAddProduct} />
+          </CardContent>
+        </Card>
+      </Column>
     </DashBoardLayout>
   );
 };

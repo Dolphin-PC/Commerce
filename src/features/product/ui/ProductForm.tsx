@@ -1,86 +1,52 @@
 import CategoryComboBox from "@/features/category/ui/CategoryComboBox";
-import { addProduct } from "@/features/product/api/post-product";
-import { addProductImage } from "@/features/product_image/api/product-image-new.api";
+import { ProductImage } from "@/features/product_image/type/type";
 import Column from "@/shared/components/atoms/Column";
 import { Button } from "@/shared/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/shared/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/shared/components/ui/form";
 import { Input } from "@/shared/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/components/ui/select";
 import { Textarea } from "@/shared/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useAuthStore } from "../../@auth/store/auth.store";
 import { ProductFormDataType, ProductSchema } from "../model/product.zod";
-import ProductImageSection from "./ProductImageSection";
-import { toast } from "@/shared/components/ui/use-toast";
-import { useNavigate } from "react-router-dom";
-import { ROUTES } from "@/shared/consts/route.const";
+import { discountTypes, ProductCategory } from "../type/type";
+import ProductImageSection from "../../product_image/ui/ProductImageSection";
 
-const ProductForm = () => {
-  const navigate = useNavigate();
-  const user = useAuthStore((state) => state.user);
+interface Props {
+  productCategory?: ProductCategory;
+  productImages?: ProductImage[];
+  onSave: (formData: ProductFormDataType, images: File[]) => void;
+}
+
+/**
+ * @desc 상품 등록 폼
+ * @param {ProductCategory} - 상품 정보(카테고리 포함)
+ * @param {ProductImage} - 상품 이미지
+ *
+ * @example <ProductForm productCategory={productCategory} productImage={productImage} />
+ */
+const ProductForm = ({ productCategory: prdt, productImages, onSave }: Props) => {
   const form = useForm<ProductFormDataType>({
     resolver: zodResolver(ProductSchema),
     defaultValues: {
-      categoryId: 0,
-      name: "",
-      desc: "",
-      price: 0,
-      quantity: 0,
+      categoryId: prdt?.category?.id ?? 0,
+      name: prdt?.name ?? "",
+      desc: prdt?.desc ?? "",
+      price: prdt?.price ?? 0,
+      quantity: prdt?.quantity ?? 0,
+      discountType: prdt?.discountType ?? discountTypes.NONE,
+      discountValue: prdt?.discountValue ?? 0,
     },
   });
 
   const [images, setImages] = useState<File[]>([]);
 
-  const handleNew = async (formData: ProductFormDataType) => {
-    if (user === null) throw Error("로그인이 필요합니다.");
-
-    try {
-      const uploadImages = images.filter((e) => e !== null) as File[];
-
-      if (uploadImages.length === 0)
-        return alert("하나 이상의 이미지를 업로드해주세요.");
-
-      const newProduct = await addProduct({
-        categoryId: formData.categoryId,
-        name: formData.name,
-        desc: formData.desc,
-        price: formData.price,
-        quantity: formData.quantity,
-        sellerId: user.id,
-      });
-
-      if (newProduct === null) return alert("상품 등록에 실패했습니다.");
-
-      await Promise.all(
-        uploadImages.map((image) =>
-          addProductImage({
-            productId: newProduct.id,
-            file: image,
-          })
-        )
-      );
-
-      toast({
-        title: "상품 등록이 완료되었습니다.",
-        description: "등록된 상품 페이지로 이동합니다.",
-      });
-      navigate(ROUTES.DASHBOARD__PRODUCTS__ID(newProduct.id));
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  const onSubmit = (formData: ProductFormDataType) => onSave(formData, images);
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleNew)}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
         <Column className="gap-3">
           <FormField
             control={form.control}
@@ -154,26 +120,21 @@ const ProductForm = () => {
             )}
           />
 
-          {/* <FormField
+          <FormField
             control={form.control}
             name="discountType"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>상품할인 구분</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="할인 구분을 선택해주세요." />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value={null}>미선택</SelectItem>
-                    <SelectItem value={discountTypes.PERCENT}>
-                      퍼센트
-                    </SelectItem>
+                    <SelectItem value={discountTypes.NONE}>할인 없음</SelectItem>
+                    <SelectItem value={discountTypes.PERCENT}>퍼센트</SelectItem>
                     <SelectItem value={discountTypes.COST}>가격</SelectItem>
                   </SelectContent>
                 </Select>
@@ -189,20 +150,15 @@ const ProductForm = () => {
               <FormItem>
                 <FormLabel>상품할인 가격</FormLabel>
                 <FormControl>
-                  <Input
-                    type="number"
-                    min={0}
-                    placeholder="상품할인 가격"
-                    {...field}
-                  />
+                  <Input type="number" min={0} placeholder="상품할인 가격" {...field} disabled={form.getValues("discountType") === discountTypes.NONE} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
-          /> */}
+          />
 
           <FormLabel>상품 이미지</FormLabel>
-          <ProductImageSection images={images} setImages={setImages} />
+          <ProductImageSection images={images} setImages={setImages} savedImages={productImages} />
 
           <Button type="submit">저장하기</Button>
         </Column>

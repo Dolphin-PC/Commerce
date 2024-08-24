@@ -1,6 +1,7 @@
 import Column from "../atoms/Column";
 import { H2 } from "../atoms/Typography";
 import { Ban } from "lucide-react";
+import CenterLayout from "../templates/CenterLayout";
 
 const Error = () => {
   return (
@@ -12,3 +13,11 @@ const Error = () => {
 };
 
 export default Error;
+
+export const CenterError = () => {
+  return (
+    <CenterLayout>
+      <Error />
+    </CenterLayout>
+  );
+};

@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { ProductImage } from "../type/type";
 import { supabase } from "@/shared/config/@db/supabase.config";
-import { bucketBaseUrl } from "../const/bucket";
 import { Product } from "@/features/product/type/type";
+import { K } from "@/shared/consts/queryKey";
 
 /**
  * 제품 이미지 목록 조회
@@ -14,24 +14,17 @@ interface Props {
 
 type Return = ProductImage[];
 
+export const getProductImage = async ({ productId }: Props): Promise<Return> => {
+  const { data, error } = await supabase.from("product_image").select("*").eq("productId", productId);
 
-export const getProductImage = async ({productId}: Props): Promise<Return> => {
-  const res = await supabase
-    .from("product_image")
-    .select("*")
-    .eq("productId", productId);
+  if (error) throw error;
 
-  if (res.data === null) return [];
-
-  return res.data.map((img) => ({
-    ...img,
-    imgUrl: bucketBaseUrl + "/" + img.imgUrl,
-  }));
+  return data;
 };
 
-export const useProductImageQuery = (props:Props) => {
+export const useProductImageQuery = (props: Props) => {
   return useQuery({
-    queryKey: ["product_image", {...props}],
+    queryKey: [K.product, props.productId, K.image],
     queryFn: () => getProductImage(props),
     staleTime: Infinity,
     enabled: !!props.productId,
