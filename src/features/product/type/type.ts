@@ -6,7 +6,7 @@ export type ProductInsert = TablesInsert<"product">;
 export type ProductUpdate = TablesUpdate<"product">;
 
 export type ProductCategory = Product & {
-  category: Category;
+  category: Category | null;
 };
 
 export const discountTypes = {

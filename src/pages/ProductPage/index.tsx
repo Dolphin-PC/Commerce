@@ -5,10 +5,11 @@ import Grid from "@/shared/components/atoms/Grid";
 import Row from "@/shared/components/atoms/Row";
 import { Card, CardContent, CardFooter, CardHeader } from "@/shared/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/shared/components/ui/tabs";
+import { ROUTES } from "@/shared/consts/route.const";
 import useInfiniteInView from "@/shared/hooks/useInfiniteInView";
 import MainLayout from "@/widgets/layout/MainLayout";
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 
 /**
  * @desc 상품 목록 페이지
@@ -72,7 +73,11 @@ const ProductPage = () => {
             <Grid className="grid-cols-4 gap-3">
               {product.data.pages.map((page) =>
                 page.data.map((product) => {
-                  return <ProductCard key={product.id} product={product} />;
+                  return (
+                    <Link to={ROUTES.PRODUCTS_ID_(product.id)} key={product.id}>
+                      <ProductCard product={product} />
+                    </Link>
+                  );
                 })
               )}
             </Grid>

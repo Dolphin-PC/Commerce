@@ -36,12 +36,12 @@ const ProductImageCarousel = ({ productId, isButton, height }: Props) => {
   if (isLoading) return <Loading />;
   if (!data) return null;
   return (
-    <div>
-      <Carousel setApi={setCarousel} className="h-max flex items-center justify-center">
+    <Fragment>
+      <Carousel setApi={setCarousel} className="h-full flex items-center justify-center">
         <CarouselContent>
           {data.map((img) => (
             <CarouselItem key={img.id}>
-              <img src={bucketBaseUrl + "/" + img.imgUrl} alt={String(img.productId)} className={`h-[${height}px] object-cover`} />
+              <img src={bucketBaseUrl + "/" + img.imgUrl} alt={String(img.productId)} className={`p-1 h-[${height}px] w-full object-cover`} />
             </CarouselItem>
           ))}
         </CarouselContent>
@@ -57,7 +57,7 @@ const ProductImageCarousel = ({ productId, isButton, height }: Props) => {
           {current} of {count}
         </div>
       }
-    </div>
+    </Fragment>
   );
 };
 

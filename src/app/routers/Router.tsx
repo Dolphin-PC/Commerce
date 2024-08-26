@@ -9,6 +9,7 @@ import { SellerRoute } from "./Seller.route";
 
 const HomePage = lazy(() => import("@/pages/HomePage/index"));
 const ProductPage = lazy(() => import("@/pages/ProductPage/index"));
+const ProductDetailPage = lazy(() => import("@/pages/ProductDetailPage"));
 
 const SignInPage = lazy(() => import("@/pages/SignInPage"));
 const SignupPage = lazy(() => import("@/pages/SignupPage"));
@@ -17,7 +18,7 @@ const SignupOAuthPage = lazy(() => import("@/pages/SignupOAuthPage"));
 // 대시보드
 const DashBoardPage = lazy(() => import("@/pages/DashBoardPage"));
 const DashboardProductPage = lazy(() => import("@/pages/DashboardProductPage"));
-const ProductDetailPage = lazy(() => import("@/pages/ProductDetailPage"));
+const DashboardProductDetailPage = lazy(() => import("@/pages/DashboardProductDetailPage"));
 const ProductNewPage = lazy(() => import("@/pages/ProductNewPage"));
 const ProductEditPage = lazy(() => import("@/pages/ProductEditPage"));
 
@@ -33,6 +34,7 @@ export const Router = () => {
           <Route path={ROUTES.SIGNUP__OAUTH} element={<SignupOAuthPage />} />
 
           <Route path={ROUTES.PRODUCTS} element={<ProductPage />} />
+          <Route path={ROUTES.PRODUCTS_ID} element={<ProductDetailPage />} />
 
           <Route element={<PrivateRoute />}>
             <Route path={ROUTES.MY} element={<Button>my</Button>} />
@@ -42,7 +44,7 @@ export const Router = () => {
               <Route path={ROUTES.DASHBOARD} element={<DashBoardPage />} />
               <Route path={ROUTES.DASHBOARD__PRODUCTS} element={<DashboardProductPage />} />
               <Route path={ROUTES.DASHBOARD__PRODUCTS__NEW} element={<ProductNewPage />} />
-              <Route path={ROUTES.DASHBOARD__PRODUCTS_ID} element={<ProductDetailPage />} />
+              <Route path={ROUTES.DASHBOARD__PRODUCTS_ID} element={<DashboardProductDetailPage />} />
               <Route path={ROUTES.DASHBOARD__PRODUCTS__EDIT_ID} element={<ProductEditPage />} />
             </Route>
           </Route>

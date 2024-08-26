@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { Product, ProductCategory } from "../type/type";
 import { supabase } from "@/shared/config/@db/supabase.config";
 import { K } from "@/shared/consts/queryKey";
@@ -13,7 +13,7 @@ interface Props {
   sellerId?: Product["sellerId"];
 }
 
-type Return = ProductCategory | null;
+type Return = ProductCategory;
 
 //* 구현
 const getProductCategory = async ({ id, sellerId }: Props): Promise<Return> => {
@@ -24,14 +24,21 @@ const getProductCategory = async ({ id, sellerId }: Props): Promise<Return> => {
 
   const { data, error } = await q.maybeSingle();
   if (error) throw error;
+  if (!data) throw new Error("상품이 존재하지 않습니다.");
 
   return data;
 };
 
 export const useProductCategoryQuery = (props: Props) => {
   return useQuery({
-    queryKey: [K.product, props.id, K.category],
+    queryKey: [K.product, K.category, props.id],
     queryFn: () => getProductCategory(props),
-    staleTime: Infinity,
+  });
+};
+
+export const useProductCategorySuspenseQuery = (props: Props) => {
+  return useSuspenseQuery({
+    queryKey: [K.product, K.category, props.id],
+    queryFn: () => getProductCategory(props),
   });
 };
