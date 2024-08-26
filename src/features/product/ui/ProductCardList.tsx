@@ -5,7 +5,7 @@ import ProductCard from "./ProductCard";
 import { Fragment } from "react/jsx-runtime";
 
 /**
- * 상품 리스트
+ * 카테고리별 상품 리스트
  */
 
 interface Props {

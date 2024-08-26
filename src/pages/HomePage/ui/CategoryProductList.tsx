@@ -6,14 +6,26 @@ import { Lead } from "@/shared/components/atoms/Typography";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/components/ui/tabs";
-import { Link } from "react-router-dom";
+import { ROUTES } from "@/shared/consts/route.const";
+import { useNavigate } from "react-router-dom";
 
 /**
  * @desc 홈 > 카테고리별 상품 섹션
+ *  - /
  */
 
 const CategoryProductList = () => {
+  const navigate = useNavigate();
+
   const { data, isLoading } = useCategoryListQuery({});
+
+  /** 상품 목록 페이지 이동 */
+  const moveToProductPage = (categoryId: number) => {
+    const query = new URLSearchParams();
+    query.set("categoryId", String(categoryId));
+
+    navigate(`${ROUTES.PRODUCTS}?${query.toString()}`);
+  };
 
   return (
     <Card>
@@ -36,9 +48,11 @@ const CategoryProductList = () => {
               return (
                 <TabsContent key={category.id} value={String(category.id)} className="sticky left-0">
                   <Row className="justify-between">
-                    <Lead>{category.categoryName}</Lead>
-                    <Button variant="link">
-                      <Link to="">더보기</Link>
+                    <Button variant="link" onClick={() => moveToProductPage(category.id)}>
+                      <Lead>{category.categoryName}</Lead>
+                    </Button>
+                    <Button variant="link" onClick={() => moveToProductPage(category.id)}>
+                      더보기
                     </Button>
                   </Row>
                   <Grid className="grid-cols-4 gap-3">

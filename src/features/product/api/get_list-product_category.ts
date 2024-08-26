@@ -5,7 +5,7 @@ import { K } from "@/shared/consts/queryKey";
 import { Category } from "@/features/category/model/type";
 
 /**
- * 제품 목록 조회 (카테고리 포함, 페이지네이션)
+ * @desc 제품 목록 조회 (카테고리 포함, 페이지네이션)
  */
 
 //* 추상
@@ -15,6 +15,11 @@ interface Props {
 
   pageNumber?: number;
   pageSize?: number;
+
+  order?: {
+    column: "createdAt" | "price";
+    ascending: boolean;
+  };
 }
 
 interface Return {
@@ -26,15 +31,17 @@ interface Return {
 }
 
 //* 구현
-const getProductListWithCategory = async ({ sellerId, categoryId, pageNumber = 0, pageSize = 10 }: Props): Promise<Return> => {
+const getProductListWithCategory = async ({ sellerId, categoryId, pageNumber = 0, pageSize = 10, order }: Props): Promise<Return> => {
   let q = supabase.from("product").select("*, category(*)").neq("isDelete", true);
-  q = q.range(pageNumber * pageSize, pageNumber * pageSize + pageSize);
+  q = q.range(pageNumber * pageSize, pageNumber * pageSize + pageSize - 1);
 
   // 조건 필터링
   if (sellerId) q = q.eq("sellerId", sellerId);
   if (categoryId) q = q.eq("categoryId", categoryId);
 
-  q = q.order("createdAt", { ascending: false });
+  // 정렬
+  if (order) q = q.order(order.column, { ascending: order.ascending });
+  else q = q.order("createdAt", { ascending: false });
 
   const { data, error } = await q;
   if (error) throw error;
@@ -50,7 +57,7 @@ const getProductListWithCategory = async ({ sellerId, categoryId, pageNumber = 0
 export const useProductListCategoryInfiniteQuery = (props: Props) => {
   return useSuspenseInfiniteQuery({
     initialPageParam: 0,
-    queryKey: [K.product, K.infinite, { ...props }],
+    queryKey: [K.product, K.infinite],
     queryFn: ({ pageParam }) => getProductListWithCategory({ ...props, pageNumber: pageParam }),
     getNextPageParam: (lastPage) => {
       return lastPage.hasNextPage ? lastPage.nextPageNumber : undefined;
