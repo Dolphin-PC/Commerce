@@ -2,15 +2,15 @@ import Column from "@/shared/components/atoms/Column";
 import Row from "@/shared/components/atoms/Row";
 import { P } from "@/shared/components/atoms/Typography";
 import { Badge } from "@/shared/components/ui/badge";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/shared/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui/card";
 import { ProductCategory } from "../type/type";
+import ProductImageCarousel from "@/features/product_image/ui/ProductImageCarousel";
 
 interface Props {
   product: ProductCategory;
 }
 
 const ProductCard = ({ product }: Props) => {
-  console.log({ product });
   return (
     <Card>
       <CardHeader>
@@ -20,19 +20,14 @@ const ProductCard = ({ product }: Props) => {
         </Column>
       </CardHeader>
       <CardContent>
-        <Column>
+        <Column className="justify-between">
+          <ProductImageCarousel productId={product.id} isNumberText height={200} />
           <Row className="gap-2 items-center">
             <Badge>가격</Badge>
             <P>{product.price.toLocaleString("ko-KR")}원</P>
           </Row>
-          <Row className="gap-2 items-center">
-            <Badge>수량</Badge>
-            <P>{product.quantity.toLocaleString("ko-KR")}개</P>
-          </Row>
         </Column>
       </CardContent>
-
-      <CardFooter className="w-full"></CardFooter>
     </Card>
   );
 };
