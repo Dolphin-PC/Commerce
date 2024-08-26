@@ -1,17 +1,25 @@
 import { supabase } from "@/shared/config/@db/supabase.config";
-import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
+import { useQuery, useSuspenseInfiniteQuery } from "@tanstack/react-query";
 import { Product, ProductCategory } from "../type/type";
 import { K } from "@/shared/consts/queryKey";
+import { Category } from "@/features/category/model/type";
 
 /**
- * 제품 목록 조회 (카테고리 포함, 페이지네이션)
+ * @desc 제품 목록 조회 (카테고리 포함, 페이지네이션)
  */
 
 //* 추상
 interface Props {
   sellerId?: Product["sellerId"];
+  categoryId?: Category["id"];
+
   pageNumber?: number;
   pageSize?: number;
+
+  order?: {
+    column: "createdAt" | "price";
+    ascending: boolean;
+  };
 }
 
 interface Return {
@@ -23,35 +31,44 @@ interface Return {
 }
 
 //* 구현
-const getProductListWithCategory = async ({ sellerId, pageNumber = 0, pageSize = 10 }: Props): Promise<Return> => {
+const getProductListWithCategory = async ({ sellerId, categoryId, pageNumber = 0, pageSize = 10, order }: Props): Promise<Return> => {
   let q = supabase.from("product").select("*, category(*)").neq("isDelete", true);
-  if (sellerId) {
-    q = q.eq("sellerId", sellerId);
-  }
+  q = q.range(pageNumber * pageSize, pageNumber * pageSize + pageSize - 1);
 
-  q = q.order("createdAt", { ascending: false });
+  // 조건 필터링
+  if (sellerId) q = q.eq("sellerId", sellerId);
+  if (categoryId) q = q.eq("categoryId", categoryId);
 
-  if (pageNumber !== undefined) {
-    q = q.range(pageNumber * pageSize, pageNumber * pageSize + pageSize);
-  }
+  // 정렬
+  if (order) q = q.order(order.column, { ascending: order.ascending });
+  else q = q.order("createdAt", { ascending: false });
 
   const { data, error } = await q;
   if (error) throw error;
 
   return {
-    data,
+    data: data as ProductCategory[],
     hasNextPage: data.length === pageSize,
     nextPageNumber: pageNumber + 1,
   };
 };
 
+/** 무한 스크롤 */
 export const useProductListCategoryInfiniteQuery = (props: Props) => {
   return useSuspenseInfiniteQuery({
     initialPageParam: 0,
-    queryKey: [K.product, K.infinite, { ...props }],
+    queryKey: [K.product, K.infinite],
     queryFn: ({ pageParam }) => getProductListWithCategory({ ...props, pageNumber: pageParam }),
     getNextPageParam: (lastPage) => {
       return lastPage.hasNextPage ? lastPage.nextPageNumber : undefined;
     },
+  });
+};
+
+/** 목록 조회 */
+export const useProductListCategoryQuery = (props: Props) => {
+  return useQuery({
+    queryKey: [K.product, K.category, { ...props }],
+    queryFn: () => getProductListWithCategory({ ...props }),
   });
 };

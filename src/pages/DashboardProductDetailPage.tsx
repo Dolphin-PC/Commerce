@@ -17,7 +17,7 @@ import { ROUTES } from "@/shared/consts/route.const";
 import { useLayoutEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
-const ProductDetailPage = () => {
+const DashboardProductDetailPage = () => {
   const { id } = useParams();
   const productId = Number(id);
 
@@ -109,4 +109,4 @@ const ProductDetailPage = () => {
   );
 };
 
-export default ProductDetailPage;
+export default DashboardProductDetailPage;

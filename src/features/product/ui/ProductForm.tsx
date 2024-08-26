@@ -40,6 +40,7 @@ const ProductForm = ({ productCategory: prdt, productImages, onSave }: Props) =>
     },
   });
 
+  // 새로 등록될 이미지 상태
   const [images, setImages] = useState<File[]>([]);
 
   const onSubmit = (formData: ProductFormDataType) => onSave(formData, images);
@@ -51,17 +52,20 @@ const ProductForm = ({ productCategory: prdt, productImages, onSave }: Props) =>
           <FormField
             control={form.control}
             name="categoryId"
-            render={({ field }) => (
-              <FormItem>
-                <Column className="gap-[10px]">
-                  <FormLabel>상품 카테고리</FormLabel>
-                  <FormControl>
-                    <CategoryComboBox field={field} form={form} />
-                  </FormControl>
-                </Column>
-                <FormMessage />
-              </FormItem>
-            )}
+            render={() => {
+              const handleSelect = (id: number) => form.setValue("categoryId", id);
+              return (
+                <FormItem>
+                  <Column className="gap-[10px]">
+                    <FormLabel>상품 카테고리</FormLabel>
+                    <FormControl>
+                      <CategoryComboBox onSelect={handleSelect} />
+                    </FormControl>
+                  </Column>
+                  <FormMessage />
+                </FormItem>
+              );
+            }}
           />
 
           <FormField

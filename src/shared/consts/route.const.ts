@@ -5,6 +5,10 @@ export const ROUTES = {
   SIGNUP: "/sign-up",
   SIGNUP__OAUTH: "/sign-up/oauth",
 
+  PRODUCTS: "/products",
+  PRODUCTS_ID: "/products/:id",
+  PRODUCTS_ID_: (id: number) => `/products/${id}`,
+
   // private
   MY: "/my",
 

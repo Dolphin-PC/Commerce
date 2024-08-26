@@ -1,6 +1,6 @@
 import { useAuthStore } from "@/features/@auth/store/auth.store";
 import { useProductListCategoryInfiniteQuery } from "@/features/product/api/get_list-product_category";
-import ProductCard from "@/features/product/ui/ProductCard";
+import DashboardProductCard from "@/features/product/ui/DashboardProductCard";
 import Grid from "@/shared/components/atoms/Grid";
 import Row from "@/shared/components/atoms/Row";
 import DashBoardLayout from "@/shared/components/templates/DashBoardLayout";
@@ -11,7 +11,11 @@ import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { Link } from "react-router-dom";
 
-const ProductPage = () => {
+/**
+ * 판매자 대시보드 > 상품 페이지
+ *  - /dashboard/products
+ */
+const DashboardProductPage = () => {
   const user = useAuthStore((state) => state.user);
   const q = useProductListCategoryInfiniteQuery({ sellerId: user?.id });
 
@@ -40,7 +44,7 @@ const ProductPage = () => {
             <Grid className="grid-cols-3 gap-3">
               {q.data.pages.map((page) =>
                 page.data.map((product) => {
-                  return <ProductCard key={product.id} product={product} />;
+                  return <DashboardProductCard key={product.id} product={product} />;
                 })
               )}
             </Grid>
@@ -55,4 +59,4 @@ const ProductPage = () => {
   );
 };
 
-export default ProductPage;
+export default DashboardProductPage;
