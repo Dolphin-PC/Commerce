@@ -3,5 +3,6 @@ export const K = {
   user: "user",
   product: "product",
   category: "category",
+  category_list: "category-list",
   image: "image",
 };

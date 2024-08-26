@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Category } from "../model/type";
 import { supabase } from "@/shared/config/@db/supabase.config";
 import { Tables } from "@/shared/config/@db/database-generated.type";
+import { K } from "@/shared/consts/queryKey";
 
 interface Props {
   id: Tables<"category">["id"];
@@ -9,15 +10,15 @@ interface Props {
 
 type Return = Category | null;
 
-const getCategoryById = async ({id}:Props): Promise<Return> => {
+const getCategoryById = async ({ id }: Props): Promise<Return> => {
   const res = await supabase.from("category").select("*").eq("id", id).single();
 
   return res.data;
 };
 
-export const useCategoryQuery = (props:Props) => {
+export const useCategoryQuery = (props: Props) => {
   return useQuery({
-    queryKey: ["category", {...props}],
+    queryKey: [K.category, { ...props }],
     queryFn: () => getCategoryById(props),
     staleTime: Infinity,
     enabled: !!props.id,

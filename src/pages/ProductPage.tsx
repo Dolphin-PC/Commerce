@@ -1,6 +1,6 @@
 import { useAuthStore } from "@/features/@auth/store/auth.store";
 import { useProductListCategoryInfiniteQuery } from "@/features/product/api/get_list-product_category";
-import ProductCard from "@/features/product/ui/ProductCard";
+import DashboardProductCard from "@/features/product/ui/DashboardProductCard";
 import Grid from "@/shared/components/atoms/Grid";
 import Row from "@/shared/components/atoms/Row";
 import DashBoardLayout from "@/shared/components/templates/DashBoardLayout";
@@ -40,7 +40,7 @@ const ProductPage = () => {
             <Grid className="grid-cols-3 gap-3">
               {q.data.pages.map((page) =>
                 page.data.map((product) => {
-                  return <ProductCard key={product.id} product={product} />;
+                  return <DashboardProductCard key={product.id} product={product} />;
                 })
               )}
             </Grid>
