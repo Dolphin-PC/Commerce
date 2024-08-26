@@ -37,7 +37,7 @@ const ProductImageCarousel = ({ productId, isButton, height }: Props) => {
   if (!data) return null;
   return (
     <Fragment>
-      <Carousel setApi={setCarousel} className="h-full flex items-center justify-center">
+      <Carousel setApi={setCarousel} className="flex items-center justify-center">
         <CarouselContent>
           {data.map((img) => (
             <CarouselItem key={img.id}>

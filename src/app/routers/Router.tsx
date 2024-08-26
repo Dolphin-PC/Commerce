@@ -9,7 +9,7 @@ import { SellerRoute } from "./Seller.route";
 
 const HomePage = lazy(() => import("@/pages/HomePage/index"));
 const ProductPage = lazy(() => import("@/pages/ProductPage/index"));
-const ProductDetailPage = lazy(() => import("@/pages/ProductDetailPage"));
+const ProductDetailPage = lazy(() => import("@/pages/ProductDetailPage/index"));
 
 const SignInPage = lazy(() => import("@/pages/SignInPage"));
 const SignupPage = lazy(() => import("@/pages/SignupPage"));

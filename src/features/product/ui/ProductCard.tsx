@@ -8,25 +8,28 @@ import ProductImageCarousel from "@/features/product_image/ui/ProductImageCarous
 
 interface Props {
   product: ProductCategory;
+  showCategory?: boolean;
 }
 
 /**
  * @desc 목록에서 사용되는 상품 카드 UI
  */
-const ProductCard = ({ product }: Props) => {
+const ProductCard = ({ product, showCategory = true }: Props) => {
   return (
     <Card>
       <CardHeader>
         <Column className="gap-2">
-          <Badge className="w-fit">{product.category.categoryName}</Badge>
+          {showCategory && <Badge className="w-fit">{product.category?.categoryName}</Badge>}
           <CardTitle>{product.name}</CardTitle>
         </Column>
       </CardHeader>
       <CardContent>
         <Column className="justify-between">
-          <ProductImageCarousel productId={product.id} height={200} />
+          <div className="h-[250px]">
+            <ProductImageCarousel productId={product.id} height={200} />
+          </div>
           <Row className="gap-2 items-center">
-            <Badge>가격</Badge>
+            <Badge size="small">가격</Badge>
             <P>{product.price.toLocaleString("ko-KR")}원</P>
           </Row>
         </Column>

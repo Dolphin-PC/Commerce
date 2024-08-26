@@ -70,6 +70,5 @@ export const useProductListCategoryQuery = (props: Props) => {
   return useQuery({
     queryKey: [K.product, K.category, { ...props }],
     queryFn: () => getProductListWithCategory({ ...props }),
-    staleTime: 1000 * 60 * 5,
   });
 };
