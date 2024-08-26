@@ -11,7 +11,11 @@ import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { Link } from "react-router-dom";
 
-const ProductPage = () => {
+/**
+ * 판매자 대시보드 > 상품 페이지
+ *  - /dashboard/products
+ */
+const DashboardProductPage = () => {
   const user = useAuthStore((state) => state.user);
   const q = useProductListCategoryInfiniteQuery({ sellerId: user?.id });
 
@@ -55,4 +59,4 @@ const ProductPage = () => {
   );
 };
 
-export default ProductPage;
+export default DashboardProductPage;

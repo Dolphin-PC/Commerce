@@ -10,6 +10,9 @@ interface Props {
   product: ProductCategory;
 }
 
+/**
+ * @desc 목록에서 사용되는 상품 카드 UI
+ */
 const ProductCard = ({ product }: Props) => {
   return (
     <Card>
@@ -21,7 +24,7 @@ const ProductCard = ({ product }: Props) => {
       </CardHeader>
       <CardContent>
         <Column className="justify-between">
-          <ProductImageCarousel productId={product.id} isNumberText height={200} />
+          <ProductImageCarousel productId={product.id} height={200} />
           <Row className="gap-2 items-center">
             <Badge>가격</Badge>
             <P>{product.price.toLocaleString("ko-KR")}원</P>
