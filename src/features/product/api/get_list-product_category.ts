@@ -1,7 +1,8 @@
 import { supabase } from "@/shared/config/@db/supabase.config";
-import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
+import { useQuery, useSuspenseInfiniteQuery } from "@tanstack/react-query";
 import { Product, ProductCategory } from "../type/type";
 import { K } from "@/shared/consts/queryKey";
+import { Category } from "@/features/category/model/type";
 
 /**
  * 제품 목록 조회 (카테고리 포함, 페이지네이션)
@@ -10,6 +11,8 @@ import { K } from "@/shared/consts/queryKey";
 //* 추상
 interface Props {
   sellerId?: Product["sellerId"];
+  categoryId?: Category["id"];
+
   pageNumber?: number;
   pageSize?: number;
 }
@@ -23,28 +26,27 @@ interface Return {
 }
 
 //* 구현
-const getProductListWithCategory = async ({ sellerId, pageNumber = 0, pageSize = 10 }: Props): Promise<Return> => {
+const getProductListWithCategory = async ({ sellerId, categoryId, pageNumber = 0, pageSize = 10 }: Props): Promise<Return> => {
   let q = supabase.from("product").select("*, category(*)").neq("isDelete", true);
-  if (sellerId) {
-    q = q.eq("sellerId", sellerId);
-  }
+  q = q.range(pageNumber * pageSize, pageNumber * pageSize + pageSize);
+
+  // 조건 필터링
+  if (sellerId) q = q.eq("sellerId", sellerId);
+  if (categoryId) q = q.eq("categoryId", categoryId);
 
   q = q.order("createdAt", { ascending: false });
-
-  if (pageNumber !== undefined) {
-    q = q.range(pageNumber * pageSize, pageNumber * pageSize + pageSize);
-  }
 
   const { data, error } = await q;
   if (error) throw error;
 
   return {
-    data,
+    data: data as ProductCategory[],
     hasNextPage: data.length === pageSize,
     nextPageNumber: pageNumber + 1,
   };
 };
 
+/** 무한 스크롤 */
 export const useProductListCategoryInfiniteQuery = (props: Props) => {
   return useSuspenseInfiniteQuery({
     initialPageParam: 0,
@@ -53,5 +55,14 @@ export const useProductListCategoryInfiniteQuery = (props: Props) => {
     getNextPageParam: (lastPage) => {
       return lastPage.hasNextPage ? lastPage.nextPageNumber : undefined;
     },
+  });
+};
+
+/** 목록 조회 */
+export const useProductListCategoryQuery = (props: Props) => {
+  return useQuery({
+    queryKey: [K.product, K.category, { ...props }],
+    queryFn: () => getProductListWithCategory({ ...props }),
+    staleTime: 1000 * 60 * 5,
   });
 };

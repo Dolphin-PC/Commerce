@@ -7,7 +7,7 @@ import { PrivateRoute } from "./Private.route";
 import { SellerRoute } from "./Seller.route";
 import { CenterLoading } from "@/shared/components/molecules/Loading";
 
-const HomePage = lazy(() => import("@/pages/HomePage"));
+const HomePage = lazy(() => import("@/pages/HomPage/index"));
 const SignInPage = lazy(() => import("@/pages/SignInPage"));
 const SignupPage = lazy(() => import("@/pages/SignupPage"));
 const SignupOAuthPage = lazy(() => import("@/pages/SignupOAuthPage"));

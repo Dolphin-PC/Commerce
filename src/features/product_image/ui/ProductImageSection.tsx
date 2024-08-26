@@ -15,6 +15,9 @@ interface Props {
   savedImages?: ProductImage[];
 }
 
+/**
+ * @desc 이미지 업로드 섹션
+ */
 const ProductImageSection = ({ images, setImages, savedImages = [] }: Props) => {
   const deleteMutation = useDeleteProductImage();
 
