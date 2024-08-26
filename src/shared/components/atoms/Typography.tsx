@@ -27,3 +27,15 @@ export const P = ({ children: text }: Props) => {
 export const Lead = ({ children: text }: Props) => {
   return <p className="text-xl text-muted-foreground">{text}</p>;
 };
+
+export const Muted = ({ children: text }: Props) => {
+  return <p className="text-sm text-muted-foreground">{text}</p>;
+};
+
+export const Small = ({ children: text }: Props) => {
+  return <small className="text-sm font-medium leading-none">{text}</small>;
+};
+
+export const Large = ({ children: text }: Props) => {
+  return <small className="text-sm font-medium leading-none">{text}</small>;
+};
