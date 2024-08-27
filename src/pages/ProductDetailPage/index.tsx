@@ -13,6 +13,7 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import RecommendProductList from "./ui/RecommendProductList";
 import CartAddButton from "@/features/cart/ui/CartAddButton";
+import CartViewButton from "@/features/cart/ui/CartViewButton";
 
 /**
  * @desc 상품 상세 페이지
@@ -75,6 +76,7 @@ const ProductDetailPage = () => {
                   </Row>
 
                   <CartAddButton product={product} productCount={productCount} />
+                  <CartViewButton type="drawer" />
                   <Button variant="outline" onClick={handleLike}>
                     찜하기
                   </Button>
