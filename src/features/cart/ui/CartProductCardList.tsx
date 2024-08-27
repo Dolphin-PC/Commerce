@@ -25,15 +25,17 @@ const CartProductCardList = ({ data }: Props) => {
               <Row className="m-4">
                 <CardHeader>
                   <div className="h-[120px] w-[100px]">
-                    <ProductImageCarousel.Container productId={product.id} height={100} width={100} />
+                    <ProductImageCarousel.Container productId={product.id} height={100} />
                   </div>
                 </CardHeader>
                 <Column className="justify-between">
                   <CardContent>
-                    <Badge size={"small"} className="w-fit">
-                      {product.category?.categoryName}
-                    </Badge>
-                    <CardTitle>{product.name}</CardTitle>
+                    <Column className="gap-3">
+                      <Badge size={"small"} className="w-fit">
+                        {product.category?.categoryName}
+                      </Badge>
+                      <CardTitle>{product.name}</CardTitle>
+                    </Column>
                   </CardContent>
                   <CardFooter>
                     <Row className="gap-2">

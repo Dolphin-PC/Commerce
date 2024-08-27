@@ -1,12 +1,12 @@
 import { signOut } from "@/features/@auth/api/sign-out";
 import { useAuthStore } from "@/features/@auth/store/auth.store";
+import CartIconButton from "@/features/cart/ui/CartIconButton";
 import LogoIcon from "@/shared/components/molecules/LogoIcon";
 import { toast } from "@/shared/components/ui/use-toast";
 import { ROUTES } from "@/shared/consts/route.const";
 import { Link } from "react-router-dom";
 import Row from "../../shared/components/atoms/Row";
 import { Button } from "../../shared/components/ui/button";
-import CartIconButton from "@/features/cart/ui/CartIconButton";
 
 const Header = () => {
   const user = useAuthStore((state) => state.user);
@@ -22,7 +22,7 @@ const Header = () => {
   };
   return (
     <div className="container">
-      <Row className="w-full justify-between gap-[40px]">
+      <Row className="w-full justify-between gap-[40px] items-center">
         <LogoIcon />
         {!user && (
           <Link to={ROUTES.SIGNIN}>

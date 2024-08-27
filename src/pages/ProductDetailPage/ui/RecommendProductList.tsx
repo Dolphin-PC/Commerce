@@ -22,7 +22,7 @@ const RecommendProductList = ({ category, id }: Props) => {
   const { data } = useProductListCategoryQuery({ categoryId: category.id, pageNumber: 0, pageSize: 9 });
   return (
     <Column className="gap-3">
-      <Row className="gap-3">
+      <Row className="gap-3 items-center">
         <Badge variant={"outline"} size={"large"}>
           {category.categoryName}
         </Badge>

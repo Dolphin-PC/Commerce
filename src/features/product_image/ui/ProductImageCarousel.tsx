@@ -70,7 +70,7 @@ function Presenter({ data, height, width, isButton }: PresenterProps): ReactNode
         <CarouselContent>
           {data.map((img) => (
             <CarouselItem key={img.id}>
-              <img src={bucketBaseUrl + "/" + img.imgUrl} alt={String(img.productId)} className={cn("p-1 object-cover", `h-[${height}px] ${width ? `w-[${width}px]` : "w-full"}`)} />
+              <img src={bucketBaseUrl + "/" + img.imgUrl} alt={String(img.productId)} className={cn("p-1 object-contain", `h-[${height}px] ${width ? `w-[${width}px]` : "w-full"}`)} />
             </CarouselItem>
           ))}
         </CarouselContent>
