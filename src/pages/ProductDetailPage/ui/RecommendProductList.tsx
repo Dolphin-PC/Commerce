@@ -33,7 +33,7 @@ const RecommendProductList = ({ category, id }: Props) => {
         {data?.data.map((product) => {
           if (product.id === id) return null;
           return (
-            <Link to={ROUTES.PRODUCTS_ID_(product.id)}>
+            <Link key={product.id} to={ROUTES.PRODUCTS_ID_(product.id)}>
               <ProductCard key={product.id} product={product} showCategory={false} />
             </Link>
           );
