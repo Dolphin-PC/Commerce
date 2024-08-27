@@ -65,8 +65,8 @@ function Presenter({ data, height, width, isButton }: PresenterProps): ReactNode
   }, [data]);
 
   return (
-    <Fragment>
-      <Carousel setApi={setCarousel} className="flex items-center justify-center">
+    <div className={`h-[${height}px]`}>
+      <Carousel setApi={setCarousel}>
         <CarouselContent>
           {data.map((img) => (
             <CarouselItem key={img.id}>
@@ -86,6 +86,6 @@ function Presenter({ data, height, width, isButton }: PresenterProps): ReactNode
           {current} of {count}
         </div>
       }
-    </Fragment>
+    </div>
   );
 }
