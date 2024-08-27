@@ -7,6 +7,8 @@ import Grid from "@/shared/components/atoms/Grid";
 import Row from "@/shared/components/atoms/Row";
 import { H3 } from "@/shared/components/atoms/Typography";
 import { Badge } from "@/shared/components/ui/badge";
+import { ROUTES } from "@/shared/consts/route.const";
+import { Link } from "react-router-dom";
 
 interface Props {
   id: Product["id"];
@@ -30,7 +32,11 @@ const RecommendProductList = ({ category, id }: Props) => {
       <Grid className="grid-cols-4 gap-4">
         {data?.data.map((product) => {
           if (product.id === id) return null;
-          return <ProductCard key={product.id} product={product} showCategory={false} />;
+          return (
+            <Link to={ROUTES.PRODUCTS_ID_(product.id)}>
+              <ProductCard key={product.id} product={product} showCategory={false} />
+            </Link>
+          );
         })}
       </Grid>
     </Column>

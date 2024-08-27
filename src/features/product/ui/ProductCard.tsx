@@ -26,7 +26,7 @@ const ProductCard = ({ product, showCategory = true }: Props) => {
       <CardContent>
         <Column className="justify-between">
           <div className="h-[250px]">
-            <ProductImageCarousel productId={product.id} height={200} />
+            <ProductImageCarousel.Container productId={product.id} height={200} />
           </div>
           <Row className="gap-2 items-center">
             <Badge size="small">가격</Badge>

@@ -6,11 +6,7 @@ interface Props {
 }
 
 const Row = ({ children, className }: Props) => {
-  return (
-    <div className={`flex flex-row items-center ${className ? className : ""}`}>
-      {children}
-    </div>
-  );
+  return <div className={`flex flex-row ${className ? className : ""}`}>{children}</div>;
 };
 
 export default Row;
