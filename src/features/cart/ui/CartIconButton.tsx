@@ -12,7 +12,7 @@ interface Props {
 /**
  * 장바구니 아이콘 버튼
  */
-const CartButton = ({ userId }: Props) => {
+const CartIconButton = ({ userId }: Props) => {
   const { data } = useCartList({ userId });
 
   return (
@@ -33,4 +33,4 @@ const CartButton = ({ userId }: Props) => {
 const rightCenter = "absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2";
 const size = "w-6 h-6";
 
-export default CartButton;
+export default CartIconButton;

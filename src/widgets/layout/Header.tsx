@@ -6,7 +6,7 @@ import { ROUTES } from "@/shared/consts/route.const";
 import { Link } from "react-router-dom";
 import Row from "../../shared/components/atoms/Row";
 import { Button } from "../../shared/components/ui/button";
-import CartButton from "@/features/cart/ui/CartButton";
+import CartIconButton from "@/features/cart/ui/CartIconButton";
 
 const Header = () => {
   const user = useAuthStore((state) => state.user);
@@ -31,7 +31,7 @@ const Header = () => {
         )}
         {user && (
           <Row className="gap-5">
-            <CartButton userId={user.id} />
+            <CartIconButton userId={user.id} />
             <Button onClick={handleSignOut}>로그아웃</Button>
           </Row>
         )}
