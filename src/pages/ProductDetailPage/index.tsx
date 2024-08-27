@@ -12,6 +12,7 @@ import { Minus, Plus } from "lucide-react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import RecommendProductList from "./ui/RecommendProductList";
+import { toast } from "@/shared/components/ui/use-toast";
 
 /**
  * @desc 상품 상세 페이지
@@ -24,11 +25,28 @@ const ProductDetailPage = () => {
   const { id } = useParams();
   const productId = Number(id);
 
-  const [count, setCount] = useState(0);
+  const [productCount, setProductCount] = useState(0);
   const { data: product } = useProductCategorySuspenseQuery({ id: productId });
 
-  const onChangeCount = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCount(Number(e.target.value));
+  const onChangeProductCount = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setProductCount(Number(e.target.value));
+  };
+
+  const handleLike = () => {};
+
+  const handleAddCart = () => {
+    if (productCount === 0) {
+      toast({
+        title: "장바구니 담기 실패",
+        description: "1개 이상의 수량을 선택해주세요.",
+      });
+      return;
+    }
+
+    toast({
+      title: "장바구니 담기 성공",
+      description: `[${product.name}] ${productCount}개를 장바구니에 담았습니다.`,
+    });
   };
 
   return (
@@ -56,11 +74,11 @@ const ProductDetailPage = () => {
             <CardFooter>
               <Column className="w-full gap-3">
                 <Row>
-                  <Button size="icon" onClick={() => setCount((p) => p - 1)}>
+                  <Button size="icon" onClick={() => setProductCount((p) => p - 1)}>
                     <Minus />
                   </Button>
-                  <Input type="number" className="w-24" value={count} onChange={onChangeCount} />
-                  <Button size="icon" onClick={() => setCount((p) => p + 1)}>
+                  <Input type="number" className="w-24" value={productCount} onChange={onChangeProductCount} />
+                  <Button size="icon" onClick={() => setProductCount((p) => p + 1)}>
                     <Plus />
                   </Button>
                 </Row>
@@ -68,10 +86,12 @@ const ProductDetailPage = () => {
                 <Column className="w-full gap-2">
                   <Row className="m-2 justify-between">
                     <Large>총 금액</Large>
-                    <H4>{(product.price * count).toLocaleString("ko-KR")} 원</H4>
+                    <H4>{(product.price * productCount).toLocaleString("ko-KR")} 원</H4>
                   </Row>
-                  <Button>장바구니 담기</Button>
-                  <Button variant="outline">찜하기</Button>
+                  <Button onClick={handleAddCart}>장바구니 담기</Button>
+                  <Button variant="outline" onClick={handleLike}>
+                    찜하기
+                  </Button>
                 </Column>
               </Column>
             </CardFooter>

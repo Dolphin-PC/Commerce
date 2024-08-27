@@ -5,4 +5,6 @@ export const K = {
   category: "category",
   category_list: "category-list",
   image: "image",
+
+  cart: "cart",
 };
