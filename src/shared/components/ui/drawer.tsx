@@ -23,7 +23,7 @@ const DrawerContent = React.forwardRef<React.ElementRef<typeof DrawerPrimitive.C
     <DrawerPrimitive.Content ref={ref} className={cn("fixed z-50 h-screen top-0 right-0 rounded-l-[10px] border bg-background", className)} {...props}>
       <div className="h-full flex items-center">
         <div className="ml-2 w-2 h-[100px] rounded-full bg-muted-foreground" />
-        <div className="h-full flex flex-col justify-between">{children}</div>
+        <div className="h-full w-full flex flex-col justify-between">{children}</div>
       </div>
     </DrawerPrimitive.Content>
   </DrawerPortal>

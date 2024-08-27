@@ -17,18 +17,8 @@ interface Props {
 
 type Return = Cart;
 
-const postCart = async ({ productId, userId, quantity }: Props): Promise<Return> => {
-  const { data, error } = await supabase
-    .from("cart")
-    .insert([
-      {
-        productId,
-        userId,
-        quantity,
-      },
-    ])
-    .select()
-    .single();
+const postCart = async (insert: Props): Promise<Return> => {
+  const { data, error } = await supabase.from("cart").insert([insert]).select().single();
 
   if (error) throw error;
   return data;
@@ -39,8 +29,8 @@ export const useCartPost = () => {
   return useMutation({
     mutationKey: ["useCartPost"],
     mutationFn: postCart,
-    onSuccess: (res: Cart) => {
-      qc.refetchQueries({ queryKey: [K.cart, res.userId] });
+    onSuccess: () => {
+      qc.refetchQueries({ queryKey: [K.cart] });
     },
   });
 };

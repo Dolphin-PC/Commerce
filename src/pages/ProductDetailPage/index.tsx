@@ -1,3 +1,7 @@
+import { useAuthStore } from "@/features/@auth/store/auth.store";
+import { useCartProductCategoryQuery } from "@/features/cart/api/get_list-cart_product_category";
+import CartAddButton from "@/features/cart/ui/CartAddButton";
+import CartViewDrawer from "@/features/cart/ui/CartViewDrawer";
 import { useProductCategorySuspenseQuery } from "@/features/product/api/get-product_category";
 import ProductImageCarousel from "@/features/product_image/ui/ProductImageCarousel";
 import Column from "@/shared/components/atoms/Column";
@@ -9,11 +13,9 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/shared/components/u
 import { Input } from "@/shared/components/ui/input";
 import MainLayout from "@/widgets/layout/MainLayout";
 import { Minus, Plus } from "lucide-react";
-import { useState } from "react";
+import { useLayoutEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import RecommendProductList from "./ui/RecommendProductList";
-import CartAddButton from "@/features/cart/ui/CartAddButton";
-import CartViewButton from "@/features/cart/ui/CartViewButton";
 
 /**
  * @desc 상품 상세 페이지
@@ -29,33 +31,43 @@ const ProductDetailPage = () => {
   const [productCount, setProductCount] = useState(0);
   const { data: product } = useProductCategorySuspenseQuery({ id: productId });
 
+  const user = useAuthStore((state) => state.user);
+  const { data: cartProductList } = useCartProductCategoryQuery({ userId: user?.id });
+  const isProductInCart = useMemo(() => cartProductList?.some((cart) => cart.product?.id === productId), [cartProductList, productId]);
+
   const onChangeProductCount = (e: React.ChangeEvent<HTMLInputElement>) => {
     setProductCount(Number(e.target.value));
   };
 
   const handleLike = () => {};
 
+  useLayoutEffect(() => {
+    setProductCount(0);
+  }, [productId]);
+
   return (
     <MainLayout>
-      <Column className="gap-20">
-        <Row className="gap-3 h-[500px]">
+      <Column className="gap-20 ">
+        <Row className="gap-3 h-[500px] items-start">
+          {/* 제품 이미지 */}
           <Card className="w-1/2 h-full">
-            <ProductImageCarousel productId={productId} height={500} isButton />
+            <ProductImageCarousel.Container productId={productId} height={500} isButton />
           </Card>
-          <Card className="w-1/2 min-h-full flex flex-col justify-between">
-            <div>
-              <CardHeader>
-                <H3>{product.name}</H3>
-                <H2>{product.price.toLocaleString("ko-KR")} 원</H2>
-              </CardHeader>
-              <CardContent>
-                <Badge>상품설명</Badge>
-                <p>{product.desc}</p>
 
-                <Badge>남은수량</Badge>
-                <p>{product.quantity.toLocaleString("ko-KR")} 개</p>
-              </CardContent>
-            </div>
+          {/* 제품 설명 */}
+          <Card className="w-1/2 min-h-full flex flex-col justify-start">
+            <CardHeader>
+              <H3>{product.name}</H3>
+              <H2>{product.price.toLocaleString("ko-KR")} 원</H2>
+            </CardHeader>
+
+            <CardContent>
+              <Badge>상품설명</Badge>
+              <p>{product.desc}</p>
+
+              <Badge>남은수량</Badge>
+              <p>{product.quantity.toLocaleString("ko-KR")} 개</p>
+            </CardContent>
 
             <CardFooter>
               <Column className="w-full gap-3">
@@ -75,8 +87,8 @@ const ProductDetailPage = () => {
                     <H4>{(product.price * productCount).toLocaleString("ko-KR")} 원</H4>
                   </Row>
 
-                  <CartAddButton product={product} productCount={productCount} />
-                  <CartViewButton type="drawer" />
+                  {!isProductInCart && <CartAddButton product={product} productCount={productCount} />}
+                  {isProductInCart && cartProductList && <CartViewDrawer data={cartProductList} />}
                   <Button variant="outline" onClick={handleLike}>
                     찜하기
                   </Button>
