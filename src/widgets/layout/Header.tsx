@@ -6,6 +6,7 @@ import { ROUTES } from "@/shared/consts/route.const";
 import { Link } from "react-router-dom";
 import Row from "../../shared/components/atoms/Row";
 import { Button } from "../../shared/components/ui/button";
+import CartButton from "@/features/cart/ui/CartButton";
 
 const Header = () => {
   const user = useAuthStore((state) => state.user);
@@ -20,15 +21,22 @@ const Header = () => {
     });
   };
   return (
-    <Row className="w-full justify-between gap-[40px]">
-      <LogoIcon />
-      {!user && (
-        <Link to={ROUTES.SIGNIN}>
-          <Button>로그인</Button>
-        </Link>
-      )}
-      {user && <Button onClick={handleSignOut}>로그아웃</Button>}
-    </Row>
+    <div className="container">
+      <Row className="w-full justify-between gap-[40px]">
+        <LogoIcon />
+        {!user && (
+          <Link to={ROUTES.SIGNIN}>
+            <Button>로그인</Button>
+          </Link>
+        )}
+        {user && (
+          <Row className="gap-5">
+            <CartButton userId={user.id} />
+            <Button onClick={handleSignOut}>로그아웃</Button>
+          </Row>
+        )}
+      </Row>
+    </div>
   );
 };
 
