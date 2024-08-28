@@ -22,9 +22,9 @@ const getCartList = async ({ userId }: Props): Promise<Return> => {
   return data;
 };
 
-export const useCartList = (props: Props) => {
+export const useCartListQuery = (props: Props) => {
   return useQuery({
-    queryKey: [K.cart, props.userId],
+    queryKey: [K.cart, K.list, props.userId],
     queryFn: () => getCartList(props),
     staleTime: staleTime.cart,
   });

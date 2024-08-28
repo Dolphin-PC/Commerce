@@ -5,7 +5,7 @@ import { P } from "@/shared/components/atoms/Typography";
 import { Badge } from "@/shared/components/ui/badge";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/shared/components/ui/card";
 import { CartProductCategory } from "../type";
-import CartDeleteButton from "./CartDeleteButton";
+import CartOptionMenu from "./CartOptionMenu";
 
 interface Props {
   cart: CartProductCategory;
@@ -19,8 +19,10 @@ const CartProductCard = ({ cart }: Props) => {
 
   if (product === null) return;
   return (
-    <Card>
-      <CartDeleteButton id={cart.id} />
+    <Card className="relative">
+      <Column className="absolute top-0 left-0">
+        <CartOptionMenu cart={cart} />
+      </Column>
       <Row className="m-4">
         <CardHeader>
           <div className="h-[120px] w-[100px]">
