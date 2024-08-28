@@ -18,11 +18,9 @@ interface Props {
  */
 const ProductCard = ({ product, showCategory = true }: Props) => {
   const qc = useQueryClient();
-  const prefetchOption = productCategoryPrefetchOptions({ id: product.id });
 
   const handlePrefetch = () => {
-    console.log("handlePrefetch");
-    qc.prefetchQuery(prefetchOption);
+    qc.prefetchQuery(productCategoryPrefetchOptions({ id: product.id }));
   };
 
   return (

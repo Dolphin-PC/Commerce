@@ -12,7 +12,7 @@ interface Props {
 }
 const DashBoardLayout = ({ children }: Props) => {
   return (
-    <Row>
+    <Row className="items-center">
       <Column className="w-[200px] items-center gap-[10px]">
         <LogoIcon />
         <Button variant="outline" className="h-[100px] w-[100px] p-4" asChild>
@@ -33,9 +33,7 @@ const DashBoardLayout = ({ children }: Props) => {
         </Button>
       </Column>
 
-      <div className="bg-slate-100 w-full h-screen p-5 overflow-scroll">
-        {children}
-      </div>
+      <div className="bg-slate-100 w-full h-screen p-5 overflow-scroll">{children}</div>
     </Row>
   );
 };
