@@ -2,6 +2,7 @@ import * as React from "react";
 import { Drawer as DrawerPrimitive } from "vaul";
 
 import { cn } from "@/shared/lib/shadcn-util";
+import { cva, VariantProps } from "class-variance-authority";
 
 const Drawer = ({ shouldScaleBackground = true, ...props }: React.ComponentProps<typeof DrawerPrimitive.Root>) => <DrawerPrimitive.Root shouldScaleBackground={shouldScaleBackground} {...props} />;
 Drawer.displayName = "Drawer";
@@ -17,12 +18,26 @@ const DrawerOverlay = React.forwardRef<React.ElementRef<typeof DrawerPrimitive.O
 ));
 DrawerOverlay.displayName = DrawerPrimitive.Overlay.displayName;
 
-const DrawerContent = React.forwardRef<React.ElementRef<typeof DrawerPrimitive.Content>, React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Content>>(({ className, children, ...props }, ref) => (
+const drawerContentVariants = cva("", {
+  variants: {
+    direction: {
+      left: "h-screen top-0 left-0 rounded-r-[10px]",
+      right: "h-screen top-0 right-0 rounded-l-[10px]",
+      top: "w-screen top-0 rounded-b-[10px]",
+      bottom: "w-screen bottom-0 rounded-t-[10px]",
+    },
+  },
+  defaultVariants: {
+    direction: "right",
+  },
+});
+export interface DrawerContentProps extends React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Content>, VariantProps<typeof drawerContentVariants> {}
+const DrawerContent = React.forwardRef<React.ElementRef<typeof DrawerPrimitive.Content>, DrawerContentProps>(({ className, children, direction, ...props }, ref) => (
   <DrawerPortal>
     <DrawerOverlay />
-    <DrawerPrimitive.Content ref={ref} className={cn("fixed z-50 h-screen top-0 right-0 rounded-l-[10px] border bg-background", className)} {...props}>
+    <DrawerPrimitive.Content ref={ref} className={cn("fixed z-50 border bg-background", drawerContentVariants({ direction }), className)} {...props}>
       <div className="h-full flex items-center">
-        <div className="ml-2 w-2 h-[100px] rounded-full bg-muted-foreground" />
+        {/* <div className="ml-2 w-2 h-[100px] rounded-full bg-muted-foreground" /> */}
         <div className="h-full w-full flex flex-col justify-between">{children}</div>
       </div>
     </DrawerPrimitive.Content>

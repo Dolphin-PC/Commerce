@@ -29,7 +29,7 @@ const CartViewDrawer = ({ data }: Props) => {
       <Button asChild variant="outline">
         <DrawerTrigger>장바구니 보기</DrawerTrigger>
       </Button>
-      <DrawerContent className="w-1/2">
+      <DrawerContent className="w-1/2" direction="right">
         <DrawerHeader>
           <DrawerTitle>내 장바구니</DrawerTitle>
           <DrawerDescription>내가 담은 상품들</DrawerDescription>
