@@ -5,9 +5,10 @@ import { Lead } from "@/shared/components/atoms/Typography";
 import { Button } from "@/shared/components/ui/button";
 import { Drawer, DrawerClose, DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/shared/components/ui/drawer";
 import { X } from "lucide-react";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CategoryBadgeList from "./CategoryBadgeList";
+import PriceRange from "./PriceRange";
 
 /**
  * @desc 상품 검색
@@ -19,7 +20,8 @@ const ProductSearchDrawer = () => {
   const navigate = useNavigate();
   const [searchText, setSearchText] = useState("");
 
-  const handleSearch = () => {
+  const handleSearch = (e: FormEvent) => {
+    e.preventDefault();
     navigate("/products");
   };
 
@@ -33,7 +35,7 @@ const ProductSearchDrawer = () => {
         </div>
       </DrawerTrigger>
       <DrawerContent direction={"bottom"} className="h-5/6" aria-describedby="">
-        <DrawerHeader className="flex items-center justify-between">
+        <DrawerHeader className="hidden">
           <DrawerTitle>검색창</DrawerTitle>
           <DrawerClose asChild>
             <Button variant="outline">
@@ -52,9 +54,13 @@ const ProductSearchDrawer = () => {
             </Row>
           </form>
 
-          <Column className="gap-2">
+          <Column className="gap-2 w-full">
             <Lead>카테고리</Lead>
             <CategoryBadgeList />
+          </Column>
+          <Column className="gap-2 w-full">
+            <Lead>상품 가격</Lead>
+            <PriceRange />
           </Column>
         </Column>
         <DrawerFooter></DrawerFooter>
