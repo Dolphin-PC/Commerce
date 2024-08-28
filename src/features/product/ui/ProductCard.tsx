@@ -1,10 +1,12 @@
+import ProductImageCarousel from "@/features/product_image/ui/ProductImageCarousel";
 import Column from "@/shared/components/atoms/Column";
 import Row from "@/shared/components/atoms/Row";
 import { P } from "@/shared/components/atoms/Typography";
 import { Badge } from "@/shared/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui/card";
+import { useQueryClient } from "@tanstack/react-query";
+import { productCategoryPrefetchOptions } from "../api/get-product_category";
 import { ProductCategory } from "../type/type";
-import ProductImageCarousel from "@/features/product_image/ui/ProductImageCarousel";
 
 interface Props {
   product: ProductCategory;
@@ -15,8 +17,14 @@ interface Props {
  * @desc 목록에서 사용되는 상품 카드 UI
  */
 const ProductCard = ({ product, showCategory = true }: Props) => {
+  const qc = useQueryClient();
+
+  const handlePrefetch = () => {
+    qc.prefetchQuery(productCategoryPrefetchOptions({ id: product.id }));
+  };
+
   return (
-    <Card>
+    <Card onMouseEnter={handlePrefetch}>
       <CardHeader>
         <Column className="gap-2">
           {showCategory && <Badge className="w-fit">{product.category?.categoryName}</Badge>}

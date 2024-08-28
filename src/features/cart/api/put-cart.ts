@@ -1,7 +1,7 @@
 import { supabase } from "@/shared/config/@db/supabase.config";
 import { Cart } from "../type";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { K } from "@/shared/consts/queryKey";
+import { queryKey } from "@/shared/consts/react-query";
 import { isEnableCartQuantity } from "./is-enable-cart-quantity";
 import { toast } from "@/shared/components/ui/use-toast";
 
@@ -40,7 +40,7 @@ export const usePutCart = () => {
     mutationKey: ["usePutCart"],
     mutationFn: putCart,
     onSuccess: () => {
-      qc.refetchQueries({ queryKey: [K.cart] });
+      qc.refetchQueries({ queryKey: [queryKey.cart] });
     },
     onError: (error) => {
       console.error(error);

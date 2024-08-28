@@ -1,4 +1,5 @@
 import { useAuthStore } from "@/features/@auth/store/auth.store";
+import { useProductQuantity } from "@/features/product/api/get-product-quantity";
 import { useProductCategoryQuery } from "@/features/product/api/get-product_category";
 import { useProductPut } from "@/features/product/api/put-product";
 import { ProductFormDataType } from "@/features/product/model/product.zod";
@@ -26,6 +27,7 @@ const ProductEditPage = () => {
   const user = useAuthStore((state) => state.user);
 
   const productCategory = useProductCategoryQuery({ id: productId, sellerId: user?.id });
+  const quantity = useProductQuantity({ id: productId, sellerId: user?.id });
   const productImage = useProductImageQuery({ productId: Number(productCategory.data?.id) });
   const putProductMutation = useProductPut();
   const postImageMutation = useAddProductImage();
@@ -72,7 +74,7 @@ const ProductEditPage = () => {
   }, [productCategory, navigate]);
 
   if (productCategory.isLoading || productImage.isLoading) return <CenterLoading />;
-  if (productCategory.error || productImage.error || !productCategory.data || !productImage.data) return <CenterError />;
+  if (!productCategory.data || !productImage.data || !quantity.data) return <CenterError />;
   return (
     <DashBoardLayout>
       <Column className="gap-3">
@@ -97,7 +99,7 @@ const ProductEditPage = () => {
           </CardHeader>
 
           <CardContent>
-            <ProductForm productCategory={productCategory.data} productImages={productImage.data} onSave={handlePutProduct} />
+            <ProductForm productCategory={{ ...productCategory.data, ...quantity.data }} productImages={productImage.data} onSave={handlePutProduct} />
           </CardContent>
         </Card>
       </Column>

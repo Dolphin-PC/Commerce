@@ -2,7 +2,7 @@ import { Product } from "@/features/product/type/type";
 import { User } from "@/features/user/model/type";
 import { toast } from "@/shared/components/ui/use-toast";
 import { supabase } from "@/shared/config/@db/supabase.config";
-import { K } from "@/shared/consts/queryKey";
+import { queryKey } from "@/shared/consts/react-query";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Cart } from "../type";
 import { isEnableCartQuantity } from "./is-enable-cart-quantity";
@@ -41,7 +41,7 @@ export const useCartPost = () => {
     mutationKey: ["useCartPost"],
     mutationFn: postCart,
     onSuccess: () => {
-      qc.refetchQueries({ queryKey: [K.cart] });
+      qc.refetchQueries({ queryKey: [queryKey.cart] });
     },
     onError: (error) => {
       console.error(error);

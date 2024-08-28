@@ -1,7 +1,7 @@
 import { supabase } from "@/shared/config/@db/supabase.config";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Product } from "../type/type";
-import { K } from "@/shared/consts/queryKey";
+import { queryKey } from "@/shared/consts/react-query";
 
 /**
  * 제품 상세 조회
@@ -31,7 +31,7 @@ export const getProduct = async ({ id, sellerId }: Props): Promise<Return> => {
 
 export const useProductSuspenseQuery = (props: Props) => {
   return useSuspenseQuery({
-    queryKey: [K.product, props.id],
+    queryKey: [queryKey.product, props.id],
     queryFn: () => getProduct(props),
     staleTime: Infinity,
   });

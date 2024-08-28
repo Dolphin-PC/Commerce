@@ -1,5 +1,5 @@
+import { upload } from "@/features/@storage/storage.api";
 import { supabase } from "@/shared/config/@db/supabase.config";
-import { uploadImage } from "../../@storage/storage-upload.api";
 import { ProductImage } from "../type/type";
 
 /**
@@ -13,15 +13,13 @@ interface Props {
 
 type Return = ProductImage | null;
 
-export const addProductImage = async ({file,productId}:Props):Promise<Return> => {
-  const fullPath = await uploadImage(file, productId);
+export const addProductImage = async ({ file, productId }: Props): Promise<Return> => {
+  const fullPath = await upload(file, productId);
 
-  const { data: productImage, error } = await supabase
-    .from("product_image")
-    .insert({
-      productId,
-      imgUrl: fullPath,
-    });
+  const { data: productImage, error } = await supabase.from("product_image").insert({
+    productId,
+    imgUrl: fullPath,
+  });
 
   if (error) {
     throw error;

@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Category } from "../model/type";
 import { supabase } from "@/shared/config/@db/supabase.config";
 import { Tables } from "@/shared/config/@db/database-generated.type";
-import { K } from "@/shared/consts/queryKey";
+import { queryKey } from "@/shared/consts/react-query";
 
 interface Props {
   id: Tables<"category">["id"];
@@ -18,7 +18,7 @@ const getCategoryById = async ({ id }: Props): Promise<Return> => {
 
 export const useCategoryQuery = (props: Props) => {
   return useQuery({
-    queryKey: [K.category, { ...props }],
+    queryKey: [queryKey.category, { ...props }],
     queryFn: () => getCategoryById(props),
     staleTime: Infinity,
     enabled: !!props.id,

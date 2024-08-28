@@ -1,5 +1,6 @@
 import { useAuthStore } from "@/features/@auth/store/auth.store";
 import { useDeleteProduct } from "@/features/product/api/delete-product";
+import { useProductQuantity } from "@/features/product/api/get-product-quantity";
 import { useProductCategoryQuery } from "@/features/product/api/get-product_category";
 import { useProductImageQuery } from "@/features/product_image/api/get_list-product-image";
 import { bucketBaseUrl } from "@/features/product_image/const/bucket";
@@ -25,6 +26,7 @@ const DashboardProductDetailPage = () => {
   const user = useAuthStore((state) => state.user);
 
   const productCategory = useProductCategoryQuery({ id: productId, sellerId: user?.id });
+  const quantity = useProductQuantity({ id: productId, sellerId: user?.id });
   const productImage = useProductImageQuery({ productId });
 
   const deleteMutation = useDeleteProduct();
@@ -84,7 +86,7 @@ const DashboardProductDetailPage = () => {
             </CardContent>
             <CardContent>
               <H4>상품 수량</H4>
-              <p>{productCategory.data?.quantity.toLocaleString("ko-KR")} 개</p>
+              <p>{quantity.data?.quantity.toLocaleString("ko-KR")} 개</p>
             </CardContent>
             <CardContent>
               <H4>상품 이미지</H4>

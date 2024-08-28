@@ -1,10 +1,11 @@
-import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { FetchQueryOptions, useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { Product, ProductCategory } from "../type/type";
 import { supabase } from "@/shared/config/@db/supabase.config";
-import { K } from "@/shared/consts/queryKey";
+import { queryKey, staleTime } from "@/shared/consts/react-query";
+import { delay } from "@/shared/lib/delay";
 
 /**
- * 제품 상세 조회(카테고리 포함)
+ * 제품 상세 조회(카테고리 포함, 수량 제외)
  */
 
 //* 추상
@@ -13,11 +14,16 @@ interface Props {
   sellerId?: Product["sellerId"];
 }
 
-type Return = ProductCategory;
+interface Return extends Omit<ProductCategory, "quantity"> {}
 
 //* 구현
 const getProductCategory = async ({ id, sellerId }: Props): Promise<Return> => {
-  let q = supabase.from("product").select("*, category(*)");
+  let q = supabase.from("product").select(`
+    id, name, desc, sellerId,
+    price, discountType, discountValue,
+    createdAt, updatedAt, isDelete,
+    categoryId, category(*)
+  `);
 
   q = q.eq("id", id);
   if (sellerId) q = q.eq("sellerId", sellerId);
@@ -31,14 +37,25 @@ const getProductCategory = async ({ id, sellerId }: Props): Promise<Return> => {
 
 export const useProductCategoryQuery = (props: Props) => {
   return useQuery({
-    queryKey: [K.product, K.category, props.id],
+    queryKey: [queryKey.product, queryKey.category, props.id],
     queryFn: () => getProductCategory(props),
+    staleTime: staleTime.product,
   });
 };
 
 export const useProductCategorySuspenseQuery = (props: Props) => {
   return useSuspenseQuery({
-    queryKey: [K.product, K.category, props.id],
+    queryKey: [queryKey.product, queryKey.category, props.id],
     queryFn: () => getProductCategory(props),
+    staleTime: staleTime.product,
   });
+};
+
+/** preFetching */
+export const productCategoryPrefetchOptions = (props: Props): FetchQueryOptions => {
+  return {
+    queryKey: [queryKey.product, queryKey.category, props.id],
+    queryFn: () => getProductCategory(props),
+    staleTime: staleTime.product,
+  };
 };

@@ -1,4 +1,4 @@
-import { Product } from "@/features/product/type/type";
+import { Product_Quantity } from "@/features/product/type/type";
 import { Button } from "@/shared/components/ui/button";
 import { toast } from "@/shared/components/ui/use-toast";
 import { useCartPost } from "../api/post-cart";
@@ -6,7 +6,7 @@ import { useAuthStore } from "@/features/@auth/store/auth.store";
 
 interface Props {
   productCount: number;
-  product: Product;
+  product: Product_Quantity;
 }
 
 /**

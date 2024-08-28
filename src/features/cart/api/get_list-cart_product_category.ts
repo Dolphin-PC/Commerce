@@ -1,6 +1,6 @@
 import { User } from "@/features/user/model/type";
 import { supabase } from "@/shared/config/@db/supabase.config";
-import { K } from "@/shared/consts/queryKey";
+import { queryKey } from "@/shared/consts/react-query";
 import { staleTime } from "@/shared/consts/staleTime";
 import { useQuery } from "@tanstack/react-query";
 import { CartProductCategory } from "../type";
@@ -28,7 +28,7 @@ export const getCartProductCategory = async ({ userId }: Props): Promise<Return>
 
 export const useCartProductCategoryQuery = (props: Props) => {
   return useQuery({
-    queryKey: [K.cart, K.product, props.userId],
+    queryKey: [queryKey.cart, queryKey.product, props.userId],
     queryFn: () => getCartProductCategory(props),
     staleTime: staleTime.cart,
     enabled: !!props.userId,

@@ -5,7 +5,7 @@
 import { supabase } from "@/shared/config/@db/supabase.config";
 import { Product } from "../type/type";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { K } from "@/shared/consts/queryKey";
+import { queryKey } from "@/shared/consts/react-query";
 
 interface Props {
   productId: Product["id"];
@@ -24,6 +24,6 @@ export const useDeleteProduct = () => {
   return useMutation({
     mutationKey: ["deleteProduct"],
     mutationFn: deleteProduct,
-    onSuccess: (productId) => queryClient.removeQueries({ queryKey: [K.product, productId] }),
+    onSuccess: (productId) => queryClient.removeQueries({ queryKey: [queryKey.product, productId] }),
   });
 };
