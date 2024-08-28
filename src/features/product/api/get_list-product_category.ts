@@ -1,7 +1,7 @@
 import { supabase } from "@/shared/config/@db/supabase.config";
 import { useQuery, useSuspenseInfiniteQuery } from "@tanstack/react-query";
 import { Product, ProductCategory } from "../type/type";
-import { K } from "@/shared/consts/queryKey";
+import { queryKey } from "@/shared/consts/react-query";
 import { Category } from "@/features/category/model/type";
 
 /**
@@ -57,7 +57,7 @@ const getProductListWithCategory = async ({ sellerId, categoryId, pageNumber = 0
 export const useProductListCategoryInfiniteQuery = (props: Props) => {
   return useSuspenseInfiniteQuery({
     initialPageParam: 0,
-    queryKey: [K.product, K.infinite],
+    queryKey: [queryKey.product, queryKey.infinite],
     queryFn: ({ pageParam }) => getProductListWithCategory({ ...props, pageNumber: pageParam }),
     getNextPageParam: (lastPage) => {
       return lastPage.hasNextPage ? lastPage.nextPageNumber : undefined;
@@ -68,7 +68,7 @@ export const useProductListCategoryInfiniteQuery = (props: Props) => {
 /** 목록 조회 */
 export const useProductListCategoryQuery = (props: Props) => {
   return useQuery({
-    queryKey: [K.product, K.category, { ...props }],
+    queryKey: [queryKey.product, queryKey.category, { ...props }],
     queryFn: () => getProductListWithCategory({ ...props }),
   });
 };

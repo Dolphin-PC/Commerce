@@ -1,5 +1,5 @@
 import { supabase } from "@/shared/config/@db/supabase.config";
-import { K } from "@/shared/consts/queryKey";
+import { queryKey } from "@/shared/consts/react-query";
 import { staleTime } from "@/shared/consts/staleTime";
 import { useQuery } from "@tanstack/react-query";
 import { Cart } from "../type";
@@ -24,7 +24,7 @@ const getCart = async ({ id }: Props): Promise<Return> => {
 
 export const useCartQuery = (props: Props) => {
   return useQuery({
-    queryKey: [K.cart, props.id],
+    queryKey: [queryKey.cart, props.id],
     queryFn: () => getCart(props),
     staleTime: staleTime.cart,
   });

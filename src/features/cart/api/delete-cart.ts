@@ -1,6 +1,6 @@
 import { Cart } from "../type";
 import { supabase } from "@/shared/config/@db/supabase.config";
-import { K } from "@/shared/consts/queryKey";
+import { queryKey } from "@/shared/consts/react-query";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 /**
@@ -24,7 +24,7 @@ export const useDeleteCart = () => {
     mutationKey: ["useDeleteCart"],
     mutationFn: deleteCart,
     onSuccess: () => {
-      qc.refetchQueries({ queryKey: [K.cart] });
+      qc.refetchQueries({ queryKey: [queryKey.cart] });
     },
   });
 };
