@@ -12,11 +12,13 @@ import { Badge } from "@/shared/components/ui/badge";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/shared/components/ui/card";
 import { Input } from "@/shared/components/ui/input";
+import { convertStringToNumber } from "@/shared/lib/string";
 import MainLayout from "@/widgets/layout/MainLayout";
 import { Minus, Plus } from "lucide-react";
 import { useLayoutEffect, useMemo, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import RecommendProductList from "./ui/RecommendProductList";
+import { useScrollTop } from "@/shared/hooks/useScrollTop";
 
 /**
  * @desc 상품 상세 페이지
@@ -26,6 +28,7 @@ import RecommendProductList from "./ui/RecommendProductList";
  *  - id: productId
  */
 const ProductDetailPage = () => {
+  useScrollTop();
   const { id } = useParams();
   const productId = Number(id);
 
@@ -39,7 +42,8 @@ const ProductDetailPage = () => {
   const isProductInCart = useMemo(() => cartProductList?.some((cart) => cart.product?.id === productId), [cartProductList, productId]);
 
   const onChangeProductCount = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setProductCount(Number(e.target.value));
+    const { value } = e.target;
+    setProductCount(convertStringToNumber(value));
   };
 
   const handleLike = () => {};
@@ -76,16 +80,16 @@ const ProductDetailPage = () => {
 
               <CardFooter>
                 <Column className="w-full gap-3">
+                  <hr />
                   <Row>
-                    <Button size="icon" onClick={() => setProductCount((p) => p - 1)}>
+                    <Button size="icon" onClick={() => setProductCount((p) => (p === 0 ? p : p - 1))} disabled={productCount === 0}>
                       <Minus />
                     </Button>
-                    <Input type="number" className="w-24" value={productCount} onChange={onChangeProductCount} />
+                    <Input type="text" className="w-24" value={productCount.toLocaleString()} onChange={onChangeProductCount} />
                     <Button size="icon" onClick={() => setProductCount((p) => p + 1)}>
                       <Plus />
                     </Button>
                   </Row>
-                  <hr />
                   <Column className="w-full gap-2">
                     <Row className="m-2 justify-between">
                       <Large>총 금액</Large>

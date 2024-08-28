@@ -1,9 +1,9 @@
-/** 숫자를 문자열숫자로 변환 */
-export const convertStringToNumber = (value: string): string => {
-  if (value === undefined) return "";
-  if (value === "") return "";
+/** 문자에서 숫자만 return */
+export const convertStringToNumber = (value: string): number => {
+  if (value === undefined) return 0;
+  if (value === "") return 0;
 
-  return parseInt(value.replace(/[^0-9]/g, "")).toString();
+  return parseInt(value.replace(/[^0-9]/g, ""));
 };
 
 /** 숫자를 콤마가 포함된 문자열로 변환 */
