@@ -1,11 +1,11 @@
 import { ConfirmDialog } from "@/shared/components/molecules/ConfirmDialog";
 import { Button } from "@/shared/components/ui/button";
-import { Cart } from "../type";
 import { Input } from "@/shared/components/ui/input";
-import { useCartQuery } from "../api/get-cart";
+import { convertStringToNumber } from "@/shared/lib/string";
 import { useLayoutEffect, useState } from "react";
-import { convertStringToNumber, toCommaString } from "@/shared/lib/string";
+import { useCartQuery } from "../api/get-cart";
 import { usePutCart } from "../api/put-cart";
+import { Cart } from "../type";
 
 interface Props {
   id: Cart["id"];
@@ -15,7 +15,7 @@ interface Props {
  * @desc 장바구니 상품 수정 버튼
  */
 const CartUpdateButton = ({ id }: Props) => {
-  const [quantity, setQuantity] = useState("");
+  const [quantity, setQuantity] = useState(0);
 
   const q = useCartQuery({ id });
   const mtt = usePutCart();
@@ -33,7 +33,7 @@ const CartUpdateButton = ({ id }: Props) => {
 
   useLayoutEffect(() => {
     if (q.data) {
-      setQuantity(String(q.data.quantity));
+      setQuantity(q.data.quantity);
     }
   }, [q.data]);
 
@@ -51,7 +51,7 @@ const CartUpdateButton = ({ id }: Props) => {
       cancelText="취소"
       confirmText="변경"
     >
-      <Input type="text" value={toCommaString(quantity)} onChange={handleChangeQuantity} />
+      <Input type="text" value={quantity.toLocaleString("ko-KR")} onChange={handleChangeQuantity} />
     </ConfirmDialog>
   );
 };

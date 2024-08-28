@@ -4,22 +4,29 @@ import { cn } from "@/shared/lib/shadcn-util";
 import { ShoppingCart } from "lucide-react";
 import { useCartListQuery } from "../api/get_list-cart";
 import { Fragment } from "react/jsx-runtime";
+import TooltipHover from "@/shared/components/molecules/TooltipHover";
 
 interface Props {
   userId: User["id"];
 }
 
 /**
- * 장바구니 아이콘 버튼
+ * @desc 장바구니 아이콘 버튼
  */
 const CartIconButton = ({ userId }: Props) => {
   const { data } = useCartListQuery({ userId });
 
   return (
     <div className="relative">
-      <Button variant="outline" size="icon">
-        <ShoppingCart />
-      </Button>
+      <TooltipHover
+        tooltipContent="장바구니"
+        triggerComponent={
+          <Button variant="outline" size="icon">
+            <ShoppingCart />
+          </Button>
+        }
+      />
+
       {data && data.length > 0 && (
         <Fragment>
           <div className={cn(rightCenter, size, "bg-red-500 rounded-full")}></div>
