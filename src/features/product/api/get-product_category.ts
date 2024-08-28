@@ -1,7 +1,7 @@
-import { QueryOptions, useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { FetchQueryOptions, useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { Product, ProductCategory } from "../type/type";
 import { supabase } from "@/shared/config/@db/supabase.config";
-import { queryKey } from "@/shared/consts/react-query";
+import { queryKey, staleTime } from "@/shared/consts/react-query";
 
 /**
  * 제품 상세 조회(카테고리 포함)
@@ -16,7 +16,7 @@ interface Props {
 type Return = ProductCategory;
 
 //* 구현
-export const getProductCategory = async ({ id, sellerId }: Props): Promise<Return> => {
+const getProductCategory = async ({ id, sellerId }: Props): Promise<Return> => {
   let q = supabase.from("product").select("*, category(*)");
 
   q = q.eq("id", id);
@@ -33,6 +33,7 @@ export const useProductCategoryQuery = (props: Props) => {
   return useQuery({
     queryKey: [queryKey.product, queryKey.category, props.id],
     queryFn: () => getProductCategory(props),
+    staleTime: staleTime.product,
   });
 };
 
@@ -40,13 +41,15 @@ export const useProductCategorySuspenseQuery = (props: Props) => {
   return useSuspenseQuery({
     queryKey: [queryKey.product, queryKey.category, props.id],
     queryFn: () => getProductCategory(props),
+    staleTime: staleTime.product,
   });
 };
 
 /** preFetching */
-export const productCategoryPrefetchOptions = (props: Props): QueryOptions => {
+export const productCategoryPrefetchOptions = (props: Props): FetchQueryOptions => {
   return {
     queryKey: [queryKey.product, queryKey.category, props.id],
     queryFn: () => getProductCategory(props),
+    staleTime: staleTime.product,
   };
 };

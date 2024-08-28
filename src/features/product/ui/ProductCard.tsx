@@ -1,13 +1,12 @@
+import ProductImageCarousel from "@/features/product_image/ui/ProductImageCarousel";
 import Column from "@/shared/components/atoms/Column";
 import Row from "@/shared/components/atoms/Row";
 import { P } from "@/shared/components/atoms/Typography";
 import { Badge } from "@/shared/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui/card";
-import { ProductCategory } from "../type/type";
-import ProductImageCarousel from "@/features/product_image/ui/ProductImageCarousel";
-import { getProductCategory } from "../api/get-product_category";
 import { useQueryClient } from "@tanstack/react-query";
-import { queryKey } from "@/shared/consts/react-query";
+import { productCategoryPrefetchOptions } from "../api/get-product_category";
+import { ProductCategory } from "../type/type";
 
 interface Props {
   product: ProductCategory;
@@ -18,15 +17,12 @@ interface Props {
  * @desc 목록에서 사용되는 상품 카드 UI
  */
 const ProductCard = ({ product, showCategory = true }: Props) => {
-  // const prefetching = useProductCategoryPrefetch({id: product.id});
   const qc = useQueryClient();
+  const prefetchOption = productCategoryPrefetchOptions({ id: product.id });
 
   const handlePrefetch = () => {
     console.log("handlePrefetch");
-    qc.prefetchQuery({
-      queryKey: [queryKey.product, queryKey.category, product.id],
-      queryFn: () => getProductCategory({ id: product.id }),
-    });
+    qc.prefetchQuery(prefetchOption);
   };
 
   return (
