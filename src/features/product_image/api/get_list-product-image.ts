@@ -24,7 +24,7 @@ export const getProductImage = async ({ productId }: Props): Promise<Return> => 
 
 export const useProductImageQuery = (props: Props) => {
   return useQuery({
-    queryKey: [queryKey.product, props.productId, queryKey.image],
+    queryKey: [queryKey.product, queryKey.image, props.productId],
     queryFn: () => getProductImage(props),
     staleTime: Infinity,
     enabled: !!props.productId,

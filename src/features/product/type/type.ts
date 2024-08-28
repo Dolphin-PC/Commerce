@@ -9,6 +9,9 @@ export type ProductCategory = Product & {
   category: Category | null;
 };
 
+export type Product_Quantity = Omit<Product, "quantity">;
+export type ProductCategory_Quantity = Omit<ProductCategory, "quantity">;
+
 export const discountTypes = {
   NONE: "NONE",
   PERCENT: "PERCENT",

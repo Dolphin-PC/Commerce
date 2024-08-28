@@ -7,6 +7,7 @@ export const queryKey = {
 
   user: "user",
   product: "product",
+  quantity: "quantity",
   category: "category",
   category_list: "category-list",
   image: "image",
