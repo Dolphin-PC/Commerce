@@ -24,7 +24,7 @@ const ProductCard = ({ product, showCategory = true }: Props) => {
   };
 
   return (
-    <Card onMouseEnter={handlePrefetch}>
+    <Card onMouseEnter={handlePrefetch} className="hover:-translate-y-3 transition-transform duration-300">
       <CardHeader>
         <Column className="gap-2">
           {showCategory && <Badge className="w-fit">{product.category?.categoryName}</Badge>}
