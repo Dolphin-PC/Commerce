@@ -1,6 +1,7 @@
 import { Cart } from "../type";
 import { supabase } from "@/shared/config/@db/supabase.config";
-import { useMutation } from "@tanstack/react-query";
+import { K } from "@/shared/consts/queryKey";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 /**
  * @desc 장바구니 삭제
@@ -18,8 +19,12 @@ const deleteCart = async ({ id }: Props): Promise<Return> => {
 };
 
 export const useDeleteCart = () => {
+  const qc = useQueryClient();
   return useMutation({
     mutationKey: ["useDeleteCart"],
     mutationFn: deleteCart,
+    onSuccess: () => {
+      qc.refetchQueries({ queryKey: [K.cart] });
+    },
   });
 };

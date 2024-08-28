@@ -22,7 +22,6 @@ export default ProductImageCarousel;
 interface Props {
   isButton?: boolean;
   height: number;
-  width?: number;
 }
 
 interface ContainerProps extends Props {
@@ -45,7 +44,7 @@ function Container(props: ContainerProps): ReactNode {
 }
 
 /** 상품 이미지 캐러셀 프레젠터 */
-function Presenter({ data, height, width, isButton }: PresenterProps): ReactNode {
+function Presenter({ data, height, isButton }: PresenterProps): ReactNode {
   const [carousel, setCarousel] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
@@ -65,12 +64,12 @@ function Presenter({ data, height, width, isButton }: PresenterProps): ReactNode
   }, [data]);
 
   return (
-    <Fragment>
-      <Carousel setApi={setCarousel} className="flex items-center justify-center">
+    <div style={{ height: `${height}px` }}>
+      <Carousel setApi={setCarousel}>
         <CarouselContent>
           {data.map((img) => (
             <CarouselItem key={img.id}>
-              <img src={bucketBaseUrl + "/" + img.imgUrl} alt={String(img.productId)} className={cn("p-1 object-cover", `h-[${height}px] ${width ? `w-[${width}px]` : "w-full"}`)} />
+              <img src={bucketBaseUrl + "/" + img.imgUrl} alt={String(img.productId)} className={cn("p-1 object-contain w-full")} style={{ height: `${height}px` }} />
             </CarouselItem>
           ))}
         </CarouselContent>
@@ -86,6 +85,6 @@ function Presenter({ data, height, width, isButton }: PresenterProps): ReactNode
           {current} of {count}
         </div>
       }
-    </Fragment>
+    </div>
   );
 }

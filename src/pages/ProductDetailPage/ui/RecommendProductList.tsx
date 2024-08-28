@@ -22,7 +22,7 @@ const RecommendProductList = ({ category, id }: Props) => {
   const { data } = useProductListCategoryQuery({ categoryId: category.id, pageNumber: 0, pageSize: 9 });
   return (
     <Column className="gap-3">
-      <Row className="gap-3">
+      <Row className="gap-3 items-center">
         <Badge variant={"outline"} size={"large"}>
           {category.categoryName}
         </Badge>
@@ -33,7 +33,7 @@ const RecommendProductList = ({ category, id }: Props) => {
         {data?.data.map((product) => {
           if (product.id === id) return null;
           return (
-            <Link to={ROUTES.PRODUCTS_ID_(product.id)}>
+            <Link key={product.id} to={ROUTES.PRODUCTS_ID_(product.id)}>
               <ProductCard key={product.id} product={product} showCategory={false} />
             </Link>
           );

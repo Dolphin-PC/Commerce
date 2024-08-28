@@ -2,7 +2,7 @@ import { User } from "@/features/user/model/type";
 import { Button } from "@/shared/components/ui/button";
 import { cn } from "@/shared/lib/shadcn-util";
 import { ShoppingCart } from "lucide-react";
-import { useCartList } from "../api/get_list-cart";
+import { useCartListQuery } from "../api/get_list-cart";
 import { Fragment } from "react/jsx-runtime";
 
 interface Props {
@@ -13,7 +13,7 @@ interface Props {
  * 장바구니 아이콘 버튼
  */
 const CartIconButton = ({ userId }: Props) => {
-  const { data } = useCartList({ userId });
+  const { data } = useCartListQuery({ userId });
 
   return (
     <div className="relative">
