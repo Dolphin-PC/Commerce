@@ -5,24 +5,31 @@ import { Lead } from "@/shared/components/atoms/Typography";
 import { Button } from "@/shared/components/ui/button";
 import { Drawer, DrawerClose, DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/shared/components/ui/drawer";
 import { X } from "lucide-react";
-import { FormEvent, useState } from "react";
+import { FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import CategoryBadgeList from "./CategoryBadgeList";
-import PriceRange from "./PriceRange";
+import PriceRangeSlider from "./PriceRangeSlider";
+import { useSearchStore } from "../store/useSearchStore";
 
 /**
  * @desc 상품 검색
  *  - search : 검색어
- *  - tag : 태그
- *  - categoryId : 카테고리
+ *  - categoryId : 카테고리 배열
+ *  - price : 가겹 범위
  */
 const ProductSearchDrawer = () => {
   const navigate = useNavigate();
-  const [searchText, setSearchText] = useState("");
+
+  const [searchText, setSearchText] = useSearchStore((state) => [state.searchText, state.setSearchText]);
 
   const handleSearch = (e: FormEvent) => {
     e.preventDefault();
-    navigate("/products");
+    const searchText = useSearchStore.getState().searchText;
+    const categoryIds = useSearchStore.getState().categoryIds;
+    const priceRange = useSearchStore.getState().priceRange;
+    console.log({ searchText, categoryIds, priceRange });
+
+    // navigate("/products");
   };
 
   const handleChangeSearchText = (e: React.ChangeEvent<HTMLInputElement>) => setSearchText(e.target.value);
@@ -45,6 +52,7 @@ const ProductSearchDrawer = () => {
         </DrawerHeader>
 
         <Column className="items-center mt-5 gap-5 w-1/2 mx-auto">
+          {/* 검색 Input Form */}
           <form onSubmit={handleSearch} className="w-full">
             <Row className="gap-3 h-full">
               <SearchInput size={"lg"} value={searchText} onChange={handleChangeSearchText} />
@@ -54,13 +62,16 @@ const ProductSearchDrawer = () => {
             </Row>
           </form>
 
+          {/* 카테고리 뱃지 목록 */}
           <Column className="gap-2 w-full">
             <Lead>카테고리</Lead>
             <CategoryBadgeList />
           </Column>
+
+          {/* 상품가격 범위 */}
           <Column className="gap-2 w-full">
             <Lead>상품 가격</Lead>
-            <PriceRange />
+            <PriceRangeSlider />
           </Column>
         </Column>
         <DrawerFooter></DrawerFooter>

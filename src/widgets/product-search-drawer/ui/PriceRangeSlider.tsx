@@ -4,16 +4,33 @@ import { Small } from "@/shared/components/atoms/Typography";
 import { Checkbox } from "@/shared/components/ui/checkbox";
 import { CheckedState } from "@radix-ui/react-checkbox";
 import * as Slider from "@radix-ui/react-slider";
-import { useState } from "react";
+import { useCallback, useState } from "react";
+import { useSearchStore } from "../store/useSearchStore";
+import _ from "lodash";
+
+const MIN = 0;
+const MAX = 1_000_000;
+const COST_STEP = 1000;
 
 /**
  * @desc 상품 가격 범위
  */
-const PriceRange = () => {
-  const [priceRange, setPriceRange] = useState([10000, 50000]);
-  const handlePriceRangeChange = (value: number[]) => {
-    setPriceRange(value);
-  };
+const PriceRangeSlider = () => {
+  // 슬라이더 표시용 가격범위
+  const [price, setPrice] = useState([0, 50_000]);
+  // 실제데이터 가격범위
+  const setPriceRange = useSearchStore((state) => state.setPriceRange);
+
+  const handlePriceRangeChange = useCallback((value: number[]) => {
+    setPrice(value);
+    onPriceRangeChangeEnd(value);
+  }, []);
+
+  // state변경시, 함수가 재선언되어 debounce가 초기화되는 문제 방지
+  const onPriceRangeChangeEnd = useCallback(
+    _.debounce((value: number[]) => setPriceRange(value), 300),
+    []
+  );
 
   const [isOverOneMillion, setIsOverOneMillion] = useState(false);
   const handleIsOverOneMillionChange = (checked: CheckedState) => {
@@ -23,15 +40,14 @@ const PriceRange = () => {
   return (
     <Column className="gap-4">
       <Small>
-        <p className={isOverOneMillion ? "line-through" : ""}>{priceRange.map((e) => e.toLocaleString("ko-KR") + "원").join(" ~ ")}</p>
+        <p className={isOverOneMillion ? "line-through" : ""}>{price.map((e) => e.toLocaleString("ko-KR") + "원").join(" ~ ")}</p>
       </Small>
       <Slider.Root
         disabled={isOverOneMillion}
-        min={0}
-        max={1_000_000}
-        value={priceRange}
-        step={1000}
-        minStepsBetweenThumbs={10}
+        min={MIN}
+        max={MAX}
+        value={price}
+        step={COST_STEP}
         onValueChange={handlePriceRangeChange}
         className="relative flex items-center select-none touch-none w-full h-5"
       >
@@ -51,4 +67,4 @@ const PriceRange = () => {
   );
 };
 
-export default PriceRange;
+export default PriceRangeSlider;
