@@ -16,7 +16,7 @@ interface Props {
 type Return = Product;
 
 //* 구현
-const getProduct = async ({ id, sellerId }: Props): Promise<Return> => {
+export const getProduct = async ({ id, sellerId }: Props): Promise<Return> => {
   let q = supabase.from("product").select("*");
 
   q = q.eq("id", id);

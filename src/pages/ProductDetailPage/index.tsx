@@ -1,3 +1,7 @@
+import { useAuthStore } from "@/features/@auth/store/auth.store";
+import { useCartProductCategoryQuery } from "@/features/cart/api/get_list-cart_product_category";
+import CartAddButton from "@/features/cart/ui/CartAddButton";
+import CartViewDrawer from "@/features/cart/ui/CartViewDrawer";
 import { useProductCategorySuspenseQuery } from "@/features/product/api/get-product_category";
 import ProductImageCarousel from "@/features/product_image/ui/ProductImageCarousel";
 import Column from "@/shared/components/atoms/Column";
@@ -9,8 +13,8 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/shared/components/u
 import { Input } from "@/shared/components/ui/input";
 import MainLayout from "@/widgets/layout/MainLayout";
 import { Minus, Plus } from "lucide-react";
-import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLayoutEffect, useMemo, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import RecommendProductList from "./ui/RecommendProductList";
 
 /**
@@ -22,28 +26,46 @@ import RecommendProductList from "./ui/RecommendProductList";
  */
 const ProductDetailPage = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const productId = Number(id);
 
-  const [count, setCount] = useState(0);
+  const [productCount, setProductCount] = useState(0);
   const { data: product } = useProductCategorySuspenseQuery({ id: productId });
 
-  const onChangeCount = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCount(Number(e.target.value));
+  const user = useAuthStore((state) => state.user);
+  const { data: cartProductList } = useCartProductCategoryQuery({ userId: user?.id });
+  const isProductInCart = useMemo(() => cartProductList?.some((cart) => cart.product?.id === productId), [cartProductList, productId]);
+
+  const onChangeProductCount = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setProductCount(Number(e.target.value));
   };
+
+  const handleLike = () => {};
+
+  useLayoutEffect(() => {
+    setProductCount(0);
+  }, [productId]);
 
   return (
     <MainLayout>
       <Column className="gap-20">
-        <Row className="gap-3 h-[500px]">
-          <Card className="w-1/2 h-full">
-            <ProductImageCarousel productId={productId} height={500} isButton />
-          </Card>
-          <Card className="w-1/2 min-h-full flex flex-col justify-between">
-            <div>
+        <Column className="gap-2">
+          <Button variant="outline" onClick={() => navigate(-1)} className="w-[100px]">
+            뒤로 가기
+          </Button>
+          <Row className="gap-3 h-[500px] items-start">
+            {/* 제품 이미지 */}
+            <Card className="w-1/2 h-full">
+              <ProductImageCarousel.Container productId={productId} height={500} isButton />
+            </Card>
+
+            {/* 제품 설명 */}
+            <Card className="w-1/2 min-h-full flex flex-col justify-start">
               <CardHeader>
                 <H3>{product.name}</H3>
                 <H2>{product.price.toLocaleString("ko-KR")} 원</H2>
               </CardHeader>
+
               <CardContent>
                 <Badge>상품설명</Badge>
                 <p>{product.desc}</p>
@@ -51,33 +73,37 @@ const ProductDetailPage = () => {
                 <Badge>남은수량</Badge>
                 <p>{product.quantity.toLocaleString("ko-KR")} 개</p>
               </CardContent>
-            </div>
 
-            <CardFooter>
-              <Column className="w-full gap-3">
-                <Row>
-                  <Button size="icon" onClick={() => setCount((p) => p - 1)}>
-                    <Minus />
-                  </Button>
-                  <Input type="number" className="w-24" value={count} onChange={onChangeCount} />
-                  <Button size="icon" onClick={() => setCount((p) => p + 1)}>
-                    <Plus />
-                  </Button>
-                </Row>
-                <hr />
-                <Column className="w-full gap-2">
-                  <Row className="m-2 justify-between">
-                    <Large>총 금액</Large>
-                    <H4>{(product.price * count).toLocaleString("ko-KR")} 원</H4>
+              <CardFooter>
+                <Column className="w-full gap-3">
+                  <Row>
+                    <Button size="icon" onClick={() => setProductCount((p) => p - 1)}>
+                      <Minus />
+                    </Button>
+                    <Input type="number" className="w-24" value={productCount} onChange={onChangeProductCount} />
+                    <Button size="icon" onClick={() => setProductCount((p) => p + 1)}>
+                      <Plus />
+                    </Button>
                   </Row>
-                  <Button>장바구니 담기</Button>
-                  <Button variant="outline">찜하기</Button>
-                </Column>
-              </Column>
-            </CardFooter>
-          </Card>
-        </Row>
+                  <hr />
+                  <Column className="w-full gap-2">
+                    <Row className="m-2 justify-between">
+                      <Large>총 금액</Large>
+                      <H4>{(product.price * productCount).toLocaleString("ko-KR")} 원</H4>
+                    </Row>
 
+                    {!isProductInCart && <CartAddButton product={product} productCount={productCount} />}
+                    {isProductInCart && cartProductList && <CartViewDrawer data={cartProductList} />}
+                    <Button variant="outline" onClick={handleLike}>
+                      찜하기
+                    </Button>
+                  </Column>
+                </Column>
+              </CardFooter>
+            </Card>
+          </Row>
+        </Column>
+        {/* 추천 상품 */}
         {product.category && <RecommendProductList id={productId} category={product.category} />}
       </Column>
     </MainLayout>

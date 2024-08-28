@@ -1,5 +1,6 @@
 import { signOut } from "@/features/@auth/api/sign-out";
 import { useAuthStore } from "@/features/@auth/store/auth.store";
+import CartIconButton from "@/features/cart/ui/CartIconButton";
 import LogoIcon from "@/shared/components/molecules/LogoIcon";
 import { toast } from "@/shared/components/ui/use-toast";
 import { ROUTES } from "@/shared/consts/route.const";
@@ -20,15 +21,22 @@ const Header = () => {
     });
   };
   return (
-    <Row className="w-full justify-between gap-[40px]">
-      <LogoIcon />
-      {!user && (
-        <Link to={ROUTES.SIGNIN}>
-          <Button>로그인</Button>
-        </Link>
-      )}
-      {user && <Button onClick={handleSignOut}>로그아웃</Button>}
-    </Row>
+    <div className="container">
+      <Row className="w-full justify-between gap-[40px] items-center">
+        <LogoIcon />
+        {!user && (
+          <Link to={ROUTES.SIGNIN}>
+            <Button>로그인</Button>
+          </Link>
+        )}
+        {user && (
+          <Row className="gap-5">
+            <CartIconButton userId={user.id} />
+            <Button onClick={handleSignOut}>로그아웃</Button>
+          </Row>
+        )}
+      </Row>
+    </div>
   );
 };
 

@@ -8,19 +8,22 @@ export type Database = {
           createdAt: string;
           id: number;
           productId: number;
-          userId: string | null;
+          quantity: number;
+          userId: string;
         };
         Insert: {
           createdAt?: string;
           id?: number;
           productId: number;
-          userId?: string | null;
+          quantity: number;
+          userId: string;
         };
         Update: {
           createdAt?: string;
           id?: number;
           productId?: number;
-          userId?: string | null;
+          quantity?: number;
+          userId?: string;
         };
         Relationships: [
           {

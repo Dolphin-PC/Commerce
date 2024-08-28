@@ -12,7 +12,7 @@ const badgeVariants = cva("inline-flex items-center rounded-full border font-sem
       outline: "text-foreground",
     },
     size: {
-      small: "px-2 py-0.5 text-sm",
+      small: "px-1.5 py-0.5 text-sm",
       medium: "px-2.5 py-1 text-md",
       large: "px-4 py-1.5 text-lg",
     },
