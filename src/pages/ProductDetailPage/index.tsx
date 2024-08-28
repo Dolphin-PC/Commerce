@@ -14,7 +14,7 @@ import { Input } from "@/shared/components/ui/input";
 import MainLayout from "@/widgets/layout/MainLayout";
 import { Minus, Plus } from "lucide-react";
 import { useLayoutEffect, useMemo, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import RecommendProductList from "./ui/RecommendProductList";
 
 /**
@@ -26,7 +26,6 @@ import RecommendProductList from "./ui/RecommendProductList";
  */
 const ProductDetailPage = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const productId = Number(id);
 
   const [productCount, setProductCount] = useState(0);
@@ -50,9 +49,6 @@ const ProductDetailPage = () => {
     <MainLayout>
       <Column className="gap-20">
         <Column className="gap-2">
-          <Button variant="outline" onClick={() => navigate(-1)} className="w-[100px]">
-            뒤로 가기
-          </Button>
           <Row className="gap-3 h-[500px] items-start">
             {/* 제품 이미지 */}
             <Card className="w-1/2 h-full">
