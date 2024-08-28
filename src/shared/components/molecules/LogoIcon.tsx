@@ -1,15 +1,15 @@
 import { ROUTES } from "@/shared/consts/route.const";
 import { Banana } from "lucide-react";
 import { Link } from "react-router-dom";
-import { Card } from "../ui/card";
+import { Button } from "../ui/button";
 
 const LogoIcon = () => {
   return (
-    <Card className="p-4 bg-yellow-200">
+    <Button className="w-16 h-16 bg-yellow-400" asChild>
       <Link to={ROUTES.HOME}>
         <Banana />
       </Link>
-    </Card>
+    </Button>
   );
 };
 
