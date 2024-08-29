@@ -11,18 +11,44 @@ import { ProductCategory } from "../type/type";
 interface Props {
   product: ProductCategory;
   showCategory?: boolean;
+  viewStyle?: "grid" | "list";
 }
 
 /**
  * @desc 목록에서 사용되는 상품 카드 UI
  */
-const ProductCard = ({ product, showCategory = true }: Props) => {
+const ProductCard = ({ product, showCategory = true, viewStyle = "grid" }: Props) => {
   const qc = useQueryClient();
 
   const handlePrefetch = () => {
     qc.prefetchQuery(productCategoryPrefetchOptions({ id: product.id }));
   };
 
+  if (viewStyle === "list") {
+    return (
+      <Card onMouseEnter={handlePrefetch} className="hover:translate-x-3 transition-transform duration-300">
+        <Row className="h-[230px]">
+          <CardHeader>
+            <div className="h-[180px] w-[200px]">
+              <ProductImageCarousel.Container productId={product.id} height={150} />
+            </div>
+          </CardHeader>
+          <CardContent className="flex flex-col h-full justify-between p-5">
+            <Column className="gap-2">
+              {showCategory && <Badge className="w-fit">{product.category?.categoryName}</Badge>}
+              <CardTitle>{product.name}</CardTitle>
+            </Column>
+            <Row className="gap-2 items-center">
+              <Badge size="small">가격</Badge>
+              <P>{product.price.toLocaleString("ko-KR")}원</P>
+            </Row>
+          </CardContent>
+        </Row>
+      </Card>
+    );
+  }
+
+  // grid style
   return (
     <Card onMouseEnter={handlePrefetch} className="hover:-translate-y-3 transition-transform duration-300">
       <CardHeader>
