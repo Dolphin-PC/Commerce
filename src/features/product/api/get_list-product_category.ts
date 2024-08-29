@@ -24,7 +24,7 @@ interface Props {
   filter?: {
     searchText: string;
     categoryIds: Category["id"][];
-    priceRange: number[];
+    priceRange: number[] | null;
   } | null;
 }
 

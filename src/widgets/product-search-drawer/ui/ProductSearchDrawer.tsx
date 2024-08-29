@@ -6,11 +6,14 @@ import { Button } from "@/shared/components/ui/button";
 import { Drawer, DrawerClose, DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/shared/components/ui/drawer";
 import { ROUTES } from "@/shared/consts/route.const";
 import { X } from "lucide-react";
-import { FormEvent, useEffect } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSearchDrawerStore } from "../store/useSearchDrawerStore";
 import CategoryBadgeList from "./CategoryBadgeList";
 import PriceRangeSlider from "./PriceRangeSlider";
+import { useSearchStore } from "../store/useSearchStore";
+import { toast } from "@/shared/components/ui/use-toast";
+import { Checkbox } from "@/shared/components/ui/checkbox";
 
 /**
  * @desc 상품 검색
@@ -21,29 +24,40 @@ import PriceRangeSlider from "./PriceRangeSlider";
 const ProductSearchDrawer = () => {
   const navigate = useNavigate();
 
-  const drawerStore = useSearchDrawerStore((state) => ({
-    searchText: state.searchText,
-    setSearchText: state.setSearchText,
-    onSearch: state.onSearch,
-    isOpen: state.isOpen,
-    setIsOpen: state.setIsOpen,
-    initSearch: state.initSearch,
-  }));
-
-  const handleSearch = (e: FormEvent) => {
-    e.preventDefault();
-
-    drawerStore.onSearch();
-    drawerStore.setIsOpen(false);
-    navigate(ROUTES.PRODUCTS);
-  };
+  const drawerStore = useSearchDrawerStore();
+  const searchStore = useSearchStore();
+  const [isCheckPrice, setIsCheckPrice] = useState(!!(searchStore.isEnable && searchStore.priceRange));
 
   const handleChangeSearchText = (e: React.ChangeEvent<HTMLInputElement>) => {
     drawerStore.setSearchText(e.target.value);
   };
 
+  const handleSearch = (e: FormEvent) => {
+    e.preventDefault();
+
+    searchStore.setSearchText(drawerStore.searchText);
+    searchStore.setCategoryIds(drawerStore.categoryIds);
+    searchStore.setPriceRange(isCheckPrice ? drawerStore.priceRange : null);
+
+    searchStore.setIsEnable(true);
+
+    drawerStore.setIsOpen(false);
+    navigate(ROUTES.PRODUCTS);
+  };
+
+  const handleFilterReset = () => {
+    drawerStore.reset();
+    searchStore.reset();
+    setIsCheckPrice(false);
+    toast({ title: "검색 조건이 초기화 되었습니다." });
+  };
+
   useEffect(() => {
-    drawerStore.initSearch();
+    if (searchStore.isEnable) {
+      drawerStore.setSearchText(searchStore.searchText);
+      drawerStore.setCategoryIds(searchStore.categoryIds);
+      drawerStore.setPriceRange(searchStore.priceRange);
+    }
   }, []);
 
   return (
@@ -82,11 +96,18 @@ const ProductSearchDrawer = () => {
 
           {/* 상품가격 범위 */}
           <Column className="gap-2 w-full">
-            <Lead>상품 가격</Lead>
-            <PriceRangeSlider />
+            <Row className="items-center gap-3">
+              <label htmlFor="price-range">상품 가격</label>
+              <Checkbox id="price-range" checked={isCheckPrice} onCheckedChange={() => setIsCheckPrice((p) => !p)} />
+            </Row>
+            {isCheckPrice && <PriceRangeSlider />}
           </Column>
         </Column>
-        <DrawerFooter></DrawerFooter>
+        <DrawerFooter className="w-1/2 mx-auto">
+          <Button variant={"outline"} onClick={handleFilterReset}>
+            필터 초기화
+          </Button>
+        </DrawerFooter>
       </DrawerContent>
     </Drawer>
   );

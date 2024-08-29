@@ -50,6 +50,7 @@ const PriceRangeSlider = () => {
     }
   };
 
+  if (!priceRange) return null;
   return (
     <Column className="gap-4">
       <Small>

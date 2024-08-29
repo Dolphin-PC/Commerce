@@ -16,17 +16,19 @@ interface Store extends Search {
 interface Search {
   searchText: string;
   categoryIds: Category["id"][];
-  priceRange: number[];
+  priceRange: number[] | null;
 }
 
 interface Actions {
   setSearchText: (text: string) => void;
   setCategoryIds: (ids: Category["id"][]) => void;
-  setPriceRange: (range: number[]) => void;
+  setPriceRange: (range: number[] | null) => void;
 
   setIsEnable: (isEnable: boolean) => void;
   /** isEnable => 사용가능 */
   getSearch: () => Search | null;
+
+  reset: () => void;
 }
 
 export const useSearchStore = create(
@@ -38,11 +40,11 @@ export const useSearchStore = create(
 
       isEnable: false,
 
-      setSearchText: (text: string) => set({ searchText: text }),
-      setCategoryIds: (ids: Category["id"][]) => set({ categoryIds: ids }),
-      setPriceRange: (range: number[]) => set({ priceRange: range }),
+      setSearchText: (text) => set({ searchText: text }),
+      setCategoryIds: (ids) => set({ categoryIds: ids }),
+      setPriceRange: (range) => set({ priceRange: range }),
 
-      setIsEnable: (isEnable: boolean) => set({ isEnable }),
+      setIsEnable: (isEnable) => set({ isEnable }),
 
       getSearch: () => {
         if (get().isEnable) {
@@ -51,6 +53,10 @@ export const useSearchStore = create(
           return { searchText, categoryIds, priceRange };
         }
         return null;
+      },
+
+      reset: () => {
+        set({ isEnable: false });
       },
     }),
     {
