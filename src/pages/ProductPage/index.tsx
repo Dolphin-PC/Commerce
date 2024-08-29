@@ -1,4 +1,3 @@
-import CategoryComboBox from "@/features/category/ui/CategoryComboBox";
 import { useProductListCategoryInfiniteQuery } from "@/features/product/api/get_list-product_category";
 import ProductCard from "@/features/product/ui/ProductCard";
 import Grid from "@/shared/components/atoms/Grid";
@@ -8,58 +7,45 @@ import { Tabs, TabsList, TabsTrigger } from "@/shared/components/ui/tabs";
 import { ROUTES } from "@/shared/consts/route.const";
 import useInfiniteInView from "@/shared/hooks/useInfiniteInView";
 import MainLayout from "@/widgets/layout/MainLayout";
-import { useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { useSearchStore } from "@/widgets/product-search-drawer/store/useSearchStore";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
 /**
  * @desc 상품 목록 페이지
  *  - /products
  *
- * searchParams:
- *   - categoryId: 카테고리 아이디
  */
 const ProductPage = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const categoryId = Number(searchParams.get("categoryId"));
-
-  const [filter, setFilter] = useState<"createdAt" | "price">("createdAt");
+  const [orderColumn, setOrderColumn] = useState<"createdAt" | "price">("createdAt");
+  const searchStore = useSearchStore((state) => ({
+    searchFilter: state.getSearch(),
+    isEnable: state.isEnable,
+  }));
 
   const product = useProductListCategoryInfiniteQuery({
-    categoryId: categoryId,
     order: {
-      column: filter,
+      column: orderColumn,
       ascending: false,
     },
+    filter: searchStore.searchFilter,
   });
   const { ref: viewRef } = useInfiniteInView({ query: product, options: { threshold: 1 } });
-
-  // 카테고리 콤보박스 선택시
-  const handleCategorySelect = (categoryId: number) => {
-    setSearchParams((prev) => {
-      const searchParams = new URLSearchParams(prev);
-      searchParams.set("categoryId", String(categoryId));
-      return searchParams.toString();
-    });
-  };
 
   // [최신순/가격순] 정렬 기준 변경시
   const handleFilterChange = (value: string) => {
     if (!(value === "createdAt" || value === "price")) return;
 
-    setFilter(value);
+    setOrderColumn(value);
   };
-
-  useEffect(() => {
-    product.refetch();
-  }, [filter, product]);
 
   return (
     <MainLayout>
       <Card>
         <CardHeader>
           <Row className="justify-between">
-            <CategoryComboBox onSelect={handleCategorySelect} defaultCategoryId={categoryId} />
-            <Tabs defaultValue={filter} onValueChange={handleFilterChange}>
+            {/* <CategoryComboBox onSelect={handleCategorySelect} defaultCategoryId={categoryId} /> */}
+            <Tabs defaultValue={orderColumn} onValueChange={handleFilterChange}>
               <TabsList>
                 <TabsTrigger value="createdAt">최신순</TabsTrigger>
                 <TabsTrigger value="price">가격순</TabsTrigger>

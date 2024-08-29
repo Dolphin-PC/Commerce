@@ -2,14 +2,14 @@ import { useCategoryListQuery } from "@/features/category/api/get_list-category"
 import { Category } from "@/features/category/model/type";
 import Column from "@/shared/components/atoms/Column";
 import { Badge } from "@/shared/components/ui/badge";
-import { Fragment, useMemo, useState } from "react";
-import { useSearchStore } from "../store/useSearchStore";
+import { Fragment } from "react";
+import { useSearchDrawerStore } from "../store/useSearchDrawerStore";
 
 /**
  * @desc 검색창 > 카테고리 뱃지 리스트
  */
 const CategoryBadgeList = () => {
-  const [categoryIds, setCategoryIds] = useSearchStore((state) => [state.categoryIds, state.setCategoryIds]);
+  const [categoryIds, setCategoryIds] = useSearchDrawerStore((state) => [state.categoryIds, state.setCategoryIds]);
   const { data: category } = useCategoryListQuery({});
 
   // 카테고리 추가(중복 제거)

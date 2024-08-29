@@ -4,9 +4,9 @@ import { Small } from "@/shared/components/atoms/Typography";
 import { Checkbox } from "@/shared/components/ui/checkbox";
 import { CheckedState } from "@radix-ui/react-checkbox";
 import * as Slider from "@radix-ui/react-slider";
-import { useCallback, useState } from "react";
-import { useSearchStore } from "../store/useSearchStore";
 import _ from "lodash";
+import { useCallback, useState } from "react";
+import { useSearchDrawerStore } from "../store/useSearchDrawerStore";
 
 const MIN = 0;
 const MAX = 1_000_000;
@@ -16,39 +16,50 @@ const COST_STEP = 1000;
  * @desc 상품 가격 범위
  */
 const PriceRangeSlider = () => {
-  // 슬라이더 표시용 가격범위
-  const [price, setPrice] = useState([0, 50_000]);
   // 실제데이터 가격범위
-  const setPriceRange = useSearchStore((state) => state.setPriceRange);
+  const drawerStore = useSearchDrawerStore((state) => ({
+    setPriceRange: state.setPriceRange,
+    priceRange: state.priceRange,
+  }));
+  // 슬라이더 표시용 가격범위
+  const [priceRange, setPriceRange] = useState(drawerStore.priceRange);
 
   const handlePriceRangeChange = (value: number[]) => {
-    setPrice(value);
+    setPriceRange(value);
     onPriceRangeChangeEnd(value);
   };
 
   // state변경시, 함수가 재선언되어 debounce가 초기화되는 문제 방지
   const onPriceRangeChangeEnd = useCallback(
     _.debounce((value: number[]) => {
-      setPriceRange(value);
+      drawerStore.setPriceRange(value);
     }, 300),
     []
   );
 
   const [isOverOneMillion, setIsOverOneMillion] = useState(false);
   const handleIsOverOneMillionChange = (checked: CheckedState) => {
-    setIsOverOneMillion(!!checked);
+    let check = !!checked;
+    setIsOverOneMillion(check);
+
+    if (check) {
+      setPriceRange([1_000_000, Infinity]);
+      drawerStore.setPriceRange([1_000_000, Infinity]);
+    } else {
+      drawerStore.setPriceRange(priceRange);
+    }
   };
 
   return (
     <Column className="gap-4">
       <Small>
-        <p className={isOverOneMillion ? "line-through" : ""}>{price.map((e) => e.toLocaleString("ko-KR") + "원").join(" ~ ")}</p>
+        <p>{priceRange.map((e) => e.toLocaleString("ko-KR") + "원").join(" ~ ")}</p>
       </Small>
       <Slider.Root
         disabled={isOverOneMillion}
         min={MIN}
         max={MAX}
-        value={price}
+        value={priceRange}
         step={COST_STEP}
         onValueChange={handlePriceRangeChange}
         className="relative flex items-center select-none touch-none w-full h-5"

@@ -1,7 +1,7 @@
 import { supabase } from "@/shared/config/@db/supabase.config";
 import { useQuery, useSuspenseInfiniteQuery } from "@tanstack/react-query";
 import { Product, ProductCategory } from "../type/type";
-import { queryKey } from "@/shared/consts/react-query";
+import { queryKey, staleTime } from "@/shared/consts/react-query";
 import { Category } from "@/features/category/model/type";
 
 /**
@@ -20,6 +20,12 @@ interface Props {
     column: "createdAt" | "price";
     ascending: boolean;
   };
+
+  filter?: {
+    searchText: string;
+    categoryIds: Category["id"][];
+    priceRange: number[];
+  } | null;
 }
 
 interface Return {
@@ -31,13 +37,22 @@ interface Return {
 }
 
 //* 구현
-const getProductListWithCategory = async ({ sellerId, categoryId, pageNumber = 0, pageSize = 10, order }: Props): Promise<Return> => {
+const getProductListWithCategory = async ({ sellerId, categoryId, pageNumber = 0, pageSize = 10, order, filter }: Props): Promise<Return> => {
   let q = supabase.from("product").select("*, category(*)").neq("isDelete", true);
   q = q.range(pageNumber * pageSize, pageNumber * pageSize + pageSize - 1);
 
   // 조건 필터링
   if (sellerId) q = q.eq("sellerId", sellerId);
   if (categoryId) q = q.eq("categoryId", categoryId);
+  if (filter) {
+    if (filter.searchText) q = q.like("name", `%${filter.searchText}%`);
+    if (filter.categoryIds.length > 0) q = q.in("categoryId", filter.categoryIds);
+    if (filter.priceRange) {
+      const [min, max] = filter.priceRange;
+      q = q.gte("price", min);
+      if (max != Infinity) q = q.lte("price", max);
+    }
+  }
 
   // 정렬
   if (order) q = q.order(order.column, { ascending: order.ascending });
@@ -45,6 +60,8 @@ const getProductListWithCategory = async ({ sellerId, categoryId, pageNumber = 0
 
   const { data, error } = await q;
   if (error) throw error;
+
+  console.log({ data });
 
   return {
     data: data as ProductCategory[],
@@ -57,18 +74,20 @@ const getProductListWithCategory = async ({ sellerId, categoryId, pageNumber = 0
 export const useProductListCategoryInfiniteQuery = (props: Props) => {
   return useSuspenseInfiniteQuery({
     initialPageParam: 0,
-    queryKey: [queryKey.product, queryKey.infinite],
+    queryKey: [queryKey.product, queryKey.infinite, { ...props }],
     queryFn: ({ pageParam }) => getProductListWithCategory({ ...props, pageNumber: pageParam }),
     getNextPageParam: (lastPage) => {
       return lastPage.hasNextPage ? lastPage.nextPageNumber : undefined;
     },
+    staleTime: staleTime.product,
   });
 };
 
 /** 목록 조회 */
 export const useProductListCategoryQuery = (props: Props) => {
   return useQuery({
-    queryKey: [queryKey.product, queryKey.category, { ...props }],
+    queryKey: [queryKey.product, queryKey.list, queryKey.category],
     queryFn: () => getProductListWithCategory({ ...props }),
+    staleTime: staleTime.product,
   });
 };

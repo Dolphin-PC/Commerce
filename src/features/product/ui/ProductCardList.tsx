@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { ROUTES } from "@/shared/consts/route.const";
 
 /**
- * 카테고리별 상품 리스트
+ * @desc 카테고리별 상품 리스트
  */
 
 interface Props {

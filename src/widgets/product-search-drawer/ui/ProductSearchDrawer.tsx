@@ -4,41 +4,53 @@ import SearchInput from "@/shared/components/atoms/SearchInput";
 import { Lead } from "@/shared/components/atoms/Typography";
 import { Button } from "@/shared/components/ui/button";
 import { Drawer, DrawerClose, DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/shared/components/ui/drawer";
+import { ROUTES } from "@/shared/consts/route.const";
 import { X } from "lucide-react";
-import { FormEvent } from "react";
+import { FormEvent, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSearchDrawerStore } from "../store/useSearchDrawerStore";
 import CategoryBadgeList from "./CategoryBadgeList";
 import PriceRangeSlider from "./PriceRangeSlider";
-import { useSearchStore } from "../store/useSearchStore";
 
 /**
  * @desc 상품 검색
- *  - search : 검색어
- *  - categoryId : 카테고리 배열
- *  - price : 가겹 범위
+ *  - searchText : 검색어
+ *  - categoryIds : 카테고리 배열
+ *  - priceRange : 가격 범위
  */
 const ProductSearchDrawer = () => {
   const navigate = useNavigate();
 
-  const [searchText, setSearchText] = useSearchStore((state) => [state.searchText, state.setSearchText]);
+  const drawerStore = useSearchDrawerStore((state) => ({
+    searchText: state.searchText,
+    setSearchText: state.setSearchText,
+    onSearch: state.onSearch,
+    isOpen: state.isOpen,
+    setIsOpen: state.setIsOpen,
+    initSearch: state.initSearch,
+  }));
 
   const handleSearch = (e: FormEvent) => {
     e.preventDefault();
-    const searchText = useSearchStore.getState().searchText;
-    const categoryIds = useSearchStore.getState().categoryIds;
-    const priceRange = useSearchStore.getState().priceRange;
-    console.log({ searchText, categoryIds, priceRange });
 
-    // navigate("/products");
+    drawerStore.onSearch();
+    drawerStore.setIsOpen(false);
+    navigate(ROUTES.PRODUCTS);
   };
 
-  const handleChangeSearchText = (e: React.ChangeEvent<HTMLInputElement>) => setSearchText(e.target.value);
+  const handleChangeSearchText = (e: React.ChangeEvent<HTMLInputElement>) => {
+    drawerStore.setSearchText(e.target.value);
+  };
+
+  useEffect(() => {
+    drawerStore.initSearch();
+  }, []);
 
   return (
-    <Drawer direction="bottom" handleOnly>
+    <Drawer direction="bottom" handleOnly open={drawerStore.isOpen} onOpenChange={drawerStore.setIsOpen}>
       <DrawerTrigger>
         <div className="w-[300px]">
-          <SearchInput size={"md"} value={searchText} onChange={handleChangeSearchText} />
+          <SearchInput size={"md"} value={drawerStore.searchText} onChange={handleChangeSearchText} />
         </div>
       </DrawerTrigger>
       <DrawerContent direction={"bottom"} className="h-5/6" aria-describedby="">
@@ -55,7 +67,7 @@ const ProductSearchDrawer = () => {
           {/* 검색 Input Form */}
           <form onSubmit={handleSearch} className="w-full">
             <Row className="gap-3 h-full">
-              <SearchInput size={"lg"} value={searchText} onChange={handleChangeSearchText} />
+              <SearchInput size={"lg"} value={drawerStore.searchText} onChange={handleChangeSearchText} />
               <Button type="submit" variant="default" className="h-full">
                 검색
               </Button>

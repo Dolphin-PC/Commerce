@@ -2,8 +2,7 @@ import { User } from "@/features/user/model/type";
 import { Cart } from "../type";
 import { supabase } from "@/shared/config/@db/supabase.config";
 import { useQuery } from "@tanstack/react-query";
-import { queryKey } from "@/shared/consts/react-query";
-import { staleTime } from "@/shared/consts/staleTime";
+import { queryKey, staleTime } from "@/shared/consts/react-query";
 
 /**
  * @desc 장바구니 목록 조회
