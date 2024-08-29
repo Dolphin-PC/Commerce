@@ -1,5 +1,4 @@
 import { create } from "zustand";
-import { useSearchStore } from "./useSearchStore";
 import { Category } from "@/features/category/model/type";
 
 /**
@@ -14,13 +13,13 @@ interface Store extends Search {
 interface Search {
   searchText: string;
   categoryIds: Category["id"][];
-  priceRange: number[] | null;
+  priceRange: number[];
 }
 
 interface Actions {
   setSearchText: (text: string) => void;
   setCategoryIds: (ids: Category["id"][]) => void;
-  setPriceRange: (range: number[] | null) => void;
+  setPriceRange: (range: number[]) => void;
 
   setIsOpen: (isOpen: boolean) => void;
 

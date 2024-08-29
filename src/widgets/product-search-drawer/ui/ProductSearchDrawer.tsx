@@ -16,10 +16,7 @@ import { toast } from "@/shared/components/ui/use-toast";
 import { Checkbox } from "@/shared/components/ui/checkbox";
 
 /**
- * @desc 상품 검색
- *  - searchText : 검색어
- *  - categoryIds : 카테고리 배열
- *  - priceRange : 가격 범위
+ * @desc 상품 검색창 하단 Drawer
  */
 const ProductSearchDrawer = () => {
   const navigate = useNavigate();
@@ -53,12 +50,12 @@ const ProductSearchDrawer = () => {
   };
 
   useEffect(() => {
-    if (searchStore.isEnable) {
+    if (searchStore.isEnable && drawerStore.isOpen) {
       drawerStore.setSearchText(searchStore.searchText);
       drawerStore.setCategoryIds(searchStore.categoryIds);
-      drawerStore.setPriceRange(searchStore.priceRange);
+      searchStore.priceRange && drawerStore.setPriceRange(searchStore.priceRange);
     }
-  }, []);
+  }, [drawerStore.isOpen]);
 
   return (
     <Drawer direction="bottom" handleOnly open={drawerStore.isOpen} onOpenChange={drawerStore.setIsOpen}>

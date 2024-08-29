@@ -38,6 +38,7 @@ const PriceRangeSlider = () => {
   );
 
   const [isOverOneMillion, setIsOverOneMillion] = useState(false);
+
   const handleIsOverOneMillionChange = (checked: CheckedState) => {
     let check = !!checked;
     setIsOverOneMillion(check);
@@ -50,7 +51,6 @@ const PriceRangeSlider = () => {
     }
   };
 
-  if (!priceRange) return null;
   return (
     <Column className="gap-4">
       <Small>
