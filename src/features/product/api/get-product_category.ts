@@ -2,7 +2,6 @@ import { FetchQueryOptions, useQuery, useSuspenseQuery } from "@tanstack/react-q
 import { Product, ProductCategory } from "../type/type";
 import { supabase } from "@/shared/config/@db/supabase.config";
 import { queryKey, staleTime } from "@/shared/consts/react-query";
-import { delay } from "@/shared/lib/delay";
 
 /**
  * 제품 상세 조회(카테고리 포함, 수량 제외)

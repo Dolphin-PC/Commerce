@@ -1,4 +1,4 @@
-import ProductImageCarousel from "@/features/product_image/ui/ProductImageCarousel";
+import ProductCardImage from "@/features/product_image/ui/ProductCardImage";
 import Column from "@/shared/components/atoms/Column";
 import Row from "@/shared/components/atoms/Row";
 import { P } from "@/shared/components/atoms/Typography";
@@ -11,18 +11,42 @@ import { ProductCategory } from "../type/type";
 interface Props {
   product: ProductCategory;
   showCategory?: boolean;
+  viewStyle?: "grid" | "list";
 }
 
 /**
  * @desc 목록에서 사용되는 상품 카드 UI
  */
-const ProductCard = ({ product, showCategory = true }: Props) => {
+const ProductCard = ({ product, showCategory = true, viewStyle = "grid" }: Props) => {
   const qc = useQueryClient();
 
   const handlePrefetch = () => {
     qc.prefetchQuery(productCategoryPrefetchOptions({ id: product.id }));
   };
 
+  if (viewStyle === "list") {
+    return (
+      <Card onMouseEnter={handlePrefetch} className="hover:translate-x-3 transition-transform duration-300">
+        <Row className="h-[230px]">
+          <CardHeader>
+            <ProductCardImage productId={product.id} height={180} />
+          </CardHeader>
+          <CardContent className="flex flex-col h-full justify-between p-5">
+            <Column className="gap-2">
+              {showCategory && <Badge className="w-fit">{product.category?.categoryName}</Badge>}
+              <CardTitle>{product.name}</CardTitle>
+            </Column>
+            <Row className="gap-2 items-center">
+              <Badge size="small">가격</Badge>
+              <P>{product.price.toLocaleString("ko-KR")}원</P>
+            </Row>
+          </CardContent>
+        </Row>
+      </Card>
+    );
+  }
+
+  // grid style
   return (
     <Card onMouseEnter={handlePrefetch} className="hover:-translate-y-3 transition-transform duration-300">
       <CardHeader>
@@ -33,9 +57,7 @@ const ProductCard = ({ product, showCategory = true }: Props) => {
       </CardHeader>
       <CardContent>
         <Column className="justify-between">
-          <div className="h-[250px]">
-            <ProductImageCarousel.Container productId={product.id} height={200} />
-          </div>
+          <ProductCardImage productId={product.id} height={250} />
           <Row className="gap-2 items-center">
             <Badge size="small">가격</Badge>
             <P>{product.price.toLocaleString("ko-KR")}원</P>

@@ -25,7 +25,7 @@ export const P = ({ children: text }: Props) => {
 };
 
 export const Lead = ({ children: text }: Props) => {
-  return <p className="text-xl text-muted-foreground">{text}</p>;
+  return <p className="text-md text-muted-foreground">{text}</p>;
 };
 
 export const Muted = ({ children: text }: Props) => {

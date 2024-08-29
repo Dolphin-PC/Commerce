@@ -5,26 +5,30 @@ import { Product } from "@/features/product/type/type";
 import { queryKey } from "@/shared/consts/react-query";
 
 /**
- * 제품 이미지 목록 조회
+ * @desc 제품 이미지 목록 조회
  */
 
 interface Props {
   productId: Product["id"];
+  limit?: number;
 }
 
 type Return = ProductImage[];
 
-export const getProductImage = async ({ productId }: Props): Promise<Return> => {
-  const { data, error } = await supabase.from("product_image").select("*").eq("productId", productId);
+export const getProductImage = async ({ productId, limit }: Props): Promise<Return> => {
+  const q = supabase.from("product_image").select("*").eq("productId", productId);
 
+  if (limit) q.limit(limit);
+
+  const { data, error } = await q;
   if (error) throw error;
 
-  return data;
+  return data ?? [];
 };
 
 export const useProductImageQuery = (props: Props) => {
   return useQuery({
-    queryKey: [queryKey.product, queryKey.image, props.productId],
+    queryKey: [queryKey.product, queryKey.image, { ...props }],
     queryFn: () => getProductImage(props),
     staleTime: Infinity,
     enabled: !!props.productId,

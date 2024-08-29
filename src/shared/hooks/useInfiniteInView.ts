@@ -21,7 +21,7 @@ const useInfiniteInView = ({ query, options }: Props): Return => {
     if (inView && query.hasNextPage) {
       query.fetchNextPage();
     }
-  }, [query, inView]);
+  }, [inView]);
 
   return { ref };
 };

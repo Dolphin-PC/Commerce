@@ -1,7 +1,6 @@
 import { User } from "@/features/user/model/type";
 import { supabase } from "@/shared/config/@db/supabase.config";
-import { queryKey } from "@/shared/consts/react-query";
-import { staleTime } from "@/shared/consts/staleTime";
+import { queryKey, staleTime } from "@/shared/consts/react-query";
 import { useQuery } from "@tanstack/react-query";
 import { CartProductCategory } from "../type";
 

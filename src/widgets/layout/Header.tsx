@@ -9,6 +9,7 @@ import Row from "../../shared/components/atoms/Row";
 import { Button } from "../../shared/components/ui/button";
 import { LogOut, Store } from "lucide-react";
 import TooltipHover from "@/shared/components/molecules/TooltipHover";
+import ProductSearchDrawer from "../product-search-drawer/ui/ProductSearchDrawer";
 
 /**
  * @desc 공통 헤더
@@ -18,20 +19,24 @@ const Header = () => {
 
   return (
     <div className="container">
-      <Row className="w-full justify-between gap-[40px] items-center">
+      <Row className="w-full justify-between items-center">
         <LogoIcon />
-        {!user && (
-          <Link to={ROUTES.SIGNIN}>
-            <Button>로그인</Button>
-          </Link>
-        )}
-        {user && (
-          <Row className="gap-5">
-            {user.isseller && <DashboardButton />}
-            <CartIconButton userId={user.id} />
-            <LogoutButton />
-          </Row>
-        )}
+        <ProductSearchDrawer />
+
+        <Row className="gap-[40px]">
+          {!user && (
+            <Link to={ROUTES.SIGNIN}>
+              <Button>로그인</Button>
+            </Link>
+          )}
+          {user && (
+            <Row className="gap-5">
+              {user.isseller && <DashboardButton />}
+              <CartIconButton userId={user.id} />
+              <LogoutButton />
+            </Row>
+          )}
+        </Row>
       </Row>
     </div>
   );

@@ -12,13 +12,13 @@ import { Badge } from "@/shared/components/ui/badge";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/shared/components/ui/card";
 import { Input } from "@/shared/components/ui/input";
+import { useScrollTop } from "@/shared/hooks/useScrollTop";
 import { convertStringToNumber } from "@/shared/lib/string";
 import MainLayout from "@/widgets/layout/MainLayout";
 import { Minus, Plus } from "lucide-react";
 import { useLayoutEffect, useMemo, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import RecommendProductList from "./ui/RecommendProductList";
-import { useScrollTop } from "@/shared/hooks/useScrollTop";
 
 /**
  * @desc 상품 상세 페이지
