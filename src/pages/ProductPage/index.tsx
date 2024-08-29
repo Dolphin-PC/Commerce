@@ -2,12 +2,15 @@ import { useProductListCategoryInfiniteQuery } from "@/features/product/api/get_
 import ProductCard from "@/features/product/ui/ProductCard";
 import Grid from "@/shared/components/atoms/Grid";
 import Row from "@/shared/components/atoms/Row";
+import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/shared/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/shared/components/ui/tabs";
 import { ROUTES } from "@/shared/consts/route.const";
 import useInfiniteInView from "@/shared/hooks/useInfiniteInView";
 import MainLayout from "@/widgets/layout/MainLayout";
+import { useSearchDrawerStore } from "@/widgets/product-search-drawer/store/useSearchDrawerStore";
 import { useSearchStore } from "@/widgets/product-search-drawer/store/useSearchStore";
+import { SlidersHorizontal } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -18,9 +21,12 @@ import { Link } from "react-router-dom";
  */
 const ProductPage = () => {
   const [orderColumn, setOrderColumn] = useState<"createdAt" | "price">("createdAt");
+
+  const drawerStore = useSearchDrawerStore((state) => ({
+    setIsOpen: state.setIsOpen,
+  }));
   const searchStore = useSearchStore((state) => ({
     searchFilter: state.getSearch(),
-    isEnable: state.isEnable,
   }));
 
   const product = useProductListCategoryInfiniteQuery({
@@ -44,18 +50,21 @@ const ProductPage = () => {
       <Card>
         <CardHeader>
           <Row className="justify-between">
-            {/* <CategoryComboBox onSelect={handleCategorySelect} defaultCategoryId={categoryId} /> */}
             <Tabs defaultValue={orderColumn} onValueChange={handleFilterChange}>
               <TabsList>
                 <TabsTrigger value="createdAt">최신순</TabsTrigger>
                 <TabsTrigger value="price">가격순</TabsTrigger>
               </TabsList>
             </Tabs>
+
+            <Button size={"icon"} onClick={() => drawerStore.setIsOpen(true)}>
+              <SlidersHorizontal size={20} />
+            </Button>
           </Row>
         </CardHeader>
 
         <CardContent>
-          {product.data ? (
+          {product.data && (
             <Grid className="grid-cols-4 gap-3">
               {product.data.pages.map((page) =>
                 page.data.map((product) => {
@@ -67,9 +76,8 @@ const ProductPage = () => {
                 })
               )}
             </Grid>
-          ) : (
-            <p>데이터가 없어요.</p>
           )}
+          {product.data.pages[0].data.length === 0 && <p>검색된 상품이 없습니다.</p>}
         </CardContent>
 
         <CardFooter ref={viewRef}></CardFooter>
