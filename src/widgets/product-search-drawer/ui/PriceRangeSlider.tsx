@@ -21,14 +21,16 @@ const PriceRangeSlider = () => {
   // 실제데이터 가격범위
   const setPriceRange = useSearchStore((state) => state.setPriceRange);
 
-  const handlePriceRangeChange = useCallback((value: number[]) => {
+  const handlePriceRangeChange = (value: number[]) => {
     setPrice(value);
     onPriceRangeChangeEnd(value);
-  }, []);
+  };
 
   // state변경시, 함수가 재선언되어 debounce가 초기화되는 문제 방지
   const onPriceRangeChangeEnd = useCallback(
-    _.debounce((value: number[]) => setPriceRange(value), 300),
+    _.debounce((value: number[]) => {
+      setPriceRange(value);
+    }, 300),
     []
   );
 
