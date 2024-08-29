@@ -33,7 +33,7 @@ export const searchInitialState: Search = {
   priceRange: [0, 500_000],
 };
 
-export const useSearchDrawerStore = create<Store & Actions>((set, get) => ({
+export const useSearchDrawerStore = create<Store & Actions>((set) => ({
   ...searchInitialState,
 
   isOpen: false,

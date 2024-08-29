@@ -1,4 +1,4 @@
-import ProductImageCarousel from "@/features/product_image/ui/ProductImageCarousel";
+import ProductCardImage from "@/features/product_image/ui/ProductCardImage";
 import Column from "@/shared/components/atoms/Column";
 import Row from "@/shared/components/atoms/Row";
 import { P } from "@/shared/components/atoms/Typography";
@@ -29,9 +29,7 @@ const ProductCard = ({ product, showCategory = true, viewStyle = "grid" }: Props
       <Card onMouseEnter={handlePrefetch} className="hover:translate-x-3 transition-transform duration-300">
         <Row className="h-[230px]">
           <CardHeader>
-            <div className="h-[180px] w-[200px]">
-              <ProductImageCarousel.Container productId={product.id} height={150} />
-            </div>
+            <ProductCardImage productId={product.id} height={180} />
           </CardHeader>
           <CardContent className="flex flex-col h-full justify-between p-5">
             <Column className="gap-2">
@@ -59,9 +57,7 @@ const ProductCard = ({ product, showCategory = true, viewStyle = "grid" }: Props
       </CardHeader>
       <CardContent>
         <Column className="justify-between">
-          <div className="h-[250px]">
-            <ProductImageCarousel.Container productId={product.id} height={200} />
-          </div>
+          <ProductCardImage productId={product.id} height={250} />
           <Row className="gap-2 items-center">
             <Badge size="small">가격</Badge>
             <P>{product.price.toLocaleString("ko-KR")}원</P>
