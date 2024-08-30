@@ -5,7 +5,7 @@ import { productImageBuket } from "./storage.const";
  * @desc 업로드
  */
 export const upload = async (file: File, productId: number): Promise<string> => {
-  const fileName = `${productId}_${Date.now()}`;
+  const fileName = `${productId}/${productId}_${Date.now()}`;
 
   const { data, error } = await supabase.storage.from(productImageBuket).upload(fileName, file);
 

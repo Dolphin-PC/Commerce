@@ -12,6 +12,7 @@ type Props = ProductImage;
 
 export const deleteProductImage = async (props: Props): Promise<number> => {
   await deleteUpload([props.imgUrl]);
+  await deleteUpload([props.thumnailUrl]);
 
   const { error } = await supabase.from("product_image").delete().eq("id", props.id);
 
