@@ -14,10 +14,14 @@ const Error = () => {
 
 export default Error;
 
-export const CenterError = () => {
+interface CenterErrorProps {
+  children?: React.ReactNode;
+}
+export const CenterError = ({ children }: CenterErrorProps) => {
   return (
     <CenterLayout>
       <Error />
+      {children}
     </CenterLayout>
   );
 };
