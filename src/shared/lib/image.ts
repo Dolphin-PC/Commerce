@@ -74,15 +74,15 @@ const resizeImage = async ({ file, width, height, compressFormat, quality }: Res
   });
 };
 
-const getImageSize = (file: File): Promise<{ width: number; height: number }> => {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    img.onload = () => {
-      resolve({ width: img.width, height: img.height });
-    };
-    img.onerror = (err) => {
-      reject(err);
-    };
-    img.src = URL.createObjectURL(file);
-  });
-};
+// const getImageSize = (file: File): Promise<{ width: number; height: number }> => {
+//   return new Promise((resolve, reject) => {
+//     const img = new Image();
+//     img.onload = () => {
+//       resolve({ width: img.width, height: img.height });
+//     };
+//     img.onerror = (err) => {
+//       reject(err);
+//     };
+//     img.src = URL.createObjectURL(file);
+//   });
+// };
