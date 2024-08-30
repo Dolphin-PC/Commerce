@@ -26,7 +26,7 @@ export const useDeleteProductImage = () => {
     mutationKey: ["deleteProductImage"],
     mutationFn: deleteProductImage,
     onSuccess: (productId) => {
-      queryClient.refetchQueries({ queryKey: [queryKey.product, productId, queryKey.image] });
+      queryClient.refetchQueries({ queryKey: [queryKey.product, queryKey.image, productId] });
     },
   });
 };

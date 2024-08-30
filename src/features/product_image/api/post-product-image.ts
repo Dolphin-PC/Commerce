@@ -29,7 +29,7 @@ export const useAddProductImage = () => {
   return useMutation({
     mutationFn: (props: Props) => addProductImage(props),
     onSuccess: (res) => {
-      queryClient.refetchQueries({ queryKey: [queryKey.product, res.productId, queryKey.image] });
+      queryClient.refetchQueries({ queryKey: [queryKey.product, queryKey.image, res.productId] });
     },
   });
 };
