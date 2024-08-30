@@ -15,7 +15,7 @@ const ProductCardImage = ({ height, productId }: Props) => {
   const { data: image } = useProductImageQuery({ productId, limit: 1 });
 
   if (!image) return null;
-  return <img loading="lazy" src={bucketBaseUrl + "/" + image[0].imgUrl} alt={String(image[0].productId)} className={cn("p-1 object-contain w-full")} style={{ height: `${height}px` }} />;
+  return <img loading="lazy" src={bucketBaseUrl + "/" + image[0].thumnailUrl} alt={String(image[0].productId)} className={cn("p-1 object-cover w-full")} style={{ height: `${height}px` }} />;
 };
 
 export default ProductCardImage;

@@ -93,7 +93,7 @@ const ProductImageSection = ({ images, setImages, savedImages = [] }: Props) => 
         {/* 기존 이미지 */}
         {savedImages.map((image, index) => (
           <div key={index} className="relative">
-            <img src={bucketBaseUrl + "/" + image.imgUrl} alt={image.imgUrl} className="w-24 h-24 object-cover" />
+            <img src={bucketBaseUrl + "/" + image.thumnailUrl} alt={image.thumnailUrl} className="w-24 h-24 object-cover" />
             <ConfirmDialog
               title="정말 삭제하시겠습니까?"
               description="삭제된 이미지는 복구 불가합니다."
@@ -107,7 +107,7 @@ const ProductImageSection = ({ images, setImages, savedImages = [] }: Props) => 
                 </Button>
               }
             >
-              <img src={bucketBaseUrl + "/" + image.imgUrl} alt={image.imgUrl} className="w-full max-h-32 object-cover" />
+              <img src={bucketBaseUrl + "/" + image.imgUrl} alt={image.imgUrl} className="w-full h-full object-cover" />
             </ConfirmDialog>
           </div>
         ))}
