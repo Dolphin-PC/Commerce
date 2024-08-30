@@ -1,6 +1,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Fragment } from "react/jsx-runtime";
+import { HelmetProvider } from "react-helmet-async";
 
 const queryClient = new QueryClient();
 
@@ -12,7 +13,7 @@ export const RootProvider = ({ children }: Props) => {
     <Fragment>
       <QueryClientProvider client={queryClient}>
         <ReactQueryDevtools initialIsOpen={true} />
-        {children}
+        <HelmetProvider>{children}</HelmetProvider>
       </QueryClientProvider>
     </Fragment>
   );

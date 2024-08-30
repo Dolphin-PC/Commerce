@@ -19,6 +19,7 @@ import { Minus, Plus } from "lucide-react";
 import { useLayoutEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import RecommendProductList from "./ui/RecommendProductList";
+import { ProductDetailPageHelmet } from "../Helmets";
 
 /**
  * @desc 상품 상세 페이지
@@ -55,6 +56,7 @@ const ProductDetailPage = () => {
 
   return (
     <MainLayout>
+      <ProductDetailPageHelmet />
       <Column className="gap-20">
         <Column className="gap-2">
           <Row className="gap-3 h-[500px] items-start">

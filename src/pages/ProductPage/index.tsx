@@ -14,6 +14,7 @@ import { useSearchStore } from "@/widgets/product-search-drawer/store/useSearchS
 import { LayoutGrid, LayoutList, SlidersHorizontal } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { ProductPageHelmet } from "../Helmets";
 
 /**
  * @desc 상품 목록 페이지
@@ -50,6 +51,7 @@ const ProductPage = () => {
 
   return (
     <MainLayout>
+      <ProductPageHelmet />
       <Card>
         <CardHeader>
           <Row className="justify-between">
