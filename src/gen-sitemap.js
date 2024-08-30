@@ -1,6 +1,6 @@
 import fs from "fs";
 
-const ROUTES = {
+export const ROUTES = {
   HOME: { loc: "/", changefreq: "daily", priority: 1.0 },
 
   SIGNIN: { loc: "/sign-in", changefreq: "monthly", priority: 0.8 },
@@ -14,7 +14,7 @@ const ROUTES = {
   DASHBOARD__PRODUCTS: { loc: "/dashboard/products", changefreq: "daily", priority: 0.9 },
 };
 
-const DOMAIN = process.env.VITE_DOMAIN_URL;
+const DOMAIN = "http://localhost:5173";
 
 function generateSitemap() {
   let sitemap = `<?xml version="1.0" encoding="UTF-8"?>

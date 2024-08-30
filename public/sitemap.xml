@@ -1,60 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
-    <!--  generated At 2024-08-30T05:30:50.474Z -->
+    <!--  generated At 2024-08-30T05:52:57.073Z -->
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
   
     <url>
-        <loc>undefined/</loc>
-        <lastmod>2024-08-30T05:30:50.476Z</lastmod>
+        <loc>http://localhost:5173/</loc>
+        <lastmod>2024-08-30T05:52:57.073Z</lastmod>
         <changefreq>daily</changefreq>
         <priority>1</priority>
     </url>
 
     <url>
-        <loc>undefined/sign-in</loc>
-        <lastmod>2024-08-30T05:30:50.476Z</lastmod>
+        <loc>http://localhost:5173/sign-in</loc>
+        <lastmod>2024-08-30T05:52:57.073Z</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
 
     <url>
-        <loc>undefined/sign-up</loc>
-        <lastmod>2024-08-30T05:30:50.476Z</lastmod>
+        <loc>http://localhost:5173/sign-up</loc>
+        <lastmod>2024-08-30T05:52:57.073Z</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
 
     <url>
-        <loc>undefined/sign-up/oauth</loc>
-        <lastmod>2024-08-30T05:30:50.476Z</lastmod>
+        <loc>http://localhost:5173/sign-up/oauth</loc>
+        <lastmod>2024-08-30T05:52:57.073Z</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
 
     <url>
-        <loc>undefined/products</loc>
-        <lastmod>2024-08-30T05:30:50.476Z</lastmod>
+        <loc>http://localhost:5173/products</loc>
+        <lastmod>2024-08-30T05:52:57.073Z</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.9</priority>
     </url>
 
     <url>
-        <loc>undefined/my</loc>
-        <lastmod>2024-08-30T05:30:50.476Z</lastmod>
+        <loc>http://localhost:5173/my</loc>
+        <lastmod>2024-08-30T05:52:57.073Z</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.9</priority>
     </url>
 
     <url>
-        <loc>undefined/dashboard</loc>
-        <lastmod>2024-08-30T05:30:50.476Z</lastmod>
+        <loc>http://localhost:5173/dashboard</loc>
+        <lastmod>2024-08-30T05:52:57.073Z</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.9</priority>
     </url>
 
     <url>
-        <loc>undefined/dashboard/products</loc>
-        <lastmod>2024-08-30T05:30:50.476Z</lastmod>
+        <loc>http://localhost:5173/dashboard/products</loc>
+        <lastmod>2024-08-30T05:52:57.073Z</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.9</priority>
     </url>
