@@ -21,8 +21,8 @@ export const resizeImageFile = async ({ file, width, height }: Props): Promise<F
 
   let res = file;
 
-  console.group("(300*300)파일 압축 테스트 :: WEBP");
-  console.log("원본 파일 사이즈", orgSize);
+  console.group(`(${width}*${height})파일 압축 :: WEBP`);
+  console.log("원본 파일 사이즈", orgSize.toLocaleString() + "byte");
   console.log("원본 파일 확장자", file.type);
   const data = [];
   for await (const quality of qualityList) {
@@ -30,8 +30,8 @@ export const resizeImageFile = async ({ file, width, height }: Props): Promise<F
 
     data.push({
       "압축파일 품질": quality,
-      "원본파일 사이즈": orgSize,
-      "압축된 파일 사이즈": resizedFile.size,
+      "원본파일 사이즈": orgSize.toLocaleString() + "byte",
+      "압축된 파일 사이즈": resizedFile.size.toLocaleString() + "byte",
       압축률: (((orgSize - resizedFile.size) / orgSize) * 100).toFixed(2) + "%",
     });
 

@@ -251,16 +251,19 @@ export type Database = {
           id: number;
           imgUrl: string;
           productId: number;
+          thumnailUrl: string | null;
         };
         Insert: {
           id?: number;
           imgUrl: string;
           productId: number;
+          thumnailUrl?: string | null;
         };
         Update: {
           id?: number;
           imgUrl?: string;
           productId?: number;
+          thumnailUrl?: string | null;
         };
         Relationships: [
           {
