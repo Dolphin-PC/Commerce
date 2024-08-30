@@ -85,7 +85,7 @@ export const SignInForm = () => {
                 <button type="button" onClick={togglePasswordVisibility}>
                   <small>{passwordVisible ? "Hide" : "Show"}</small>
                 </button>
-                <FormMessage />
+                <FormMessage data-testid="error-password" />
               </FormItem>
             )}
           />

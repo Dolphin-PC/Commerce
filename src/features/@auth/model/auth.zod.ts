@@ -20,7 +20,7 @@ const password = z
   .min(10, { message: "비밀번호는 최소 10자 이상이어야 합니다." })
   .max(20, { message: "비밀번호는 최대 20자 이하여야 합니다." })
   .regex(PASSWORD_REGEX, {
-    message: "소문자, 대문자, 숫자, 특수문자 즁 3가지 이상 포함해야 합니다.",
+    message: "비밀번호는 문자, 숫자, 특수문자 중 3가지 이상을 포함해야 합니다.",
   })
   .regex(PASSWORD_KEYBOARD_REGEX, {
     message: "키보드 상에 나란히 있는 문자열을 포함할 수 없습니다.",
