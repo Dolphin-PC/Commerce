@@ -4,7 +4,7 @@ import { Small } from "@/shared/components/atoms/Typography";
 import { Checkbox } from "@/shared/components/ui/checkbox";
 import { CheckedState } from "@radix-ui/react-checkbox";
 import * as Slider from "@radix-ui/react-slider";
-import debounce from "lodash/debounce";
+import _ from "lodash";
 import { useCallback, useState } from "react";
 import { useSearchDrawerStore } from "../store/useSearchDrawerStore";
 
@@ -31,7 +31,7 @@ const PriceRangeSlider = () => {
 
   // state변경시, 함수가 재선언되어 debounce가 초기화되는 문제 방지
   const onPriceRangeChangeEnd = useCallback(
-    debounce((value: number[]) => {
+    _.debounce((value: number[]) => {
       drawerStore.setPriceRange(value);
     }, 300),
     []
