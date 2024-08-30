@@ -28,7 +28,7 @@ export const getProductImage = async ({ productId, limit }: Props): Promise<Retu
 
 export const useProductImageQuery = (props: Props) => {
   return useQuery({
-    queryKey: [queryKey.product, queryKey.image, { ...props }],
+    queryKey: [queryKey.product, queryKey.image, props.productId, props.limit],
     queryFn: () => getProductImage(props),
     staleTime: Infinity,
     enabled: !!props.productId,

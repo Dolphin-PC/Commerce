@@ -27,9 +27,9 @@ const ProductCard = ({ product, showCategory = true, viewStyle = "grid" }: Props
   if (viewStyle === "list") {
     return (
       <Card onMouseEnter={handlePrefetch} className="hover:translate-x-3 transition-transform duration-300">
-        <Row className="h-[230px]">
-          <CardHeader>
-            <ProductCardImage productId={product.id} height={180} />
+        <Row className="h-[250px]">
+          <CardHeader className="w-[250px]">
+            <ProductCardImage productId={product.id} height={200} />
           </CardHeader>
           <CardContent className="flex flex-col h-full justify-between p-5">
             <Column className="gap-2">
@@ -57,7 +57,7 @@ const ProductCard = ({ product, showCategory = true, viewStyle = "grid" }: Props
       </CardHeader>
       <CardContent>
         <Column className="justify-between">
-          <ProductCardImage productId={product.id} height={250} />
+          <ProductCardImage productId={product.id} height={300} />
           <Row className="gap-2 items-center">
             <Badge size="small">가격</Badge>
             <P>{product.price.toLocaleString("ko-KR")}원</P>

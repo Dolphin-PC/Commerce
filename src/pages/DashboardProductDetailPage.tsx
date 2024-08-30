@@ -97,9 +97,9 @@ const DashboardProductDetailPage = () => {
                     key={image.id}
                     title="업로드 이미지"
                     description=""
-                    triggerComponent={<img key={image.id} src={bucketBaseUrl + "/" + image.imgUrl} alt={image.imgUrl} className="w-24 h-24 object-cover" />}
+                    triggerComponent={<img key={image.id} src={bucketBaseUrl + "/" + image.thumnailUrl} alt={image.thumnailUrl} className="w-24 h-24 object-cover" />}
                   >
-                    <img src={bucketBaseUrl + "/" + image.imgUrl} alt={image.imgUrl} className="w-full max-h-32 object-cover" />
+                    <img src={bucketBaseUrl + "/" + image.imgUrl} alt={image.imgUrl} className="w-full h-full object-cover" />
                   </ConfirmDialog>
                 ))}
               </Row>

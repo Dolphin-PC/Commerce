@@ -12,6 +12,7 @@ type Props = ProductImage;
 
 export const deleteProductImage = async (props: Props): Promise<number> => {
   await deleteUpload([props.imgUrl]);
+  await deleteUpload([props.thumnailUrl]);
 
   const { error } = await supabase.from("product_image").delete().eq("id", props.id);
 
@@ -26,7 +27,7 @@ export const useDeleteProductImage = () => {
     mutationKey: ["deleteProductImage"],
     mutationFn: deleteProductImage,
     onSuccess: (productId) => {
-      queryClient.refetchQueries({ queryKey: [queryKey.product, productId, queryKey.image] });
+      queryClient.refetchQueries({ queryKey: [queryKey.product, queryKey.image, productId] });
     },
   });
 };
