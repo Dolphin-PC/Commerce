@@ -524,6 +524,11 @@
   resolved "https://registry.yarnpkg.com/@polka/url/-/url-1.0.0-next.25.tgz#f077fdc0b5d0078d30893396ff4827a13f99e817"
   integrity sha512-j7P6Rgr3mmtdkeDGTe0E/aYyWEWVtc5yFXtHCRHs28/jptDEWfaVOc5T7cblqy1XKPPfCxJc/8DwQ5YgLOZOVQ==
 
+"@portone/browser-sdk@^0.0.9":
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/@portone/browser-sdk/-/browser-sdk-0.0.9.tgz#3a893acfa573c46a5c2f0460aff03fbc893989bd"
+  integrity sha512-z1HlHE608qvKAOwDN+iQCxQtQ6lkLU/lp+gv9aE4FPM5yEU1z8ucRUf/Bu5bT00k1/VWGAgidId5Sq4Q/Ez5XA==
+
 "@radix-ui/number@1.1.0":
   version "1.1.0"
   resolved "https://registry.npmjs.org/@radix-ui/number/-/number-1.1.0.tgz"
