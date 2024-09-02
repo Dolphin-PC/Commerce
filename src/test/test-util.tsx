@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import { render } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 export * from "@testing-library/react";
 
@@ -18,4 +19,16 @@ export const renderWithRouter = (ui: ReactNode, { route = "/" } = {}) => {
     user: userEvent.setup(),
     ...render(ui, { wrapper: BrowserRouter }),
   };
+};
+
+export const queryWrapper = () => {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: false, // 재시도에 의해 중복 요청이 발생하는 것을 방지
+      },
+    },
+  });
+
+  return ({ children }: { children: ReactNode }) => <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 };

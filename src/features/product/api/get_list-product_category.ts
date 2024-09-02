@@ -57,11 +57,10 @@ const getProductListWithCategory = async ({ sellerId, categoryId, pageNumber = 0
   // 정렬
   if (order) q = q.order(order.column, { ascending: order.ascending });
   else q = q.order("createdAt", { ascending: false });
+  q.order("id", { ascending: false }); // 생성일자가 동일할 떄, 데이터가 겹치는 경우 방비
 
   const { data, error } = await q;
   if (error) throw error;
-
-  console.log({ data });
 
   return {
     data: data as ProductCategory[],
