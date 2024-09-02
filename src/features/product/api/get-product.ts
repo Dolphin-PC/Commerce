@@ -1,7 +1,7 @@
 import { supabase } from "@/shared/config/@db/supabase.config";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Product } from "../type/type";
-import { queryKey } from "@/shared/consts/react-query";
+import { queryKey, staleTime } from "@/shared/consts/react-query";
 
 /**
  * 제품 상세 조회
@@ -33,6 +33,6 @@ export const useProductSuspenseQuery = (props: Props) => {
   return useSuspenseQuery({
     queryKey: [queryKey.product, props.id],
     queryFn: () => getProduct(props),
-    staleTime: Infinity,
+    staleTime: staleTime.product,
   });
 };
