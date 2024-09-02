@@ -13,6 +13,8 @@ const HomePage = lazy(() => import("@/pages/HomePage/index"));
 const ProductPage = lazy(() => import("@/pages/ProductPage/index"));
 const ProductDetailPage = lazy(() => import("@/pages/ProductDetailPage/index"));
 
+const CartPage = lazy(() => import("@/pages/CartPage"));
+
 const SignInPage = lazy(() => import("@/pages/SignInPage"));
 const SignupPage = lazy(() => import("@/pages/SignupPage"));
 const SignupOAuthPage = lazy(() => import("@/pages/SignupOAuthPage"));
@@ -41,6 +43,7 @@ export const Router = () => {
 
             <Route element={<PrivateRoute />}>
               <Route path={ROUTES.MY} element={<Button>my</Button>} />
+              <Route path={ROUTES.CART} element={<CartPage />} />
 
               {/* 판매자 전용 */}
               <Route element={<SellerRoute />}>
