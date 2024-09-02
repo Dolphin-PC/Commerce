@@ -1,9 +1,10 @@
 import { useAuthStore } from "@/features/@auth/store/auth.store";
 import { useCartProductCategoryQuery } from "@/features/cart/api/get_list-cart_product_category";
-import CartCard from "@/features/cart/ui/CartCard";
+import Cart from "@/features/cart/ui/Cart";
 import Column from "@/shared/components/atoms/Column";
 import Row from "@/shared/components/atoms/Row";
 import { H4 } from "@/shared/components/atoms/Typography";
+import { Card } from "@/shared/components/ui/card";
 import { Checkbox } from "@/shared/components/ui/checkbox";
 import MainLayout from "@/widgets/layout/MainLayout";
 
@@ -26,11 +27,14 @@ const CartPage = () => {
         {cart.data && (
           <Column className="gap-3">
             {cart.data.map((cart) => (
-              <CartCard key={cart.id} cart={cart}>
-                <Checkbox id="all-carts" className="h-6 w-6" />
-
-                <CartCard.Product />
-              </CartCard>
+              <Cart key={cart.id} cart={cart}>
+                <Card>
+                  <Row className="items-center ml-2">
+                    <Checkbox id="all-carts" className="h-6 w-6" />
+                    <Cart.Product />
+                  </Row>
+                </Card>
+              </Cart>
             ))}
           </Column>
         )}

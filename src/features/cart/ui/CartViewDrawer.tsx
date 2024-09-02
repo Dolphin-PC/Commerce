@@ -8,7 +8,9 @@ import { ROUTES } from "@/shared/consts/route.const";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { CartProductCategory } from "../type";
-import CartCard from "./CartCard";
+import Cart from "./Cart";
+import { Card } from "@/shared/components/ui/card";
+import CartOptionMenu from "./CartOptionMenu";
 
 interface Props {
   data: CartProductCategory[];
@@ -39,9 +41,12 @@ const CartViewDrawer = ({ data }: Props) => {
         </DrawerHeader>
         <Column className="ml-2 mr-2 gap-2 overflow-scroll scrollbar-hide">
           {data.map((cart) => (
-            <CartCard key={cart.id} cart={cart}>
-              <CartCard.Product />
-            </CartCard>
+            <Cart key={cart.id} cart={cart}>
+              <Card>
+                <CartOptionMenu cart={cart} />
+                <Cart.Product />
+              </Card>
+            </Cart>
           ))}
         </Column>
         <DrawerFooter>

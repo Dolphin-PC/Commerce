@@ -1,47 +1,33 @@
-import ProductImageCarousel from "@/features/product_image/ui/ProductImageCarousel";
 import Column from "@/shared/components/atoms/Column";
 import Row from "@/shared/components/atoms/Row";
 import { P } from "@/shared/components/atoms/Typography";
 import { Badge } from "@/shared/components/ui/badge";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/shared/components/ui/card";
+import { CardContent, CardFooter, CardHeader, CardTitle } from "@/shared/components/ui/card";
 import { CartProductCategory } from "../type";
-import CartOptionMenu from "./CartOptionMenu";
 import ProductCardImage from "@/features/product_image/ui/ProductCardImage";
 import { createContext, useContext } from "react";
 
 const CartProductCardContext = createContext<{ cart: CartProductCategory } | null>(null);
 
-interface Props {
+interface CartProps {
   cart: CartProductCategory;
-  isOptionMenu?: boolean;
   children?: React.ReactNode;
 }
 
 /**
- * @desc 장바구니 상품 카드
+ * @desc 장바구니 Compound Component
  */
-const CartCard = ({ cart, isOptionMenu, children }: Props) => {
+const Cart = ({ cart, children }: CartProps) => {
   const { product } = cart;
 
   if (product === null) return;
-  return (
-    <CartProductCardContext.Provider value={{ cart }}>
-      <Card className="relative">
-        {isOptionMenu && (
-          <Column className="absolute top-0 left-0">
-            <CartOptionMenu cart={cart} />
-          </Column>
-        )}
-        {children}
-      </Card>
-    </CartProductCardContext.Provider>
-  );
+  return <CartProductCardContext.Provider value={{ cart }}>{children}</CartProductCardContext.Provider>;
 };
 
 // 장바구니 > 상품
 const Product = () => {
   const context = useContext(CartProductCardContext);
-  if (context === null) throw new Error("CartCard.Product must be used within CartCard");
+  if (context === null) throw new Error("Cart.Product must be used within Cart");
 
   const { cart } = context;
   const { product } = cart;
@@ -79,6 +65,7 @@ const Product = () => {
     </Row>
   );
 };
+Product.displayName = "Cart.Product";
 
-CartCard.Product = Product;
-export default CartCard;
+Cart.Product = Product;
+export default Cart;
