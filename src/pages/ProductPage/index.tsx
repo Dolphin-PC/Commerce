@@ -12,9 +12,13 @@ import MainLayout from "@/widgets/layout/MainLayout";
 import { useSearchDrawerStore } from "@/widgets/product-search-drawer/store/useSearchDrawerStore";
 import { useSearchStore } from "@/widgets/product-search-drawer/store/useSearchStore";
 import { LayoutGrid, LayoutList, SlidersHorizontal } from "lucide-react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { ProductPageHelmet } from "../Helmets";
+import { FixedSizeList } from "react-window";
+import { GridWindowLayout, ListWindowLayout } from "@/shared/components/templates/WindowLayout";
+import Windowing from "@/shared/components/atoms/Windowing";
+import { H2 } from "@/shared/components/atoms/Typography";
 
 /**
  * @desc 상품 목록 페이지
@@ -49,10 +53,18 @@ const ProductPage = () => {
     }
   };
 
+  const windowingTestData = useMemo(
+    () =>
+      Array(1_000_0)
+        .fill(0)
+        .map((_, index) => <H2>{index}</H2>),
+    []
+  );
+
   return (
     <MainLayout>
       <ProductPageHelmet />
-      <Card>
+      <Card className="h-full">
         <CardHeader>
           <Row className="justify-between">
             <Tabs defaultValue={viewStyle} onValueChange={handleViewStyleChange}>
@@ -81,11 +93,14 @@ const ProductPage = () => {
           </Row>
         </CardHeader>
 
-        <CardContent>
+        <CardContent className="h-full">
           {/* grid style view */}
           {viewStyle === "grid" && product.data && (
-            <Grid className="grid-cols-4 gap-3">
-              {product.data.pages.map((page) =>
+            <GridWindowLayout
+              query={product}
+              infiniteCallback={product.fetchNextPage}
+              // childrens={windowingTestData}
+              childrens={product.data.pages.flatMap((page) =>
                 page.data.map((product) => {
                   return (
                     <Link to={ROUTES.PRODUCTS_ID_(product.id)} key={product.id}>
@@ -94,26 +109,42 @@ const ProductPage = () => {
                   );
                 })
               )}
-            </Grid>
+            />
           )}
           {/* list style view */}
           {viewStyle === "list" && product.data && (
-            <Column className="gap-3">
-              {product.data.pages.map((page) =>
-                page.data.map((product) => {
-                  return (
-                    <Link to={ROUTES.PRODUCTS_ID_(product.id)} key={product.id}>
-                      <ProductCard product={product} viewStyle={viewStyle} />
-                    </Link>
-                  );
-                })
-              )}
-            </Column>
+            <ListWindowLayout
+              childrens={windowingTestData}
+              // childrens={product.data.pages.flatMap((page) =>
+              //   page.data.map((product) => {
+              //     return (
+              //       <Link to={ROUTES.PRODUCTS_ID_(product.id)} key={product.id}>
+              //         <ProductCard product={product} viewStyle={viewStyle} />
+              //       </Link>
+              //     );
+              //   })
+              // )}
+              query={product}
+              infiniteCallback={() => {
+                console.log("infiniteCallback");
+              }}
+            />
+            // <Column className="gap-3">
+            //   {product.data.pages.map((page) =>
+            //     page.data.map((product) => {
+            //       return (
+            //         <Link to={ROUTES.PRODUCTS_ID_(product.id)} key={product.id}>
+            //           <ProductCard product={product} viewStyle={viewStyle} />
+            //         </Link>
+            //       );
+            //     })
+            //   )}
+            // </Column>
           )}
           {product.data.pages[0].data.length === 0 && <p>검색된 상품이 없습니다.</p>}
         </CardContent>
 
-        <CardFooter ref={viewRef}></CardFooter>
+        {/* <CardFooter ref={viewRef}></CardFooter> */}
       </Card>
     </MainLayout>
   );
