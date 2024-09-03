@@ -8,13 +8,13 @@ import { PrivateRoute } from "./Private.route";
 import { SellerRoute } from "./Seller.route";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from "@/shared/components/molecules/ErrorFallback";
-import OrderPage from "@/pages/OrderPage";
 
 const HomePage = lazy(() => import("@/pages/HomePage/index"));
 const ProductPage = lazy(() => import("@/pages/ProductPage/index"));
 const ProductDetailPage = lazy(() => import("@/pages/ProductDetailPage/index"));
 
 const CartPage = lazy(() => import("@/pages/CartPage"));
+const OrderPage = lazy(() => import("@/pages/OrderPage"));
 
 const SignInPage = lazy(() => import("@/pages/SignInPage"));
 const SignupPage = lazy(() => import("@/pages/SignupPage"));
