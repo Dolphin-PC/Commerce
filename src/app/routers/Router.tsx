@@ -8,6 +8,7 @@ import { PrivateRoute } from "./Private.route";
 import { SellerRoute } from "./Seller.route";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from "@/shared/components/molecules/ErrorFallback";
+import OrderPage from "@/pages/OrderPage";
 
 const HomePage = lazy(() => import("@/pages/HomePage/index"));
 const ProductPage = lazy(() => import("@/pages/ProductPage/index"));
@@ -44,6 +45,7 @@ export const Router = () => {
             <Route element={<PrivateRoute />}>
               <Route path={ROUTES.MY} element={<Button>my</Button>} />
               <Route path={ROUTES.CART} element={<CartPage />} />
+              <Route path={ROUTES.ORDERS_ID} element={<OrderPage />} />
 
               {/* 판매자 전용 */}
               <Route element={<SellerRoute />}>

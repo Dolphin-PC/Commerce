@@ -16,7 +16,7 @@ interface Return {
   quantity: Product["quantity"];
 }
 
-const getProductQuantity = async ({ id, sellerId }: Props): Promise<Return> => {
+export const getProductQuantity = async ({ id, sellerId }: Props): Promise<Return> => {
   let q = supabase.from("product").select(`quantity`);
 
   q = q.eq("id", id);

@@ -96,20 +96,20 @@ export type Database = {
         Row: {
           createdAt: string;
           id: number;
-          status: string;
-          userId: string | null;
+          status: Database["public"]["Enums"]["ORDER_STATUS"];
+          userId: string;
         };
         Insert: {
           createdAt?: string;
           id?: number;
-          status: string;
-          userId?: string | null;
+          status: Database["public"]["Enums"]["ORDER_STATUS"];
+          userId: string;
         };
         Update: {
           createdAt?: string;
           id?: number;
-          status?: string;
-          userId?: string | null;
+          status?: Database["public"]["Enums"]["ORDER_STATUS"];
+          userId?: string;
         };
         Relationships: [
           {
@@ -124,18 +124,21 @@ export type Database = {
       order_detail: {
         Row: {
           id: number;
-          orderId: number | null;
-          productId: number | null;
+          orderId: number;
+          productId: number;
+          quantity: number;
         };
         Insert: {
           id?: number;
-          orderId?: number | null;
-          productId?: number | null;
+          orderId: number;
+          productId: number;
+          quantity?: number;
         };
         Update: {
           id?: number;
-          orderId?: number | null;
-          productId?: number | null;
+          orderId?: number;
+          productId?: number;
+          quantity?: number;
         };
         Relationships: [
           {
@@ -231,17 +234,17 @@ export type Database = {
         };
         Relationships: [
           {
-            foreignKeyName: "fk_user";
-            columns: ["sellerId"];
-            isOneToOne: false;
-            referencedRelation: "user";
-            referencedColumns: ["id"];
-          },
-          {
             foreignKeyName: "product_categoryId_fkey";
             columns: ["categoryId"];
             isOneToOne: false;
             referencedRelation: "category";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "product_sellerId_fkey";
+            columns: ["sellerId"];
+            isOneToOne: false;
+            referencedRelation: "user";
             referencedColumns: ["id"];
           }
         ];
@@ -348,6 +351,7 @@ export type Database = {
     };
     Enums: {
       DISCOUNT_TYPE: "PERCENT" | "COST" | "NONE";
+      ORDER_STATUS: "PAY_BEFORE" | "PAY_COMPLETE" | "SELLER_CONFIRM" | "SHIPPING" | "SHIP_COMPLETE" | "REFUND_REQUEST" | "REFUND_COMPLETE";
     };
     CompositeTypes: {
       [_ in never]: never;

@@ -1,11 +1,11 @@
-import { supabase } from "@/shared/config/@db/supabase.config";
-import { Product, ProductUpdate } from "../type/type";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { queryKey } from "@/shared/consts/react-query";
 import { Tables } from "@/shared/config/@db/database-generated.type";
+import { supabase } from "@/shared/config/@db/supabase.config";
+import { queryKey } from "@/shared/consts/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Product, ProductUpdate } from "../type/type";
 
 /**
- * 제품 수정
+ * @desc 제품 수정
  */
 
 interface Props {
@@ -13,9 +13,9 @@ interface Props {
   update: ProductUpdate;
 }
 
-type Return = Product;
+interface Return extends Product {}
 
-export const putProduct = async ({ id, update }: Props): Promise<Return> => {
+const putProduct = async ({ id, update }: Props): Promise<Return> => {
   if (id === undefined) throw Error("id is required");
 
   const { data, error } = await supabase.from("product").update(update).eq("id", id).select().single();

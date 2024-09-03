@@ -12,6 +12,8 @@ export const ROUTES = {
   // private
   MY: "/my",
   CART: "/cart",
+  ORDERS_ID: "/orders/:id",
+  ORDERS_ID_: (id: string) => `/orders/${id}`,
 
   // seller
   DASHBOARD: "/dashboard",

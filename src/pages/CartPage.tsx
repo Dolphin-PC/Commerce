@@ -3,6 +3,7 @@ import { useDeleteCartList } from "@/features/cart/api/delete-cart_list";
 import { useCartProductCategoryQuery } from "@/features/cart/api/get_list-cart_product_category";
 import { CartProductCategory } from "@/features/cart/type";
 import Cart from "@/features/cart/ui/Cart";
+import { useNewOrder } from "@/features/order/hooks/useNewOrder";
 import Column from "@/shared/components/atoms/Column";
 import Row from "@/shared/components/atoms/Row";
 import { H3, H4 } from "@/shared/components/atoms/Typography";
@@ -15,12 +16,13 @@ import { ROUTES } from "@/shared/consts/route.const";
 import MainLayout from "@/widgets/layout/MainLayout";
 import { CheckedState } from "@radix-ui/react-checkbox";
 import { Fragment, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 /**
  * @desc 장바구니 화면
  */
 const CartPage = () => {
+  const navigate = useNavigate();
   const [checkedCartList, setCheckedCartList] = useState<CartProductCategory[]>([]);
   const [checkedAll, setCheckedAll] = useState(false);
 
@@ -29,6 +31,9 @@ const CartPage = () => {
 
   const deleteMutation = useDeleteCartList();
 
+  const { handleNewOrder } = useNewOrder();
+
+  // 장바구니 개별선택
   const handleCheckedChange = (cart: CartProductCategory) => (checked: CheckedState) => {
     setCheckedCartList((prev) => {
       if (!!checked) return [...prev, cart];
@@ -36,6 +41,7 @@ const CartPage = () => {
     });
   };
 
+  // 장바구니 전체선택
   const handleCheckedAll = (checked: CheckedState) => {
     setCheckedAll(!!checked);
     setCheckedCartList(() => {
@@ -44,6 +50,7 @@ const CartPage = () => {
     });
   };
 
+  // 장바구니 선택삭제
   const handleDeleteCartList = () => {
     if (checkedCartList.length === 0) return;
     deleteMutation.mutate(
@@ -56,6 +63,19 @@ const CartPage = () => {
         },
       }
     );
+  };
+
+  const handleOrder = async () => {
+    if (checkedCartList.length === 0) {
+      toast({ title: "주문 실패", description: "주문할 상품을 선택해주세요." });
+      return;
+    }
+
+    // 주문::생성
+    const newOrder = await handleNewOrder(checkedCartList);
+
+    // 주문상세::생성
+    navigate(ROUTES.ORDERS_ID_(String(newOrder.id)));
   };
 
   return (
@@ -116,7 +136,7 @@ const CartPage = () => {
                 .toLocaleString("ko-KR")}
               원
             </H4>
-            <Button disabled={!checkedCartList.length} className="w-40">
+            <Button disabled={!checkedCartList.length} className="w-40" onClick={handleOrder}>
               구매하기
             </Button>
           </Row>
