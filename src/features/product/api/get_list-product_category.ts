@@ -85,7 +85,7 @@ export const useProductListCategoryInfiniteQuery = (props: Props) => {
 /** 목록 조회 */
 export const useProductListCategoryQuery = (props: Props) => {
   return useQuery({
-    queryKey: [queryKey.product, queryKey.list, queryKey.category],
+    queryKey: [queryKey.product, queryKey.list, props.categoryId],
     queryFn: () => getProductListWithCategory({ ...props }),
     staleTime: staleTime.product,
   });
