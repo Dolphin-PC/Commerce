@@ -1,9 +1,9 @@
-import { UseSuspenseInfiniteQueryResult } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { IntersectionOptions, useInView } from "react-intersection-observer";
 
 interface Props {
-  query: UseSuspenseInfiniteQueryResult;
+  hasNextPage: boolean;
+  fetchNextPage: () => void;
   options?: IntersectionOptions;
 }
 
@@ -14,12 +14,12 @@ interface Return {
 /**
  * 무한 스크롤, useInView 훅을 사용
  */
-const useInfiniteInView = ({ query, options }: Props): Return => {
+const useInfiniteInView = ({ hasNextPage, fetchNextPage, options }: Props): Return => {
   const { ref, inView } = useInView(options);
 
   useEffect(() => {
-    if (inView && query.hasNextPage) {
-      query.fetchNextPage();
+    if (inView && hasNextPage) {
+      fetchNextPage();
     }
   }, [inView]);
 

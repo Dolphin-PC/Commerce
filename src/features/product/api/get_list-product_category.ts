@@ -62,6 +62,8 @@ const getProductListWithCategory = async ({ sellerId, categoryId, pageNumber = 0
   const { data, error } = await q;
   if (error) throw error;
 
+  console.log("data", data);
+
   return {
     data: data as ProductCategory[],
     hasNextPage: data.length === pageSize,
