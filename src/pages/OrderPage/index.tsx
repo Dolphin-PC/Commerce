@@ -1,5 +1,7 @@
 import { useAuthStore } from "@/features/@auth/store/auth.store";
+import ProductCard from "@/features/product/ui/ProductCard";
 import Row from "@/shared/components/atoms/Row";
+import { Large, Small } from "@/shared/components/atoms/Typography";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/shared/components/ui/card";
 import { Checkbox } from "@/shared/components/ui/checkbox";
@@ -7,14 +9,7 @@ import { Input } from "@/shared/components/ui/input";
 import MainLayout from "@/widgets/layout/MainLayout";
 import { useParams } from "react-router-dom";
 import { useGetOrderDetailProductSuspenseQuery } from "./api/get-order-product";
-import ProductCard from "@/features/product/ui/ProductCard";
-import { Large, Small } from "@/shared/components/atoms/Typography";
-import { useMemo, useState } from "react";
-import * as PortOne from "@portone/browser-sdk/v2";
-import { requestPayment } from "@/features/@portOne/requestPayment";
-import { genOrderName } from "@/features/@portOne/gen-order-name";
-import { Product } from "@/features/product/type/type";
-import { OrderDetail } from "@/features/order_detail/type";
+import { usePaymentHook } from "./hook/usePaymentHook";
 
 /**
  * @desc 주문 화면
@@ -29,23 +24,10 @@ const OrderPage = () => {
     data: { data: order },
   } = useGetOrderDetailProductSuspenseQuery({ orderId, userId });
 
-  const totalPrice = useMemo(() => {
-    return order.order_details.reduce((acc, cur) => {
-      if (cur.product === null) return acc;
-      return acc + cur.quantity * cur.product.price;
-    }, 0);
-  }, []);
-
-  const [isConfirmOrder, setIsConfirmOrder] = useState(false);
-
-  const handlePayment = async () => {
-    const products: Product[] = order.order_details.map((orderDetail) => orderDetail.product);
-
-    requestPayment({
-      orderName: genOrderName({ products }),
-      totalAmount: totalPrice,
-    });
-  };
+  const { handlePayment, isConfirmOrder, setIsConfirmOrder, setShipAddress, shipAddress, totalPrice } = usePaymentHook({
+    orderId: order.id,
+    orderDetail: order.order_details,
+  });
 
   return (
     <Card className="h-full flex flex-col justify-between">
@@ -60,7 +42,7 @@ const OrderPage = () => {
             <CardTitle>배송지 정보</CardTitle>
           </CardHeader>
           <CardContent>
-            <Input placeholder="배송지를 입력해주세요." />
+            <Input placeholder="배송지를 입력해주세요." value={shipAddress} onChange={(e) => setShipAddress(e.target.value)} />
           </CardContent>
         </Card>
 
@@ -77,7 +59,7 @@ const OrderPage = () => {
                     viewStyle="list"
                     product={orderDetail.product}
                     footerContent={
-                      <Row className="gap-2">
+                      <Row className="gap-2 bg-slate-100 p-3 rounded-md">
                         <Small>{orderDetail.quantity}개</Small>
                         <Small>*</Small>
                         <Small>{orderDetail.product.price.toLocaleString("ko-KR")}원</Small>

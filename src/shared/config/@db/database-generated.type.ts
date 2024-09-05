@@ -159,32 +159,38 @@ export type Database = {
       };
       pay_history: {
         Row: {
+          channelType: Database["public"]["Enums"]["CHANNEL_TYPE"];
           "created\bAt": string;
           id: number;
           orderId: number;
+          orderName: string;
           payAmount: number;
           paymentId: string;
-          payMethod: string;
+          payMethod: Database["public"]["Enums"]["PAY_METHOD"];
           shipAddress: string;
           txId: string;
         };
         Insert: {
+          channelType: Database["public"]["Enums"]["CHANNEL_TYPE"];
           "created\bAt"?: string;
           id?: number;
           orderId: number;
+          orderName: string;
           payAmount: number;
           paymentId?: string;
-          payMethod: string;
+          payMethod: Database["public"]["Enums"]["PAY_METHOD"];
           shipAddress?: string;
           txId: string;
         };
         Update: {
+          channelType?: Database["public"]["Enums"]["CHANNEL_TYPE"];
           "created\bAt"?: string;
           id?: number;
           orderId?: number;
+          orderName?: string;
           payAmount?: number;
           paymentId?: string;
-          payMethod?: string;
+          payMethod?: Database["public"]["Enums"]["PAY_METHOD"];
           shipAddress?: string;
           txId?: string;
         };
@@ -359,8 +365,10 @@ export type Database = {
       [_ in never]: never;
     };
     Enums: {
+      CHANNEL_TYPE: "TOSS";
       DISCOUNT_TYPE: "PERCENT" | "COST" | "NONE";
       ORDER_STATUS: "PAY_BEFORE" | "PAY_COMPLETE" | "SELLER_CONFIRM" | "SHIPPING" | "SHIP_COMPLETE" | "REFUND_REQUEST" | "REFUND_COMPLETE";
+      PAY_METHOD: "CARD";
     };
     CompositeTypes: {
       [_ in never]: never;
