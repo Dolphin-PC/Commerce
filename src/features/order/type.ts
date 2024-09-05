@@ -1,7 +1,8 @@
-import { Enums, Tables, TablesInsert } from "@/shared/config/@db/database-generated.type";
+import { Enums, Tables, TablesInsert, TablesUpdate } from "@/shared/config/@db/database-generated.type";
 
 export type Order = Tables<"order">;
 export type OrderInsert = TablesInsert<"order">;
+export type OrderUpdate = TablesUpdate<"order">;
 
 /**
  * @desc 주문 상태

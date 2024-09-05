@@ -96,18 +96,24 @@ export type Database = {
         Row: {
           createdAt: string;
           id: number;
+          orderName: string | null;
+          shipAddress: string | null;
           status: Database["public"]["Enums"]["ORDER_STATUS"];
           userId: string;
         };
         Insert: {
           createdAt?: string;
           id?: number;
+          orderName?: string | null;
+          shipAddress?: string | null;
           status: Database["public"]["Enums"]["ORDER_STATUS"];
           userId: string;
         };
         Update: {
           createdAt?: string;
           id?: number;
+          orderName?: string | null;
+          shipAddress?: string | null;
           status?: Database["public"]["Enums"]["ORDER_STATUS"];
           userId?: string;
         };
@@ -163,11 +169,9 @@ export type Database = {
           "created\bAt": string;
           id: number;
           orderId: number;
-          orderName: string;
           payAmount: number;
           paymentId: string;
           payMethod: Database["public"]["Enums"]["PAY_METHOD"];
-          shipAddress: string;
           txId: string;
         };
         Insert: {
@@ -175,11 +179,9 @@ export type Database = {
           "created\bAt"?: string;
           id?: number;
           orderId: number;
-          orderName: string;
           payAmount: number;
           paymentId?: string;
           payMethod: Database["public"]["Enums"]["PAY_METHOD"];
-          shipAddress?: string;
           txId: string;
         };
         Update: {
@@ -187,11 +189,9 @@ export type Database = {
           "created\bAt"?: string;
           id?: number;
           orderId?: number;
-          orderName?: string;
           payAmount?: number;
           paymentId?: string;
           payMethod?: Database["public"]["Enums"]["PAY_METHOD"];
-          shipAddress?: string;
           txId?: string;
         };
         Relationships: [

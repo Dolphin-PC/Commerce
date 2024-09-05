@@ -15,6 +15,7 @@ const ProductDetailPage = lazy(() => import("@/pages/ProductDetailPage"));
 
 const CartPage = lazy(() => import("@/pages/CartPage"));
 const OrderPage = lazy(() => import("@/pages/OrderPage"));
+const OrderRedirectPage = lazy(() => import("@/pages/OrderRedirectPage"));
 
 const SignInPage = lazy(() => import("@/pages/SignInPage"));
 const SignupPage = lazy(() => import("@/pages/SignupPage"));
@@ -46,6 +47,7 @@ export const Router = () => {
               <Route path={ROUTES.MY} element={<Button>my</Button>} />
               <Route path={ROUTES.CART} element={<CartPage />} />
               <Route path={ROUTES.ORDERS_ID} element={<OrderPage />} />
+              <Route path={ROUTES.ORDERS_REDIRECT} element={<OrderRedirectPage />} />
 
               {/* 판매자 전용 */}
               <Route element={<SellerRoute />}>
