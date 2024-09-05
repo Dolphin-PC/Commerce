@@ -9,22 +9,22 @@ import { SellerRoute } from "./Seller.route";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from "@/shared/components/molecules/ErrorFallback";
 
-const HomePage = lazy(() => import("@/pages/HomePage/index"));
-const ProductPage = lazy(() => import("@/pages/ProductPage/index"));
-const ProductDetailPage = lazy(() => import("@/pages/ProductDetailPage/index"));
+const HomePage = lazy(() => import("@/pages/HomePage"));
+const ProductPage = lazy(() => import("@/pages/ProductPage"));
+const ProductDetailPage = lazy(() => import("@/pages/ProductDetailPage"));
 
 const CartPage = lazy(() => import("@/pages/CartPage"));
 const OrderPage = lazy(() => import("@/pages/OrderPage"));
 
 const SignInPage = lazy(() => import("@/pages/SignInPage"));
 const SignupPage = lazy(() => import("@/pages/SignupPage"));
-const SignupOAuthPage = lazy(() => import("@/pages/SignupOAuthPage"));
+const SignupOAuthPage = lazy(() => import("@/pages/SignupOAuthPage/SignupOAuthPage"));
 
 // 대시보드
 const DashBoardPage = lazy(() => import("@/pages/DashBoardPage"));
 const DashboardProductPage = lazy(() => import("@/pages/DashboardProductPage"));
 const DashboardProductDetailPage = lazy(() => import("@/pages/DashboardProductDetailPage"));
-const ProductNewPage = lazy(() => import("@/pages/ProductNewPage"));
+const DashboardProductNewPage = lazy(() => import("@/pages/DashboardProductNewPage"));
 const ProductEditPage = lazy(() => import("@/pages/ProductEditPage"));
 
 export const Router = () => {
@@ -51,7 +51,7 @@ export const Router = () => {
               <Route element={<SellerRoute />}>
                 <Route path={ROUTES.DASHBOARD} element={<DashBoardPage />} />
                 <Route path={ROUTES.DASHBOARD__PRODUCTS} element={<DashboardProductPage />} />
-                <Route path={ROUTES.DASHBOARD__PRODUCTS__NEW} element={<ProductNewPage />} />
+                <Route path={ROUTES.DASHBOARD__PRODUCTS__NEW} element={<DashboardProductNewPage />} />
                 <Route path={ROUTES.DASHBOARD__PRODUCTS_ID} element={<DashboardProductDetailPage />} />
                 <Route path={ROUTES.DASHBOARD__PRODUCTS__EDIT_ID} element={<ProductEditPage />} />
               </Route>

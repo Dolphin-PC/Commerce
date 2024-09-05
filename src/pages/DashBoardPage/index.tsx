@@ -1,6 +1,6 @@
 import { H2 } from "@/shared/components/atoms/Typography";
 import DashBoardLayout from "@/shared/components/templates/DashBoardLayout";
-import { DashBoardPageHelmet } from "./Helmets";
+import { DashBoardPageHelmet } from "../Helmets";
 
 const DashBoardPage = () => {
   return (
