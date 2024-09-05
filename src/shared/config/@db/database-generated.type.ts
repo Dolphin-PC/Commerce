@@ -164,6 +164,7 @@ export type Database = {
           orderId: number;
           payAmount: number;
           payMethod: string;
+          shipAddress: string;
         };
         Insert: {
           "created\bAt"?: string;
@@ -171,6 +172,7 @@ export type Database = {
           orderId: number;
           payAmount: number;
           payMethod: string;
+          shipAddress?: string;
         };
         Update: {
           "created\bAt"?: string;
@@ -178,6 +180,7 @@ export type Database = {
           orderId?: number;
           payAmount?: number;
           payMethod?: string;
+          shipAddress?: string;
         };
         Relationships: [
           {
