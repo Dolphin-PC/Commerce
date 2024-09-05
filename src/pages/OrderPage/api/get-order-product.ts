@@ -20,7 +20,7 @@ interface Return {
   data: {
     id: Order["id"];
     order_details: (OrderDetail & {
-      product: Product | null;
+      product: Product;
     })[];
   };
 }
@@ -41,8 +41,11 @@ const getOrderDetailProduct = async ({ orderId, userId }: Props): Promise<Return
   const { data, error } = await q;
   if (error) throw error;
   if (!data) throw new Error("주문 상품을 찾을 수 없습니다.");
+  if (!data.order_details) throw new Error("주문 상세 상품을 찾을 수 없습니다.");
+  if (data.order_details.length === 0) throw new Error("주문 상세 상품이 없습니다.");
+  if (data.order_details.some((orderDetail) => orderDetail.product === null)) throw new Error("주문 상세 상품 정보를 찾을 수 없습니다.");
 
-  return { data };
+  return { data: data as Return["data"] };
 };
 
 export const useGetOrderDetailProductSuspenseQuery = (props: Props) => {

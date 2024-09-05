@@ -10,6 +10,11 @@ import { useGetOrderDetailProductSuspenseQuery } from "./api/get-order-product";
 import ProductCard from "@/features/product/ui/ProductCard";
 import { Large, Small } from "@/shared/components/atoms/Typography";
 import { useMemo, useState } from "react";
+import * as PortOne from "@portone/browser-sdk/v2";
+import { requestPayment } from "@/features/@portOne/requestPayment";
+import { genOrderName } from "@/features/@portOne/gen-order-name";
+import { Product } from "@/features/product/type/type";
+import { OrderDetail } from "@/features/order_detail/type";
 
 /**
  * @desc 주문 화면
@@ -32,6 +37,15 @@ const OrderPage = () => {
   }, []);
 
   const [isConfirmOrder, setIsConfirmOrder] = useState(false);
+
+  const handlePayment = async () => {
+    const products: Product[] = order.order_details.map((orderDetail) => orderDetail.product);
+
+    requestPayment({
+      orderName: genOrderName({ products }),
+      totalAmount: totalPrice,
+    });
+  };
 
   return (
     <Card className="h-full flex flex-col justify-between">
@@ -98,7 +112,7 @@ const OrderPage = () => {
             <Checkbox id="confirm-order" className="w-8 h-8" checked={isConfirmOrder} onCheckedChange={(check) => setIsConfirmOrder(!!check)} />
             <label htmlFor="confirm-order">주문 내용을 확인했습니다.</label>
           </Row>
-          <Button>결제하기</Button>
+          <Button onClick={handlePayment}>결제하기</Button>
         </Row>
       </CardFooter>
     </Card>
