@@ -163,24 +163,30 @@ export type Database = {
           id: number;
           orderId: number;
           payAmount: number;
+          paymentId: string;
           payMethod: string;
           shipAddress: string;
+          txId: string;
         };
         Insert: {
           "created\bAt"?: string;
           id?: number;
           orderId: number;
           payAmount: number;
+          paymentId?: string;
           payMethod: string;
           shipAddress?: string;
+          txId: string;
         };
         Update: {
           "created\bAt"?: string;
           id?: number;
           orderId?: number;
           payAmount?: number;
+          paymentId?: string;
           payMethod?: string;
           shipAddress?: string;
+          txId?: string;
         };
         Relationships: [
           {
