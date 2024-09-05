@@ -6,18 +6,19 @@ import { Badge } from "@/shared/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui/card";
 import { useQueryClient } from "@tanstack/react-query";
 import { productCategoryPrefetchOptions } from "../api/get-product_category";
-import { ProductCategory } from "../type/type";
+import { Product } from "../type/type";
+import { Category } from "@/features/category/model/type";
 
 interface Props {
-  product: ProductCategory;
-  showCategory?: boolean;
+  product: Product;
+  category?: Category | null;
   viewStyle?: "grid" | "list";
 }
 
 /**
  * @desc 목록에서 사용되는 상품 카드 UI
  */
-const ProductCard = ({ product, showCategory = true, viewStyle = "grid" }: Props) => {
+const ProductCard = ({ product, category, viewStyle = "grid" }: Props) => {
   const qc = useQueryClient();
 
   const handlePrefetch = () => {
@@ -33,7 +34,7 @@ const ProductCard = ({ product, showCategory = true, viewStyle = "grid" }: Props
           </CardHeader>
           <CardContent className="flex flex-col h-full justify-between p-5">
             <Column className="gap-2">
-              {showCategory && <Badge className="w-fit">{product.category?.categoryName}</Badge>}
+              {category && <Badge className="w-fit">{category.categoryName}</Badge>}
               <CardTitle>{product.name}</CardTitle>
             </Column>
             <Row className="gap-2 items-center">
@@ -51,7 +52,7 @@ const ProductCard = ({ product, showCategory = true, viewStyle = "grid" }: Props
     <Card onMouseEnter={handlePrefetch} className="hover:-translate-y-3 transition-transform duration-300">
       <CardHeader>
         <Column className="gap-2">
-          {showCategory && <Badge className="w-fit">{product.category?.categoryName}</Badge>}
+          {category && <Badge className="w-fit">{category.categoryName}</Badge>}
           <CardTitle>{product.name}</CardTitle>
         </Column>
       </CardHeader>

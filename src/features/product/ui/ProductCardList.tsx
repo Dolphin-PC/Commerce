@@ -5,6 +5,7 @@ import ProductCard from "./ProductCard";
 import { Fragment } from "react/jsx-runtime";
 import { Link } from "react-router-dom";
 import { ROUTES } from "@/shared/consts/route.const";
+import { ProductCategory } from "../type/type";
 
 /**
  * @desc 카테고리별 상품 리스트
@@ -22,9 +23,9 @@ const ProductCardList = ({ category, count }: Props) => {
   if (!data) return <div>상품 정보가 없어요.</div>;
   return (
     <Fragment>
-      {data.data.map((product) => (
+      {data.data.map((product: ProductCategory) => (
         <Link to={ROUTES.PRODUCTS_ID_(product.id)} key={product.id}>
-          <ProductCard key={product.id} product={product} />
+          <ProductCard key={product.id} product={product} category={product.category} />
         </Link>
       ))}
     </Fragment>
