@@ -1,13 +1,11 @@
 import { useProductListCategoryInfiniteQuery } from "@/features/product/api/get_list-product_category";
 import ProductCard from "@/features/product/ui/ProductCard";
-import Column from "@/shared/components/atoms/Column";
-import Grid from "@/shared/components/atoms/Grid";
 import Row from "@/shared/components/atoms/Row";
+import { GridWindowLayout, ListWindowLayout } from "@/shared/components/templates/WindowLayout";
 import { Button } from "@/shared/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader } from "@/shared/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/shared/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/shared/components/ui/tabs";
 import { ROUTES } from "@/shared/consts/route.const";
-import useInfiniteInView from "@/shared/hooks/useInfiniteInView";
 import MainLayout from "@/widgets/layout/MainLayout";
 import { useSearchDrawerStore } from "@/widgets/product-search-drawer/store/useSearchDrawerStore";
 import { useSearchStore } from "@/widgets/product-search-drawer/store/useSearchStore";
@@ -35,7 +33,6 @@ const ProductPage = () => {
     },
     filter: searchStore.searchFilter,
   });
-  const { ref: viewRef } = useInfiniteInView({ query: product, options: { threshold: 1 } });
 
   // [최신순/가격순] 정렬 기준 변경시
   const handleFilterChange = (value: string) => {
@@ -52,7 +49,7 @@ const ProductPage = () => {
   return (
     <MainLayout>
       <ProductPageHelmet />
-      <Card>
+      <Card className="h-full">
         <CardHeader>
           <Row className="justify-between">
             <Tabs defaultValue={viewStyle} onValueChange={handleViewStyleChange}>
@@ -81,11 +78,13 @@ const ProductPage = () => {
           </Row>
         </CardHeader>
 
-        <CardContent>
+        <CardContent className="h-5/6">
           {/* grid style view */}
           {viewStyle === "grid" && product.data && (
-            <Grid className="grid-cols-4 gap-3">
-              {product.data.pages.map((page) =>
+            <GridWindowLayout
+              columnCount={3}
+              rowHeight={480}
+              childrens={product.data.pages.flatMap((page) =>
                 page.data.map((product) => {
                   return (
                     <Link to={ROUTES.PRODUCTS_ID_(product.id)} key={product.id}>
@@ -94,12 +93,16 @@ const ProductPage = () => {
                   );
                 })
               )}
-            </Grid>
+              fetchNextPage={product.fetchNextPage}
+              hasNextPage={product.hasNextPage}
+              isNextPageLoading={product.isFetchingNextPage}
+            />
           )}
           {/* list style view */}
           {viewStyle === "list" && product.data && (
-            <Column className="gap-3">
-              {product.data.pages.map((page) =>
+            <ListWindowLayout
+              itemHeight={280}
+              childrens={product.data.pages.flatMap((page) =>
                 page.data.map((product) => {
                   return (
                     <Link to={ROUTES.PRODUCTS_ID_(product.id)} key={product.id}>
@@ -108,12 +111,14 @@ const ProductPage = () => {
                   );
                 })
               )}
-            </Column>
+              hasNextPage={product.hasNextPage}
+              isNextPageLoading={product.isFetchingNextPage}
+              fetchNextPage={product.fetchNextPage}
+            />
           )}
+
           {product.data.pages[0].data.length === 0 && <p>검색된 상품이 없습니다.</p>}
         </CardContent>
-
-        <CardFooter ref={viewRef}></CardFooter>
       </Card>
     </MainLayout>
   );
