@@ -1,19 +1,20 @@
-import Column from "@/shared/components/atoms/Column";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/shared/components/ui/card";
-import Header from "@/widgets/Header";
-import MainLayout from "@/widgets/MainLayout";
-import { useGetUserOrderProductQuery } from "./api/get-user-order-product";
 import { useAuthStore } from "@/features/@auth/store/auth.store";
+import { genOrderName } from "@/features/@portOne/gen-order-name";
+import { translateOrderStatus } from "@/features/order/util/translate-order-status";
+import Column from "@/shared/components/atoms/Column";
+import Row from "@/shared/components/atoms/Row";
 import { H4, Muted } from "@/shared/components/atoms/Typography";
 import { CenterLoading } from "@/shared/components/molecules/Loading";
-import { translateOrderStatus } from "@/features/order/util/translate-order-status";
-import { Fragment } from "react/jsx-runtime";
-import { formatDate, parseDate } from "@/shared/lib/date";
 import { Badge } from "@/shared/components/ui/badge";
-import Row from "@/shared/components/atoms/Row";
-import { genOrderName } from "@/features/@portOne/gen-order-name";
 import { Button } from "@/shared/components/ui/button";
+import { Card, CardContent, CardHeader } from "@/shared/components/ui/card";
+import { formatDate, parseDate } from "@/shared/lib/date";
+import Header from "@/widgets/Header";
+import MainLayout from "@/widgets/MainLayout";
 import { Link } from "react-router-dom";
+import { Fragment } from "react/jsx-runtime";
+import { useGetUserOrderProductQuery } from "./api/get-user-order-product";
+import { ROUTES } from "@/shared/consts/route.const";
 
 /**
  * @desc 내 주문내역
@@ -28,7 +29,7 @@ const _MyOrderPage = () => {
   return (
     <Column className="gap-3">
       {orderData.map((order) => {
-        const productNames = order.orderDetail.map((detail) => detail.product!.name);
+        const productNames = order.orderDetails.map((detail) => detail.product!.name);
         const productName = genOrderName({ productNames });
         return (
           <Card key={order.id}>
@@ -38,7 +39,7 @@ const _MyOrderPage = () => {
                   {translateOrderStatus(order.status)}
                 </Badge>
                 <Button variant="link" asChild className="w-fit">
-                  <Link to="">결제상세</Link>
+                  <Link to={ROUTES.MY__ORDERS_ID_(String(order.id))}>결제상세</Link>
                 </Button>
               </Row>
             </CardHeader>
@@ -49,15 +50,15 @@ const _MyOrderPage = () => {
                   <Badge>주문번호</Badge>
                   <Muted>{order.id}</Muted>
                 </Row>
-                {order.pay_history && (
+                {order.payHistory && (
                   <Fragment>
                     <Row className="items-center gap-2">
                       <Badge>결제금액</Badge>
-                      <Muted>{order.pay_history.payAmount?.toLocaleString("ko-KR")} 원</Muted>
+                      <Muted>{order.payHistory.payAmount?.toLocaleString("ko-KR")} 원</Muted>
                     </Row>
                     <Row className="items-center gap-2">
                       <Badge>결제일시</Badge>
-                      <Muted>{formatDate(parseDate(order.pay_history.createdAt))}</Muted>
+                      <Muted>{formatDate(parseDate(order.payHistory.createdAt))}</Muted>
                     </Row>
                   </Fragment>
                 )}

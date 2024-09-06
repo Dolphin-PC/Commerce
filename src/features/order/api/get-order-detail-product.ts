@@ -8,7 +8,7 @@ import { queryKey } from "@/shared/consts/react-query";
 import { useSuspenseQuery } from "@tanstack/react-query";
 
 /**
- * @desc 주문 > [주문상세 > 상품 정보] 목록 조회
+ * @desc 주문 > [주문상세 > 상품 정보] 단건 조회
  *  - order > order_detail > product
  */
 

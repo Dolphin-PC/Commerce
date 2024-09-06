@@ -1,4 +1,4 @@
-import { Order, OrderStatus } from "@/features/order/type";
+import { Order } from "@/features/order/type";
 import { OrderDetail } from "@/features/order_detail/type";
 import { PayHistory } from "@/features/pay_history/type";
 import { Product } from "@/features/product/type/type";
@@ -16,18 +16,27 @@ interface Props {
   userId: User["id"];
 }
 
-const getUserOrderProduct = async ({ userId }: Props) => {
+interface Return extends Order {
+  orderDetails: (OrderDetail & {
+    product: { name: Product["name"]; sellerId: Product["sellerId"] } & {
+      seller: { nickname: User["nickname"] };
+    };
+  })[];
+  payHistory: PayHistory | null;
+}
+
+const getUserOrderProduct = async ({ userId }: Props): Promise<Return[]> => {
   const q = supabase
     .from("order")
     .select(
       `
         *, 
-        orderDetail: order_detail(*, 
-            product: product(name, sellerId, 
-                seller: user(nickname)
+        orderDetails: order_detail(*, 
+            product: product!inner(name, sellerId, 
+                seller: user!inner(nickname)
             )
         ),
-        pay_history: pay_history(*)
+        payHistory: pay_history(*)
     `
     )
     .eq("userId", userId);
@@ -36,7 +45,7 @@ const getUserOrderProduct = async ({ userId }: Props) => {
   if (error) throw error;
   if (!data) throw new Error("유저의 주문 데이터를 찾지 못했어요.");
 
-  return data;
+  return data ?? [];
 };
 
 export const useGetUserOrderProductQuery = (props: Props) => {
