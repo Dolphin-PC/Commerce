@@ -1,4 +1,3 @@
-import { useDeleteCartList } from "@/features/cart/api/delete-cart_list";
 import { CartProductCategory } from "@/features/cart/type";
 import { useDeleteOrderDetail } from "@/features/order_detail/api/delete-order_detail";
 import { usePostOrderDetail } from "@/features/order_detail/api/post-order_detail";
@@ -29,7 +28,6 @@ export const useNewOrder = (): Return => {
   const putOrderDetail = usePutOrderDetail();
 
   const { handleDecrease, handleIncrease } = useProductQuantityHooks();
-  const deleteCartList = useDeleteCartList();
 
   const handleNewOrder = async (cartList: CartProductCategory[]): Promise<Order> => {
     return new Promise(async (resolve, reject) => {
@@ -117,9 +115,6 @@ export const useNewOrder = (): Return => {
 
           throw Error("상품 재고 감소에 실패했습니다.");
         }
-
-        // 4. 장바구니::해당 상품 삭제
-        await deleteCartList.mutateAsync({ ids: cartList.map((e) => e.id) });
 
         resolve(newOrder);
       } catch (error) {
