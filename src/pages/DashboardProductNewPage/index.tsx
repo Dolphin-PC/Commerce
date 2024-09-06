@@ -12,7 +12,7 @@ import { toast } from "@/shared/components/ui/use-toast";
 import { ROUTES } from "@/shared/consts/route.const";
 import { Link, useNavigate } from "react-router-dom";
 
-const ProductNewPage = () => {
+const _ProductNewPage = () => {
   const navigate = useNavigate();
   const user = useAuthStore((state) => state.user);
 
@@ -47,25 +47,29 @@ const ProductNewPage = () => {
   };
 
   return (
-    <DashBoardLayout>
-      <Column className="gap-3">
-        <Button asChild className="w-[100px]">
-          <Link to={ROUTES.DASHBOARD__PRODUCTS}>상품 목록</Link>
-        </Button>
-        <Card>
-          <CardHeader>
-            <Row className="gap-[20px]">
-              <CardTitle>상품 등록</CardTitle>
-            </Row>
-          </CardHeader>
+    <Column className="gap-3">
+      <Button asChild className="w-[100px]">
+        <Link to={ROUTES.DASHBOARD__PRODUCTS}>상품 목록</Link>
+      </Button>
+      <Card>
+        <CardHeader>
+          <Row className="gap-[20px]">
+            <CardTitle>상품 등록</CardTitle>
+          </Row>
+        </CardHeader>
 
-          <CardContent>
-            <ProductForm onSave={handleAddProduct} />
-          </CardContent>
-        </Card>
-      </Column>
-    </DashBoardLayout>
+        <CardContent>
+          <ProductForm onSave={handleAddProduct} />
+        </CardContent>
+      </Card>
+    </Column>
   );
 };
 
-export default ProductNewPage;
+export default function ProductNewPage() {
+  return (
+    <DashBoardLayout>
+      <_ProductNewPage />
+    </DashBoardLayout>
+  );
+}

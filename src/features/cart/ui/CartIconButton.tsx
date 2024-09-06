@@ -20,16 +20,11 @@ const CartIconButton = ({ userId }: Props) => {
 
   return (
     <div className="relative">
-      <TooltipHover
-        tooltipContent="장바구니"
-        triggerComponent={
-          <Button variant="outline" size="icon" asChild>
-            <Link to={ROUTES.CART}>
-              <ShoppingCart />
-            </Link>
-          </Button>
-        }
-      />
+      <Button variant="outline" size="icon" asChild>
+        <Link to={ROUTES.CART}>
+          <ShoppingCart />
+        </Link>
+      </Button>
 
       {data && data.length > 0 && (
         <Fragment>

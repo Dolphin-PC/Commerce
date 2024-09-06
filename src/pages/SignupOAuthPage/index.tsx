@@ -8,7 +8,7 @@ import { toast } from "@/shared/components/ui/use-toast";
 import { useLayoutEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-const SignupOAuthPage = () => {
+const _SignupOAuthPage = () => {
   const navigate = useNavigate();
 
   // Auth가 있고, DB에 없는 경우에만 접근 허용
@@ -35,19 +35,23 @@ const SignupOAuthPage = () => {
   }, [navigate]);
 
   return (
-    <CenterLayout>
-      <Column className="items-center gap-[10px]">
-        <Card className="w-[350px] flex flex-col">
-          <CardHeader>
-            <CardTitle>OAuth 회원가입</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <OAuthSignUpForm />
-          </CardContent>
-        </Card>
-      </Column>
-    </CenterLayout>
+    <Column className="items-center gap-[10px]">
+      <Card className="w-[350px] flex flex-col">
+        <CardHeader>
+          <CardTitle>OAuth 회원가입</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <OAuthSignUpForm />
+        </CardContent>
+      </Card>
+    </Column>
   );
 };
 
-export default SignupOAuthPage;
+export default function SignupOAuthPage() {
+  return (
+    <CenterLayout>
+      <_SignupOAuthPage />
+    </CenterLayout>
+  );
+}

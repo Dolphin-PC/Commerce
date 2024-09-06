@@ -1,16 +1,12 @@
-import { getPayment } from "@/features/@portOne/get-payment";
-import { usePutOrder } from "@/features/order/api/put-order";
-import { usePutPayHistoryMutation } from "@/features/pay_history/api/put-pay_history";
 import { CenterError } from "@/shared/components/molecules/Error";
+import { CenterLoading } from "@/shared/components/molecules/Loading";
 import CenterLayout from "@/shared/components/templates/CenterLayout";
 import { Button } from "@/shared/components/ui/button";
 import { ROUTES } from "@/shared/consts/route.const";
 import { CheckCircle } from "lucide-react";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { getOrderByPaymentId } from "./api/get-orderByPaymentId";
 import { useConfirmOrder } from "./hook/useConfirmOrder";
-import { CenterLoading } from "@/shared/components/molecules/Loading";
 
 /**
  * @desc 결제 완료시, Redirect

@@ -14,7 +14,7 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/shared/components/u
 import { Input } from "@/shared/components/ui/input";
 import { useScrollTop } from "@/shared/hooks/useScrollTop";
 import { convertStringToNumber } from "@/shared/lib/string";
-import MainLayout from "@/widgets/layout/MainLayout";
+import MainLayout from "@/widgets/MainLayout";
 import { Minus, Plus } from "lucide-react";
 import { useLayoutEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -28,7 +28,7 @@ import { ProductDetailPageHelmet } from "../Helmets";
  * * params
  *  - id: productId
  */
-const ProductDetailPage = () => {
+const _ProductDetailPage = () => {
   useScrollTop();
   const { id } = useParams();
   const productId = Number(id);
@@ -55,65 +55,70 @@ const ProductDetailPage = () => {
   }, [productId]);
 
   return (
-    <MainLayout>
-      <ProductDetailPageHelmet />
-      <Column className="gap-20">
-        <Column className="gap-2">
-          <Row className="gap-3 h-[500px] items-start">
-            {/* 제품 이미지 */}
-            <Card className="w-1/2 h-full">
-              <ProductImageCarousel.Container productId={productId} height={500} isButton />
-            </Card>
+    <Column className="gap-20">
+      <Column className="gap-2">
+        <Row className="gap-3 h-[500px] items-start">
+          {/* 제품 이미지 */}
+          <Card className="w-1/2 h-full">
+            <ProductImageCarousel.Container productId={productId} height={500} isButton />
+          </Card>
 
-            {/* 제품 설명 */}
-            <Card className="w-1/2 min-h-full flex flex-col justify-start">
-              <CardHeader>
-                <H3>{product.name}</H3>
-                <H2>{product.price.toLocaleString("ko-KR")} 원</H2>
-              </CardHeader>
+          {/* 제품 설명 */}
+          <Card className="w-1/2 min-h-full flex flex-col justify-start">
+            <CardHeader>
+              <H3>{product.name}</H3>
+              <H2>{product.price.toLocaleString("ko-KR")} 원</H2>
+            </CardHeader>
 
-              <CardContent>
-                <Badge>상품설명</Badge>
-                <p>{product.desc}</p>
+            <CardContent>
+              <Badge>상품설명</Badge>
+              <p>{product.desc}</p>
 
-                <Badge>남은수량</Badge>
-                {quantity && <p>{quantity.quantity.toLocaleString("ko-KR")} 개</p>}
-              </CardContent>
+              <Badge>남은수량</Badge>
+              {quantity && <p>{quantity.quantity.toLocaleString("ko-KR")} 개</p>}
+            </CardContent>
 
-              <CardFooter>
-                <Column className="w-full gap-3">
-                  <hr />
-                  <Row>
-                    <Button size="icon" onClick={() => setProductCount((p) => (p === 0 ? p : p - 1))} disabled={productCount === 0}>
-                      <Minus />
-                    </Button>
-                    <Input type="text" className="w-24" value={productCount.toLocaleString()} onChange={onChangeProductCount} />
-                    <Button size="icon" onClick={() => setProductCount((p) => p + 1)}>
-                      <Plus />
-                    </Button>
+            <CardFooter>
+              <Column className="w-full gap-3">
+                <hr />
+                <Row>
+                  <Button size="icon" onClick={() => setProductCount((p) => (p === 0 ? p : p - 1))} disabled={productCount === 0}>
+                    <Minus />
+                  </Button>
+                  <Input type="text" className="w-24" value={productCount.toLocaleString()} onChange={onChangeProductCount} />
+                  <Button size="icon" onClick={() => setProductCount((p) => p + 1)}>
+                    <Plus />
+                  </Button>
+                </Row>
+                <Column className="w-full gap-2">
+                  <Row className="m-2 justify-between">
+                    <Large>총 금액</Large>
+                    <H4>{(product.price * productCount).toLocaleString("ko-KR")} 원</H4>
                   </Row>
-                  <Column className="w-full gap-2">
-                    <Row className="m-2 justify-between">
-                      <Large>총 금액</Large>
-                      <H4>{(product.price * productCount).toLocaleString("ko-KR")} 원</H4>
-                    </Row>
 
-                    {!isProductInCart && <CartAddButton product={product} productCount={productCount} />}
-                    {isProductInCart && cartProductList && <CartViewDrawer data={cartProductList} />}
-                    <Button variant="outline" onClick={handleLike}>
-                      찜하기
-                    </Button>
-                  </Column>
+                  {!isProductInCart && <CartAddButton product={product} productCount={productCount} />}
+                  {isProductInCart && cartProductList && <CartViewDrawer data={cartProductList} />}
+                  <Button variant="outline" onClick={handleLike}>
+                    찜하기
+                  </Button>
                 </Column>
-              </CardFooter>
-            </Card>
-          </Row>
-        </Column>
-        {/* 추천 상품 */}
-        {product.category && <RecommendProductList id={productId} category={product.category} />}
+              </Column>
+            </CardFooter>
+          </Card>
+        </Row>
       </Column>
-    </MainLayout>
+      {/* 추천 상품 */}
+      {product.category && <RecommendProductList id={productId} category={product.category} />}
+    </Column>
   );
 };
 
-export default ProductDetailPage;
+export default function ProductDetailPage() {
+  return (
+    <MainLayout>
+      <ProductDetailPageHelmet />
+
+      <_ProductDetailPage />
+    </MainLayout>
+  );
+}

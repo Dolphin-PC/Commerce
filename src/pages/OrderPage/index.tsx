@@ -6,9 +6,9 @@ import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/shared/components/ui/card";
 import { Checkbox } from "@/shared/components/ui/checkbox";
 import { Input } from "@/shared/components/ui/input";
-import MainLayout from "@/widgets/layout/MainLayout";
+import MainLayout from "@/widgets/MainLayout";
 import { useNavigate, useParams } from "react-router-dom";
-import { useGetOrderDetailProductSuspenseQuery } from "./api/get-order-product";
+import { useGetOrderDetailProductSuspenseQuery } from "../../features/order/api/get-order-detail-product";
 import { usePaymentHook } from "./hook/usePaymentHook";
 import { ROUTES } from "@/shared/consts/route.const";
 
@@ -16,19 +16,17 @@ import { ROUTES } from "@/shared/consts/route.const";
  * @desc 주문 화면
  *  - /orders/:id
  */
-const OrderPage = () => {
+const _OrderPage = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const orderId = Number(id);
   const { id: userId } = useAuthStore((state) => state.getUser());
 
-  const {
-    data: { data: order },
-  } = useGetOrderDetailProductSuspenseQuery({ orderId, userId, status: "PAY_BEFORE" });
+  const { data: order } = useGetOrderDetailProductSuspenseQuery({ orderId, userId, status: "PAY_BEFORE" });
 
   const { handlePayment, cancelPayment, isConfirmOrder, setIsConfirmOrder, setShipAddress, shipAddress, totalPrice } = usePaymentHook({
     orderId: order.id,
-    orderDetails: order.order_details,
+    orderDetails: order.orderDetails,
   });
 
   const handleCancelPayment = async () => {
@@ -66,7 +64,7 @@ const OrderPage = () => {
             <CardTitle>주문 정보</CardTitle>
           </CardHeader>
           <CardContent>
-            {order.order_details.map((orderDetail) => (
+            {order.orderDetails.map((orderDetail) => (
               <div key={orderDetail.id}>
                 {orderDetail.product && (
                   <ProductCard
@@ -115,10 +113,10 @@ const OrderPage = () => {
   );
 };
 
-export default function () {
+export default function OrderPage() {
   return (
     <MainLayout className="h-screen" mainClassName="h-5/6">
-      <OrderPage />
+      <_OrderPage />
     </MainLayout>
   );
 }

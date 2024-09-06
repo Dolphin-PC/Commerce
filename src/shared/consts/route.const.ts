@@ -12,6 +12,9 @@ export const ROUTES = {
   // private
   MY: "/my",
   CART: "/cart",
+  MY__ORDERS: "/my/orders",
+  MY__ORDERS_ID: "/my/orders/:id",
+  MY__ORDERS_ID_: (id: string) => `/my/orders/${id}`,
   ORDERS_ID: "/orders/:id",
   ORDERS_ID_: (id: string) => `/orders/${id}`,
   ORDERS_REDIRECT: "/orders/redirect",
@@ -32,3 +35,5 @@ export const ROUTES = {
   DASHBOARD__PRODUCTS__EDIT_ID: "/dashboard/products/edit/:id",
   DASHBOARD__PRODUCTS__EDIT__ID: (id: number) => `/dashboard/products/edit/${id}`,
 } as const;
+
+export type Routes = (typeof ROUTES)[keyof typeof ROUTES];

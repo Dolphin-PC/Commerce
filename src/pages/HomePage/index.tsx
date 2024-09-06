@@ -1,14 +1,21 @@
-import MainLayout from "@/widgets/layout/MainLayout";
+import MainLayout from "@/widgets/MainLayout";
 import CategoryProductList from "./ui/CategoryProductList";
 import { HomePageHelmet } from "../Helmets";
+import { Fragment } from "react/jsx-runtime";
 
-const HomePage = () => {
+const _HomePage = () => {
   return (
-    <MainLayout>
-      <HomePageHelmet />
+    <Fragment>
       <CategoryProductList />
-    </MainLayout>
+    </Fragment>
   );
 };
 
-export default HomePage;
+export default function HomePage() {
+  return (
+    <MainLayout>
+      <HomePageHelmet />
+      <_HomePage />
+    </MainLayout>
+  );
+}

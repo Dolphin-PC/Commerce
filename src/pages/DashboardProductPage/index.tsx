@@ -15,7 +15,7 @@ import { Link } from "react-router-dom";
  * 판매자 대시보드 > 상품 페이지
  *  - /dashboard/products
  */
-const DashboardProductPage = () => {
+const _DashboardProductPage = () => {
   const user = useAuthStore((state) => state.user);
   const q = useProductListCategoryInfiniteQuery({ sellerId: user?.id });
 
@@ -28,35 +28,39 @@ const DashboardProductPage = () => {
   }, [q, inView]);
 
   return (
-    <DashBoardLayout>
-      <Card>
-        <CardHeader>
-          <Row className="justify-between">
-            <CardTitle>내 상품</CardTitle>
-            <Button asChild>
-              <Link to={ROUTES.DASHBOARD__PRODUCTS__NEW}>상품 등록</Link>
-            </Button>
-          </Row>
-        </CardHeader>
+    <Card>
+      <CardHeader>
+        <Row className="justify-between">
+          <CardTitle>내 상품</CardTitle>
+          <Button asChild>
+            <Link to={ROUTES.DASHBOARD__PRODUCTS__NEW}>상품 등록</Link>
+          </Button>
+        </Row>
+      </CardHeader>
 
-        <CardContent>
-          {q.data ? (
-            <Grid className="grid-cols-3 gap-3">
-              {q.data.pages.map((page) =>
-                page.data.map((product) => {
-                  return <DashboardProductCard key={product.id} product={product} />;
-                })
-              )}
-            </Grid>
-          ) : (
-            <p>데이터가 없어요.</p>
-          )}
-        </CardContent>
+      <CardContent>
+        {q.data ? (
+          <Grid className="grid-cols-3 gap-3">
+            {q.data.pages.map((page) =>
+              page.data.map((product) => {
+                return <DashboardProductCard key={product.id} product={product} />;
+              })
+            )}
+          </Grid>
+        ) : (
+          <p>데이터가 없어요.</p>
+        )}
+      </CardContent>
 
-        <CardFooter ref={viewRef}></CardFooter>
-      </Card>
-    </DashBoardLayout>
+      <CardFooter ref={viewRef}></CardFooter>
+    </Card>
   );
 };
 
-export default DashboardProductPage;
+export default function DashboardProductPage() {
+  return (
+    <DashBoardLayout>
+      <_DashboardProductPage />
+    </DashBoardLayout>
+  );
+}

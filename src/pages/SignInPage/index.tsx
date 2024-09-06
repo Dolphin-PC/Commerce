@@ -8,27 +8,31 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/shared/c
 import { ROUTES } from "@/shared/consts/route.const";
 import { Link } from "react-router-dom";
 
-const SignInPage = () => {
+const _SignInPage = () => {
   return (
-    <CenterLayout>
-      <Column className="items-center gap-[10px]">
-        <Card className="w-[350px] flex flex-col">
-          <CardHeader>
-            <CardTitle>로그인</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <SignInForm />
-          </CardContent>
-          <CardFooter>
-            <GoogleLoginButton onClick={() => signInOAuth({ provider: "google" })} />
-          </CardFooter>
-        </Card>
-        <Link to={ROUTES.SIGNUP}>
-          <Button variant="outline">회원가입</Button>
-        </Link>
-      </Column>
-    </CenterLayout>
+    <Column className="items-center gap-[10px]">
+      <Card className="w-[350px] flex flex-col">
+        <CardHeader>
+          <CardTitle>로그인</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <SignInForm />
+        </CardContent>
+        <CardFooter>
+          <GoogleLoginButton onClick={() => signInOAuth({ provider: "google" })} />
+        </CardFooter>
+      </Card>
+      <Link to={ROUTES.SIGNUP}>
+        <Button variant="outline">회원가입</Button>
+      </Link>
+    </Column>
   );
 };
 
-export default SignInPage;
+export default function SignInPage() {
+  return (
+    <CenterLayout>
+      <_SignInPage />
+    </CenterLayout>
+  );
+}

@@ -9,7 +9,7 @@ import { Button } from "@/shared/components/ui/button";
 import { Card } from "@/shared/components/ui/card";
 import { Checkbox } from "@/shared/components/ui/checkbox";
 import { ROUTES } from "@/shared/consts/route.const";
-import MainLayout from "@/widgets/layout/MainLayout";
+import MainLayout from "@/widgets/MainLayout";
 import { Fragment } from "react";
 import { Link } from "react-router-dom";
 import { useCartHook } from "./hook/useCartHook";
@@ -17,7 +17,7 @@ import { useCartHook } from "./hook/useCartHook";
 /**
  * @desc 장바구니 화면
  */
-const CartPage = () => {
+const _CartPage = () => {
   const user = useAuthStore((state) => state.getUser());
   const { data: cartList } = useCartProductCategoryQuery({ userId: user.id });
 
@@ -93,10 +93,10 @@ const CartPage = () => {
   );
 };
 
-export default function () {
+export default function CartPage() {
   return (
     <MainLayout>
-      <CartPage />
+      <_CartPage />
     </MainLayout>
   );
 }
