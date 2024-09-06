@@ -15,6 +15,8 @@ export const queryKey = {
   cart: "cart",
   order: "order",
   order_detail: "order-detail",
+
+  pay_history: "pay-history",
 };
 
 const oneMinute = 1000 * 60;
