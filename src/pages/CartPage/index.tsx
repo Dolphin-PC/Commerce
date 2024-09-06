@@ -9,7 +9,7 @@ import { Button } from "@/shared/components/ui/button";
 import { Card } from "@/shared/components/ui/card";
 import { Checkbox } from "@/shared/components/ui/checkbox";
 import { ROUTES } from "@/shared/consts/route.const";
-import MainLayout from "@/widgets/layout/MainLayout";
+import MainLayout from "@/widgets/MainLayout";
 import { Fragment } from "react";
 import { Link } from "react-router-dom";
 import { useCartHook } from "./hook/useCartHook";

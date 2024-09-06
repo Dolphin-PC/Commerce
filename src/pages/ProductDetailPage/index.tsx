@@ -14,7 +14,7 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/shared/components/u
 import { Input } from "@/shared/components/ui/input";
 import { useScrollTop } from "@/shared/hooks/useScrollTop";
 import { convertStringToNumber } from "@/shared/lib/string";
-import MainLayout from "@/widgets/layout/MainLayout";
+import MainLayout from "@/widgets/MainLayout";
 import { Minus, Plus } from "lucide-react";
 import { useLayoutEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";

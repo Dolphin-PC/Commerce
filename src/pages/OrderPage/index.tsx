@@ -6,7 +6,7 @@ import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/shared/components/ui/card";
 import { Checkbox } from "@/shared/components/ui/checkbox";
 import { Input } from "@/shared/components/ui/input";
-import MainLayout from "@/widgets/layout/MainLayout";
+import MainLayout from "@/widgets/MainLayout";
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetOrderDetailProductSuspenseQuery } from "./api/get-order-product";
 import { usePaymentHook } from "./hook/usePaymentHook";

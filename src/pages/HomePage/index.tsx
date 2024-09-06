@@ -1,4 +1,4 @@
-import MainLayout from "@/widgets/layout/MainLayout";
+import MainLayout from "@/widgets/MainLayout";
 import CategoryProductList from "./ui/CategoryProductList";
 import { HomePageHelmet } from "../Helmets";
 

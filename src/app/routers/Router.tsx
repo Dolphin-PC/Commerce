@@ -13,6 +13,7 @@ const HomePage = lazy(() => import("@/pages/HomePage"));
 const ProductPage = lazy(() => import("@/pages/ProductPage"));
 const ProductDetailPage = lazy(() => import("@/pages/ProductDetailPage"));
 
+const MyPage = lazy(() => import("@/pages/MyPage"));
 const CartPage = lazy(() => import("@/pages/CartPage"));
 const OrderPage = lazy(() => import("@/pages/OrderPage"));
 const OrderRedirectPage = lazy(() => import("@/pages/OrderRedirectPage"));
@@ -44,7 +45,7 @@ export const Router = () => {
             <Route path={ROUTES.PRODUCTS_ID} element={<ProductDetailPage />} />
 
             <Route element={<PrivateRoute />}>
-              <Route path={ROUTES.MY} element={<Button>my</Button>} />
+              <Route path={ROUTES.MY} element={<MyPage />} />
               <Route path={ROUTES.CART} element={<CartPage />} />
               <Route path={ROUTES.ORDERS_ID} element={<OrderPage />} />
               <Route path={ROUTES.ORDERS_REDIRECT} element={<OrderRedirectPage />} />

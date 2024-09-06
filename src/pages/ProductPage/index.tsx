@@ -6,7 +6,7 @@ import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/shared/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/shared/components/ui/tabs";
 import { ROUTES } from "@/shared/consts/route.const";
-import MainLayout from "@/widgets/layout/MainLayout";
+import MainLayout from "@/widgets/MainLayout";
 import { useSearchDrawerStore } from "@/widgets/product-search-drawer/store/useSearchDrawerStore";
 import { useSearchStore } from "@/widgets/product-search-drawer/store/useSearchStore";
 import { LayoutGrid, LayoutList, SlidersHorizontal } from "lucide-react";
