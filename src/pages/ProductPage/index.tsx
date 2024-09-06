@@ -13,7 +13,6 @@ import { LayoutGrid, LayoutList, SlidersHorizontal } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ProductPageHelmet } from "../Helmets";
-import DashBoardLayout from "@/shared/components/templates/DashBoardLayout";
 
 /**
  * @desc 상품 목록 페이지
@@ -124,10 +123,10 @@ const _ProductPage = () => {
 
 export default function ProductPage() {
   return (
-    <DashBoardLayout>
+    <MainLayout className="h-screen" mainClassName="h-5/6">
       <ProductPageHelmet />
 
       <_ProductPage />
-    </DashBoardLayout>
+    </MainLayout>
   );
 }

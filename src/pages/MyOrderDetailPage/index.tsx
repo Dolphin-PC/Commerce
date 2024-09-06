@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { useGetOrderDetailProductSuspenseQuery } from "../../features/order/api/get-order-detail-product";
 import { useAuthStore } from "@/features/@auth/store/auth.store";
 import Column from "@/shared/components/atoms/Column";
-import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui/card";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/shared/components/ui/card";
 import { formatDate, parseDate } from "@/shared/lib/date";
 import { T } from "@/shared/components/atoms/Typography";
 import { Badge } from "@/shared/components/ui/badge";
@@ -11,6 +11,9 @@ import { translateOrderStatus } from "@/features/order/util/translate-order-stat
 import BadgeRowLead from "@/shared/components/atoms/BadgeRowLead";
 import { ROUTES } from "@/shared/consts/route.const";
 import { Button } from "@/shared/components/ui/button";
+import { ConfirmDialog } from "@/shared/components/molecules/ConfirmDialog";
+import { useRefundRequestHook } from "./hook/useRefundRequestHook";
+import { toast } from "@/shared/components/ui/use-toast";
 
 /**
  * @desc 내 주문 상세 페이지
@@ -22,6 +25,14 @@ const _MyOrderDetailPage = () => {
 
   const user = useAuthStore((state) => state.getUser());
   const { data: orderData } = useGetOrderDetailProductSuspenseQuery({ orderId, userId: user.id });
+
+  const { requestRefund } = useRefundRequestHook();
+
+  const handleRequestRefund = async () => {
+    await requestRefund({ orderId });
+    toast({ title: "환불 요청이 완료되었습니다." });
+  };
+
   return (
     <Column className="gap-5">
       <Button variant="link" asChild className="w-fit">
@@ -37,6 +48,24 @@ const _MyOrderDetailPage = () => {
             <BadgeRowLead badge="결제번호" lead={orderData.payHistory.paymentId} />
             <BadgeRowLead badge="결제가격" lead={`${orderData.payHistory.payAmount?.toLocaleString("ko-KR")}원`} />
           </CardContent>
+          <CardFooter className="flex-col">
+            {orderData.status === "PAY_COMPLETE_CONFIRM" && (
+              <ConfirmDialog
+                title="환불 요청"
+                description="환불 요청을 하시겠습니까?"
+                confirmText="요청"
+                confirmAction={handleRequestRefund}
+                cancelText="취소"
+                cancelAction={() => {}}
+                triggerComponent={
+                  <Button variant="secondary" className="w-full">
+                    환불요청
+                  </Button>
+                }
+              />
+            )}
+            {orderData.status === "REFUND_REQUEST" && <T.Blockquote className="w-full">판매자가 환불요청을 확인하고 있어요.</T.Blockquote>}
+          </CardFooter>
         </Card>
       )}
 

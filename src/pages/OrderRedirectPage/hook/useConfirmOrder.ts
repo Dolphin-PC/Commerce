@@ -1,5 +1,5 @@
 import { getPayment } from "@/features/@portOne/get-payment";
-import { usePutOrder } from "@/features/order/api/put-order";
+import { usePutOrderMutation } from "@/features/order/api/put-order";
 import { usePutPayHistoryMutation } from "@/features/pay_history/api/put-pay_history";
 import { PayHistory } from "@/features/pay_history/type";
 import { getOrderByPaymentId } from "../api/get-orderByPaymentId";
@@ -17,7 +17,7 @@ interface Return {
  */
 export const useConfirmOrder = () => {
   const putPayHistoryMutation = usePutPayHistoryMutation();
-  const putOrderMutation = usePutOrder();
+  const putOrderMutation = usePutOrderMutation();
 
   const getOrder = async (paymentId: PayHistory["paymentId"]): Promise<Order> => {
     const order = await getOrderByPaymentId({ paymentId });

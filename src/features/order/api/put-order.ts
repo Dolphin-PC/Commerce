@@ -15,19 +15,18 @@ interface Props {
 interface Return extends Order {}
 
 const putOrder = async ({ id, update }: Props): Promise<Return> => {
-  const q = supabase.from("order").update(update).eq("id", id).select().maybeSingle();
+  const q = supabase.from("order").update(update).eq("id", id).select().single();
 
   const { data, error } = await q;
   if (error) throw error;
-  if (!data) throw Error("수정된 데이터가 조회되지 않았어요.");
 
   return data;
 };
 
-export const usePutOrder = () => {
+export const usePutOrderMutation = () => {
   const qc = useQueryClient();
   return useMutation({
-    mutationKey: ["usePutOrder"],
+    mutationKey: ["usePutOrderMutation"],
     mutationFn: putOrder,
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: [queryKey.order] });

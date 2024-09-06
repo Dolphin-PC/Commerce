@@ -1,7 +1,7 @@
 import { genOrderName } from "@/features/@portOne/gen-order-name";
 import { requestPayment } from "@/features/@portOne/requestPayment";
 import { useDeleteOrder } from "@/features/order/api/delete-order";
-import { usePutOrder } from "@/features/order/api/put-order";
+import { usePutOrderMutation } from "@/features/order/api/put-order";
 import { Order } from "@/features/order/type";
 import { useDeleteOrderDetail } from "@/features/order_detail/api/delete-order_detail";
 import { OrderDetail } from "@/features/order_detail/type";
@@ -47,7 +47,7 @@ export const usePaymentHook = ({ orderId, orderDetails }: Props): Return => {
     }, 0);
   }, [orderDetails]);
 
-  const putOrderMutation = usePutOrder();
+  const putOrderMutation = usePutOrderMutation();
   const postPayHisttoryMutation = usePostPayHistoryMutation();
   const { handleIncrease } = useProductQuantityHooks();
   const deleteOrderMutation = useDeleteOrder();

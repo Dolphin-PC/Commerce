@@ -1,6 +1,6 @@
 import { useDeleteCartList } from "@/features/cart/api/delete-cart_list";
 import { CartProductCategory } from "@/features/cart/type";
-import { useNewOrder } from "@/features/order/hooks/useNewOrder";
+import { useNewOrder } from "@/features/order/hook/useNewOrder";
 import { toast } from "@/shared/components/ui/use-toast";
 import { ROUTES } from "@/shared/consts/route.const";
 import { CheckedState } from "@radix-ui/react-checkbox";

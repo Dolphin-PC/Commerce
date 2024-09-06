@@ -15,11 +15,10 @@ interface Props {
 
 interface Return extends Order {}
 
-const getOrder = async ({ orderId, userId }: Props): Promise<Return> => {
-  const { data, error } = await supabase.from("order").select().eq("id", orderId).eq("userId", userId).maybeSingle();
+export const getOrder = async ({ orderId, userId }: Props): Promise<Return> => {
+  const { data, error } = await supabase.from("order").select().eq("id", orderId).eq("userId", userId).single();
 
   if (error) throw error;
-  if (!data) throw Error("주문 데이터가 조회되지 않았어요.");
 
   return data;
 };
