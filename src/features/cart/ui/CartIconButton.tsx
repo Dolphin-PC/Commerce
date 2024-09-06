@@ -5,6 +5,8 @@ import { ShoppingCart } from "lucide-react";
 import { useCartListQuery } from "../api/get_list-cart";
 import { Fragment } from "react/jsx-runtime";
 import TooltipHover from "@/shared/components/molecules/TooltipHover";
+import { Link } from "react-router-dom";
+import { ROUTES } from "@/shared/consts/route.const";
 
 interface Props {
   userId: User["id"];
@@ -21,8 +23,10 @@ const CartIconButton = ({ userId }: Props) => {
       <TooltipHover
         tooltipContent="장바구니"
         triggerComponent={
-          <Button variant="outline" size="icon">
-            <ShoppingCart />
+          <Button variant="outline" size="icon" asChild>
+            <Link to={ROUTES.CART}>
+              <ShoppingCart />
+            </Link>
           </Button>
         }
       />

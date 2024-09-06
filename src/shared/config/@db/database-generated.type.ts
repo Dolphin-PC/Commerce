@@ -96,20 +96,26 @@ export type Database = {
         Row: {
           createdAt: string;
           id: number;
-          status: string;
-          userId: string | null;
+          orderName: string | null;
+          shipAddress: string | null;
+          status: Database["public"]["Enums"]["ORDER_STATUS"];
+          userId: string;
         };
         Insert: {
           createdAt?: string;
           id?: number;
-          status: string;
-          userId?: string | null;
+          orderName?: string | null;
+          shipAddress?: string | null;
+          status: Database["public"]["Enums"]["ORDER_STATUS"];
+          userId: string;
         };
         Update: {
           createdAt?: string;
           id?: number;
-          status?: string;
-          userId?: string | null;
+          orderName?: string | null;
+          shipAddress?: string | null;
+          status?: Database["public"]["Enums"]["ORDER_STATUS"];
+          userId?: string;
         };
         Relationships: [
           {
@@ -124,18 +130,21 @@ export type Database = {
       order_detail: {
         Row: {
           id: number;
-          orderId: number | null;
-          productId: number | null;
+          orderId: number;
+          productId: number;
+          quantity: number;
         };
         Insert: {
           id?: number;
-          orderId?: number | null;
-          productId?: number | null;
+          orderId: number;
+          productId: number;
+          quantity?: number;
         };
         Update: {
           id?: number;
-          orderId?: number | null;
-          productId?: number | null;
+          orderId?: number;
+          productId?: number;
+          quantity?: number;
         };
         Relationships: [
           {
@@ -159,22 +168,22 @@ export type Database = {
           "created\bAt": string;
           id: number;
           orderId: number;
-          payAmount: number;
-          payMethod: string;
+          payAmount: number | null;
+          paymentId: string;
         };
         Insert: {
           "created\bAt"?: string;
           id?: number;
           orderId: number;
-          payAmount: number;
-          payMethod: string;
+          payAmount?: number | null;
+          paymentId?: string;
         };
         Update: {
           "created\bAt"?: string;
           id?: number;
           orderId?: number;
-          payAmount?: number;
-          payMethod?: string;
+          payAmount?: number | null;
+          paymentId?: string;
         };
         Relationships: [
           {
@@ -231,17 +240,17 @@ export type Database = {
         };
         Relationships: [
           {
-            foreignKeyName: "fk_user";
-            columns: ["sellerId"];
-            isOneToOne: false;
-            referencedRelation: "user";
-            referencedColumns: ["id"];
-          },
-          {
             foreignKeyName: "product_categoryId_fkey";
             columns: ["categoryId"];
             isOneToOne: false;
             referencedRelation: "category";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "product_sellerId_fkey";
+            columns: ["sellerId"];
+            isOneToOne: false;
+            referencedRelation: "user";
             referencedColumns: ["id"];
           }
         ];
@@ -347,7 +356,10 @@ export type Database = {
       [_ in never]: never;
     };
     Enums: {
+      CHANNEL_TYPE: "TOSS";
       DISCOUNT_TYPE: "PERCENT" | "COST" | "NONE";
+      ORDER_STATUS: "PAY_BEFORE" | "PAY_COMPLETE" | "PAY_COMPLETE_CONFIRM" | "PAY_CANCEL" | "SELLER_CONFIRM" | "SHIPPING" | "SHIP_COMPLETE" | "REFUND_REQUEST" | "REFUND_COMPLETE";
+      PAY_METHOD: "CARD";
     };
     CompositeTypes: {
       [_ in never]: never;

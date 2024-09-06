@@ -11,6 +11,17 @@ export const ROUTES = {
 
   // private
   MY: "/my",
+  CART: "/cart",
+  ORDERS_ID: "/orders/:id",
+  ORDERS_ID_: (id: string) => `/orders/${id}`,
+  ORDERS_REDIRECT: "/orders/redirect",
+  ORDERS_REDIRECT_: ({ paymentId, code, message }: { paymentId: string; code?: string; message?: string }) => {
+    const searchParams = new URLSearchParams();
+    searchParams.set("paymentId", paymentId);
+    if (code) searchParams.set("code", code);
+    if (message) searchParams.set("message", message);
+    return `/orders/redirect?${encodeURI(searchParams.toString())}`;
+  },
 
   // seller
   DASHBOARD: "/dashboard",

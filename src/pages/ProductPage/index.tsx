@@ -88,7 +88,7 @@ const ProductPage = () => {
                 page.data.map((product) => {
                   return (
                     <Link to={ROUTES.PRODUCTS_ID_(product.id)} key={product.id}>
-                      <ProductCard product={product} viewStyle={viewStyle} />
+                      <ProductCard product={product} category={product.category} viewStyle={viewStyle} />
                     </Link>
                   );
                 })
@@ -106,7 +106,7 @@ const ProductPage = () => {
                 page.data.map((product) => {
                   return (
                     <Link to={ROUTES.PRODUCTS_ID_(product.id)} key={product.id}>
-                      <ProductCard product={product} viewStyle={viewStyle} />
+                      <ProductCard product={product} category={product.category} viewStyle={viewStyle} />
                     </Link>
                   );
                 })

@@ -34,7 +34,7 @@ const ProductDetailPage = () => {
   const productId = Number(id);
 
   const [productCount, setProductCount] = useState(0);
-  const user = useAuthStore((state) => state.user);
+  const user = useAuthStore((state) => state.getUser());
 
   const { data: product } = useProductCategorySuspenseQuery({ id: productId });
   const { data: cartProductList } = useCartProductCategoryQuery({ userId: user?.id });

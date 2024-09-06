@@ -9,14 +9,12 @@ import { CartProductCategory } from "../type";
  */
 
 interface Props {
-  userId?: User["id"];
+  userId: User["id"];
 }
 
 type Return = CartProductCategory[];
 
 export const getCartProductCategory = async ({ userId }: Props): Promise<Return> => {
-  if (!userId) return [];
-
   const q = supabase.from("cart").select("*, product(*, category(*))").eq("userId", userId);
 
   const { data, error } = await q;

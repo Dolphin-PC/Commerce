@@ -14,23 +14,27 @@ interface Props {
  */
 const CartOptionMenu = ({ cart }: Props) => {
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant={"ghost"} size={"icon"}>
-          <CircleEllipsis />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent>
-        <DropdownMenuLabel>장바구니</DropdownMenuLabel>
-        <DropdownMenuSeparator />
+    <div className="relative">
+      <div className="absolute top-0 left-0">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant={"ghost"} size={"icon"}>
+              <CircleEllipsis />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel>장바구니</DropdownMenuLabel>
+            <DropdownMenuSeparator />
 
-        {/* 장바구니 삭제 */}
-        <CartDeleteButton id={cart.id} isNeedConfirm />
+            {/* 장바구니 삭제 */}
+            <CartDeleteButton id={cart.id} isNeedConfirm />
 
-        {/* 장바구니 수량 변경 */}
-        <CartUpdateButton id={cart.id} />
-      </DropdownMenuContent>
-    </DropdownMenu>
+            {/* 장바구니 수량 변경 */}
+            <CartUpdateButton id={cart.id} />
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+    </div>
   );
 };
 

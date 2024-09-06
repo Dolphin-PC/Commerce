@@ -13,6 +13,8 @@ export const queryKey = {
   image: "image",
 
   cart: "cart",
+  order: "order",
+  order_detail: "order-detail",
 };
 
 const oneMinute = 1000 * 60;

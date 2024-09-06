@@ -32,7 +32,8 @@ const postCart = async (insert: Props): Promise<Return> => {
 const isExistsCart = async ({ productId, userId }: Props): Promise<boolean> => {
   const { data, error } = await supabase.from("cart").select().eq("productId", productId).eq("userId", userId);
   if (error) throw error;
-  return !!data;
+
+  return data.length > 0;
 };
 
 export const useCartPost = () => {
