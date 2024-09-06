@@ -62,11 +62,11 @@ export const usePaymentHook = ({ orderId, orderDetails }: Props): Return => {
       alert("배송지를 입력해주세요.");
       return;
     }
-    const products: Product[] = orderDetails.map((orderDetail) => orderDetail.product);
+    const productNames: Product["name"][] = orderDetails.map((orderDetail) => orderDetail.product.name);
 
     // 결제 요청
     const res = await requestPayment({
-      orderName: genOrderName({ products }),
+      orderName: genOrderName({ productNames }),
       totalAmount: totalPrice,
       channelType: "TOSS",
       payMethod: "CARD",

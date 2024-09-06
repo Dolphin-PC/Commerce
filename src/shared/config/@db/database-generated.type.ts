@@ -34,7 +34,7 @@ export type Database = {
             referencedColumns: ["id"];
           },
           {
-            foreignKeyName: "fk_user";
+            foreignKeyName: "cart_userId_fkey";
             columns: ["userId"];
             isOneToOne: false;
             referencedRelation: "user";
@@ -84,7 +84,7 @@ export type Database = {
         };
         Relationships: [
           {
-            foreignKeyName: "fk_user";
+            foreignKeyName: "coupon_userid_fkey";
             columns: ["userid"];
             isOneToOne: false;
             referencedRelation: "user";
@@ -119,7 +119,7 @@ export type Database = {
         };
         Relationships: [
           {
-            foreignKeyName: "fk_user";
+            foreignKeyName: "order_userId_fkey";
             columns: ["userId"];
             isOneToOne: false;
             referencedRelation: "user";
@@ -165,21 +165,21 @@ export type Database = {
       };
       pay_history: {
         Row: {
-          "created\bAt": string;
+          createdAt: string;
           id: number;
           orderId: number;
           payAmount: number | null;
           paymentId: string;
         };
         Insert: {
-          "created\bAt"?: string;
+          createdAt?: string;
           id?: number;
           orderId: number;
           payAmount?: number | null;
           paymentId?: string;
         };
         Update: {
-          "created\bAt"?: string;
+          createdAt?: string;
           id?: number;
           orderId?: number;
           payAmount?: number | null;

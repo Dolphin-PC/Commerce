@@ -8,4 +8,11 @@ export const formatDate = (date: Date) => {
   const hour = date.getHours();
   const minute = date.getMinutes();
   return `${year}년 ${month}월 ${day}일 ${hour}시 ${minute}분`;
-}
+};
+
+/**
+ * timestamp string -> Date
+ */
+export const parseDate = (timestamp: string) => {
+  return new Date(timestamp);
+};
