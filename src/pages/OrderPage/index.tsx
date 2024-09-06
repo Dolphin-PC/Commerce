@@ -7,15 +7,17 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/shared/c
 import { Checkbox } from "@/shared/components/ui/checkbox";
 import { Input } from "@/shared/components/ui/input";
 import MainLayout from "@/widgets/layout/MainLayout";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useGetOrderDetailProductSuspenseQuery } from "./api/get-order-product";
 import { usePaymentHook } from "./hook/usePaymentHook";
+import { ROUTES } from "@/shared/consts/route.const";
 
 /**
  * @desc 주문 화면
  *  - /orders/:id
  */
 const OrderPage = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const orderId = Number(id);
   const { id: userId } = useAuthStore((state) => state.getUser());
@@ -24,15 +26,27 @@ const OrderPage = () => {
     data: { data: order },
   } = useGetOrderDetailProductSuspenseQuery({ orderId, userId, status: "PAY_BEFORE" });
 
-  const { handlePayment, isConfirmOrder, setIsConfirmOrder, setShipAddress, shipAddress, totalPrice } = usePaymentHook({
+  const { handlePayment, cancelPayment, isConfirmOrder, setIsConfirmOrder, setShipAddress, shipAddress, totalPrice } = usePaymentHook({
     orderId: order.id,
-    orderDetail: order.order_details,
+    orderDetails: order.order_details,
   });
+
+  const handleCancelPayment = async () => {
+    if (window.confirm("결제를 취소하시겠습니까?")) {
+      await cancelPayment();
+      navigate(ROUTES.CART);
+    }
+  };
 
   return (
     <Card className="h-full flex flex-col justify-between">
       <CardHeader>
-        <CardTitle>주문/결제</CardTitle>
+        <Row className="items-center justify-between">
+          <CardTitle>주문/결제</CardTitle>
+          <Button variant="outline" onClick={handleCancelPayment}>
+            결제취소
+          </Button>
+        </Row>
       </CardHeader>
 
       <CardContent className="flex-1 flex flex-col gap-3 overflow-auto scrollbar-hide">

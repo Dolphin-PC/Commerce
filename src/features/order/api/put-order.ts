@@ -1,6 +1,7 @@
 import { supabase } from "@/shared/config/@db/supabase.config";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Order, OrderUpdate } from "../type";
+import { queryKey } from "@/shared/consts/react-query";
 
 /**
  * @desc 주문 update API
@@ -24,9 +25,12 @@ const putOrder = async ({ id, update }: Props): Promise<Return> => {
 };
 
 export const usePutOrder = () => {
+  const qc = useQueryClient();
   return useMutation({
     mutationKey: ["usePutOrder"],
     mutationFn: putOrder,
-    onSuccess: () => {},
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: [queryKey.order] });
+    },
   });
 };
