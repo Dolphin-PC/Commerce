@@ -20,7 +20,7 @@ export const ROUTES = {
     searchParams.set("paymentId", paymentId);
     if (code) searchParams.set("code", code);
     if (message) searchParams.set("message", message);
-    return `/orders/redirect?${encodeURIComponent(searchParams.toString())}`;
+    return `/orders/redirect?${encodeURI(searchParams.toString())}`;
   },
 
   // seller

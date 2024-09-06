@@ -16,3 +16,5 @@ export const orderStatus: Record<Enums<"ORDER_STATUS">, Enums<"ORDER_STATUS">> =
   SELLER_CONFIRM: "SELLER_CONFIRM",
   SHIP_COMPLETE: "SHIP_COMPLETE",
 };
+
+export type OrderStatus = Enums<"ORDER_STATUS">;

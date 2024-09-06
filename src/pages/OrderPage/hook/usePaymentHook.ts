@@ -44,6 +44,7 @@ export const usePaymentHook = ({ orderId, orderDetail }: Props): Return => {
   }, [orderDetail]);
 
   const putOrderMutation = usePutOrder();
+  const postPayHisttoryMutation = usePostPayHistoryMutation();
 
   const handlePayment = async () => {
     if (!isConfirmOrder) {
@@ -63,6 +64,8 @@ export const usePaymentHook = ({ orderId, orderDetail }: Props): Return => {
       channelType: "TOSS",
       payMethod: "CARD",
       redirectUrl: `${window.location.origin}${ROUTES.ORDERS_REDIRECT}`,
+    }).catch((e) => {
+      throw e;
     });
 
     // 결제 오류 응답시
@@ -80,6 +83,14 @@ export const usePaymentHook = ({ orderId, orderDetail }: Props): Return => {
         shipAddress,
         status: "PAY_COMPLETE",
         orderName: res.orderName,
+      },
+    });
+
+    // pay_history insert
+    await postPayHisttoryMutation.mutateAsync({
+      insert: {
+        orderId,
+        paymentId: res.paymentId,
       },
     });
 

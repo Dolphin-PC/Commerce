@@ -1,4 +1,4 @@
-import { Order } from "@/features/order/type";
+import { Order, OrderStatus } from "@/features/order/type";
 import { OrderDetail } from "@/features/order_detail/type";
 import { Product } from "@/features/product/type/type";
 import { User } from "@/features/user/model/type";
@@ -14,6 +14,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 interface Props {
   orderId: Order["id"];
   userId: User["id"];
+  status?: OrderStatus;
 }
 
 interface Return {
@@ -25,7 +26,7 @@ interface Return {
   };
 }
 
-const getOrderDetailProduct = async ({ orderId, userId }: Props): Promise<Return> => {
+const getOrderDetailProduct = async ({ orderId, userId, status }: Props): Promise<Return> => {
   const q = supabase
     .from("order")
     .select(
@@ -35,10 +36,11 @@ const getOrderDetailProduct = async ({ orderId, userId }: Props): Promise<Return
         `
     )
     .eq("id", orderId)
-    .eq("userId", userId)
-    .maybeSingle();
+    .eq("userId", userId);
 
-  const { data, error } = await q;
+  if (status) q.eq("status", status);
+
+  const { data, error } = await q.maybeSingle();
   if (error) throw error;
   if (!data) throw new Error("주문 상품을 찾을 수 없습니다.");
   if (!data.order_details) throw new Error("주문 상세 상품을 찾을 수 없습니다.");

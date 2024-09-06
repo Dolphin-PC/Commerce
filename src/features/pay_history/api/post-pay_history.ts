@@ -1,6 +1,6 @@
 import { supabase } from "@/shared/config/@db/supabase.config";
-import { PayHistory, PayHistoryInsert } from "../type";
 import { useMutation } from "@tanstack/react-query";
+import { PayHistory, PayHistoryInsert } from "../type";
 
 interface Props {
   insert: PayHistoryInsert;
@@ -13,7 +13,7 @@ interface Return extends PayHistory {}
  */
 
 const postPayHistory = async ({ insert }: Props): Promise<Return> => {
-  const q = supabase.from("pay_history").insert([insert]).maybeSingle();
+  const q = supabase.from("pay_history").insert([insert]).select().maybeSingle();
 
   const { data, error } = await q;
   if (error) throw error;

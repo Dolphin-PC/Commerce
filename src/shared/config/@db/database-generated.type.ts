@@ -165,34 +165,25 @@ export type Database = {
       };
       pay_history: {
         Row: {
-          channelType: Database["public"]["Enums"]["CHANNEL_TYPE"];
           "created\bAt": string;
           id: number;
           orderId: number;
-          payAmount: number;
+          payAmount: number | null;
           paymentId: string;
-          payMethod: Database["public"]["Enums"]["PAY_METHOD"];
-          txId: string;
         };
         Insert: {
-          channelType: Database["public"]["Enums"]["CHANNEL_TYPE"];
           "created\bAt"?: string;
           id?: number;
           orderId: number;
-          payAmount: number;
+          payAmount?: number | null;
           paymentId?: string;
-          payMethod: Database["public"]["Enums"]["PAY_METHOD"];
-          txId: string;
         };
         Update: {
-          channelType?: Database["public"]["Enums"]["CHANNEL_TYPE"];
           "created\bAt"?: string;
           id?: number;
           orderId?: number;
-          payAmount?: number;
+          payAmount?: number | null;
           paymentId?: string;
-          payMethod?: Database["public"]["Enums"]["PAY_METHOD"];
-          txId?: string;
         };
         Relationships: [
           {
@@ -367,7 +358,7 @@ export type Database = {
     Enums: {
       CHANNEL_TYPE: "TOSS";
       DISCOUNT_TYPE: "PERCENT" | "COST" | "NONE";
-      ORDER_STATUS: "PAY_BEFORE" | "PAY_COMPLETE" | "SELLER_CONFIRM" | "SHIPPING" | "SHIP_COMPLETE" | "REFUND_REQUEST" | "REFUND_COMPLETE";
+      ORDER_STATUS: "PAY_BEFORE" | "PAY_COMPLETE" | "PAY_COMPLETE_CONFIRM" | "SELLER_CONFIRM" | "SHIPPING" | "SHIP_COMPLETE" | "REFUND_REQUEST" | "REFUND_COMPLETE";
       PAY_METHOD: "CARD";
     };
     CompositeTypes: {

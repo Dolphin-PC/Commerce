@@ -22,7 +22,7 @@ const OrderPage = () => {
 
   const {
     data: { data: order },
-  } = useGetOrderDetailProductSuspenseQuery({ orderId, userId });
+  } = useGetOrderDetailProductSuspenseQuery({ orderId, userId, status: "PAY_BEFORE" });
 
   const { handlePayment, isConfirmOrder, setIsConfirmOrder, setShipAddress, shipAddress, totalPrice } = usePaymentHook({
     orderId: order.id,
