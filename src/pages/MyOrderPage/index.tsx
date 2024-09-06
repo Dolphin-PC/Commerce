@@ -19,7 +19,7 @@ import { Link } from "react-router-dom";
  * @desc 내 주문내역
  *  - /my/orders
  */
-const MyOrderPage = () => {
+const _MyOrderPage = () => {
   const user = useAuthStore((state) => state.getUser());
   const { data: orderData, isLoading } = useGetUserOrderProductQuery({ userId: user.id });
 
@@ -70,7 +70,7 @@ const MyOrderPage = () => {
   );
 };
 
-export default function () {
+export default function MyOrderPage() {
   return (
     <MainLayout
       headerChildren={<Header />}
@@ -80,7 +80,7 @@ export default function () {
         </div>
       }
     >
-      <MyOrderPage />
+      <_MyOrderPage />
     </MainLayout>
   );
 }

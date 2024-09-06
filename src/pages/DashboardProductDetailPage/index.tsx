@@ -18,7 +18,7 @@ import { ROUTES } from "@/shared/consts/route.const";
 import { useLayoutEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
-const DashboardProductDetailPage = () => {
+const _DashboardProductDetailPage = () => {
   const { id } = useParams();
   const productId = Number(id);
 
@@ -51,64 +51,68 @@ const DashboardProductDetailPage = () => {
   if (productCategory.isLoading || productImage.isLoading) return <CenterLoading />;
   if (productCategory.error || productImage.error) return <CenterError />;
   return (
-    <DashBoardLayout>
-      <Column className="gap-3">
-        <Button asChild className="w-[100px]">
-          <Link to={ROUTES.DASHBOARD__PRODUCTS}>상품 목록</Link>
-        </Button>
-        <Card>
-          <CardHeader>
-            <Row className="justify-between">
-              <CardTitle>상품 정보</CardTitle>
+    <Column className="gap-3">
+      <Button asChild className="w-[100px]">
+        <Link to={ROUTES.DASHBOARD__PRODUCTS}>상품 목록</Link>
+      </Button>
+      <Card>
+        <CardHeader>
+          <Row className="justify-between">
+            <CardTitle>상품 정보</CardTitle>
 
-              <Row className="gap-5">
-                <ConfirmDialog title="상품 삭제" description="상품을 삭제하시겠습니까?" cancelText="취소" confirmText="삭제" confirmAction={handleDelete} triggerComponent={<Button>삭제</Button>} />
+            <Row className="gap-5">
+              <ConfirmDialog title="상품 삭제" description="상품을 삭제하시겠습니까?" cancelText="취소" confirmText="삭제" confirmAction={handleDelete} triggerComponent={<Button>삭제</Button>} />
 
-                <Button asChild>
-                  <Link to={ROUTES.DASHBOARD__PRODUCTS__EDIT__ID(productId)}>수정</Link>
-                </Button>
-              </Row>
+              <Button asChild>
+                <Link to={ROUTES.DASHBOARD__PRODUCTS__EDIT__ID(productId)}>수정</Link>
+              </Button>
             </Row>
-          </CardHeader>
+          </Row>
+        </CardHeader>
 
+        <CardContent>
           <CardContent>
-            <CardContent>
-              <H4>상품 카테고리</H4>
-              <p>{productCategory.data?.category?.categoryName}</p>
-            </CardContent>
-            <CardContent>
-              <H4>상품 명</H4>
-              <p>{productCategory.data?.name}</p>
-            </CardContent>
-            <CardContent>
-              <H4>상품 가격</H4>
-              <p>{productCategory.data?.price.toLocaleString("ko-KR")} 원</p>
-            </CardContent>
-            <CardContent>
-              <H4>상품 수량</H4>
-              <p>{quantity.data?.quantity.toLocaleString("ko-KR")} 개</p>
-            </CardContent>
-            <CardContent>
-              <H4>상품 이미지</H4>
-              <Row className="gap-5 flex-wrap">
-                {productImage.data?.length === 0 && <p>등록된 이미지가 없습니다.</p>}
-                {productImage.data?.map((image) => (
-                  <ConfirmDialog
-                    key={image.id}
-                    title="업로드 이미지"
-                    description=""
-                    triggerComponent={<img key={image.id} src={bucketBaseUrl + "/" + image.thumnailUrl} alt={image.thumnailUrl} className="w-24 h-24 object-cover" />}
-                  >
-                    <img src={bucketBaseUrl + "/" + image.imgUrl} alt={image.imgUrl} className="w-full h-full object-cover" />
-                  </ConfirmDialog>
-                ))}
-              </Row>
-            </CardContent>
+            <H4>상품 카테고리</H4>
+            <p>{productCategory.data?.category?.categoryName}</p>
           </CardContent>
-        </Card>
-      </Column>
-    </DashBoardLayout>
+          <CardContent>
+            <H4>상품 명</H4>
+            <p>{productCategory.data?.name}</p>
+          </CardContent>
+          <CardContent>
+            <H4>상품 가격</H4>
+            <p>{productCategory.data?.price.toLocaleString("ko-KR")} 원</p>
+          </CardContent>
+          <CardContent>
+            <H4>상품 수량</H4>
+            <p>{quantity.data?.quantity.toLocaleString("ko-KR")} 개</p>
+          </CardContent>
+          <CardContent>
+            <H4>상품 이미지</H4>
+            <Row className="gap-5 flex-wrap">
+              {productImage.data?.length === 0 && <p>등록된 이미지가 없습니다.</p>}
+              {productImage.data?.map((image) => (
+                <ConfirmDialog
+                  key={image.id}
+                  title="업로드 이미지"
+                  description=""
+                  triggerComponent={<img key={image.id} src={bucketBaseUrl + "/" + image.thumnailUrl} alt={image.thumnailUrl} className="w-24 h-24 object-cover" />}
+                >
+                  <img src={bucketBaseUrl + "/" + image.imgUrl} alt={image.imgUrl} className="w-full h-full object-cover" />
+                </ConfirmDialog>
+              ))}
+            </Row>
+          </CardContent>
+        </CardContent>
+      </Card>
+    </Column>
   );
 };
 
-export default DashboardProductDetailPage;
+export default function DashboardProductDetailPage() {
+  return (
+    <DashBoardLayout>
+      <_DashboardProductDetailPage />
+    </DashBoardLayout>
+  );
+}

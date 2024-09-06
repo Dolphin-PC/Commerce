@@ -13,7 +13,7 @@ import { ShoppingBag, ShoppingCart, UserRound } from "lucide-react";
 import { cloneElement, ReactNode } from "react";
 import { Link } from "react-router-dom";
 
-const MyPage = () => {
+const _MyPage = () => {
   const user = useAuthStore((state) => state.getUser());
 
   const { data: cartData } = useCartListQuery({ userId: user.id });
@@ -55,10 +55,10 @@ const IconWrapper = ({ icon, label, count, link }: { icon: ReactNode; label: str
   );
 };
 
-export default function () {
+export default function MyPage() {
   return (
     <MainLayout headerChildren={<Header />}>
-      <MyPage />
+      <_MyPage />
     </MainLayout>
   );
 }

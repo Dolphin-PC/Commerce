@@ -6,24 +6,28 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui
 import { ROUTES } from "@/shared/consts/route.const";
 import { Link } from "react-router-dom";
 
-const SignupPage = () => {
+const _SignupPage = () => {
   return (
-    <CenterLayout>
-      <Column className="items-center gap-[10px]">
-        <Card className="w-[350px] flex flex-col">
-          <CardHeader>
-            <CardTitle>회원가입</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <SignUpForm />
-          </CardContent>
-        </Card>
-        <Link to={ROUTES.SIGNIN}>
-          <Button variant="outline">로그인</Button>
-        </Link>
-      </Column>
-    </CenterLayout>
+    <Column className="items-center gap-[10px]">
+      <Card className="w-[350px] flex flex-col">
+        <CardHeader>
+          <CardTitle>회원가입</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <SignUpForm />
+        </CardContent>
+      </Card>
+      <Link to={ROUTES.SIGNIN}>
+        <Button variant="outline">로그인</Button>
+      </Link>
+    </Column>
   );
 };
 
-export default SignupPage;
+export default function SignupPage() {
+  return (
+    <CenterLayout>
+      <_SignupPage />
+    </CenterLayout>
+  );
+}

@@ -13,6 +13,8 @@ export const ROUTES = {
   MY: "/my",
   CART: "/cart",
   MY__ORDERS: "/my/orders",
+  MY__ORDERS_ID: "/my/orders/:id",
+  MY__ORDERS_ID_: (id: string) => `/my/orders/${id}`,
   ORDERS_ID: "/orders/:id",
   ORDERS_ID_: (id: string) => `/orders/${id}`,
   ORDERS_REDIRECT: "/orders/redirect",

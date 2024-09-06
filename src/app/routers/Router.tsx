@@ -1,5 +1,4 @@
 import { CenterLoading } from "@/shared/components/molecules/Loading";
-import { Button } from "@/shared/components/ui/button";
 import { ROUTES } from "@/shared/consts/route.const";
 import { lazy, Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -16,12 +15,13 @@ const ProductDetailPage = lazy(() => import("@/pages/ProductDetailPage"));
 const CartPage = lazy(() => import("@/pages/CartPage"));
 const MyPage = lazy(() => import("@/pages/MyPage"));
 const MyOrderPage = lazy(() => import("@/pages/MyOrderPage"));
+const MyOrderDetailPage = lazy(() => import("@/pages/MyOrderDetailPage"));
 const OrderPage = lazy(() => import("@/pages/OrderPage"));
 const OrderRedirectPage = lazy(() => import("@/pages/OrderRedirectPage"));
 
 const SignInPage = lazy(() => import("@/pages/SignInPage"));
 const SignupPage = lazy(() => import("@/pages/SignupPage"));
-const SignupOAuthPage = lazy(() => import("@/pages/SignupOAuthPage/SignupOAuthPage"));
+const SignupOAuthPage = lazy(() => import("@/pages/SignupOAuthPage"));
 
 // 대시보드
 const DashBoardPage = lazy(() => import("@/pages/DashBoardPage"));
@@ -48,6 +48,7 @@ export const Router = () => {
             <Route element={<PrivateRoute />}>
               <Route path={ROUTES.MY} element={<MyPage />} />
               <Route path={ROUTES.MY__ORDERS} element={<MyOrderPage />} />
+              <Route path={ROUTES.MY__ORDERS_ID} element={<MyOrderDetailPage />} />
               <Route path={ROUTES.CART} element={<CartPage />} />
               <Route path={ROUTES.ORDERS_ID} element={<OrderPage />} />
               <Route path={ROUTES.ORDERS_REDIRECT} element={<OrderRedirectPage />} />

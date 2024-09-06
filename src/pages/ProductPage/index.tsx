@@ -13,13 +13,14 @@ import { LayoutGrid, LayoutList, SlidersHorizontal } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ProductPageHelmet } from "../Helmets";
+import DashBoardLayout from "@/shared/components/templates/DashBoardLayout";
 
 /**
  * @desc 상품 목록 페이지
  *  - /products
  *
  */
-const ProductPage = () => {
+const _ProductPage = () => {
   const [orderColumn, setOrderColumn] = useState<"createdAt" | "price">("createdAt");
   const [viewStyle, setViewStyle] = useState<"grid" | "list">("grid");
 
@@ -47,81 +48,86 @@ const ProductPage = () => {
   };
 
   return (
-    <MainLayout>
-      <ProductPageHelmet />
-      <Card className="h-full">
-        <CardHeader>
-          <Row className="justify-between">
-            <Tabs defaultValue={viewStyle} onValueChange={handleViewStyleChange}>
+    <Card className="h-full">
+      <CardHeader>
+        <Row className="justify-between">
+          <Tabs defaultValue={viewStyle} onValueChange={handleViewStyleChange}>
+            <TabsList>
+              <TabsTrigger value="grid">
+                <LayoutGrid />
+              </TabsTrigger>
+              <TabsTrigger value="list">
+                <LayoutList />
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
+
+          <Row className="gap-3">
+            <Tabs defaultValue={orderColumn} onValueChange={handleFilterChange}>
               <TabsList>
-                <TabsTrigger value="grid">
-                  <LayoutGrid />
-                </TabsTrigger>
-                <TabsTrigger value="list">
-                  <LayoutList />
-                </TabsTrigger>
+                <TabsTrigger value="createdAt">최신순</TabsTrigger>
+                <TabsTrigger value="price">가격순</TabsTrigger>
               </TabsList>
             </Tabs>
 
-            <Row className="gap-3">
-              <Tabs defaultValue={orderColumn} onValueChange={handleFilterChange}>
-                <TabsList>
-                  <TabsTrigger value="createdAt">최신순</TabsTrigger>
-                  <TabsTrigger value="price">가격순</TabsTrigger>
-                </TabsList>
-              </Tabs>
-
-              <Button size={"icon"} onClick={() => drawerStore.setIsOpen(true)}>
-                <SlidersHorizontal size={20} />
-              </Button>
-            </Row>
+            <Button size={"icon"} onClick={() => drawerStore.setIsOpen(true)}>
+              <SlidersHorizontal size={20} />
+            </Button>
           </Row>
-        </CardHeader>
+        </Row>
+      </CardHeader>
 
-        <CardContent className="h-5/6">
-          {/* grid style view */}
-          {viewStyle === "grid" && product.data && (
-            <GridWindowLayout
-              columnCount={3}
-              rowHeight={480}
-              childrens={product.data.pages.flatMap((page) =>
-                page.data.map((product) => {
-                  return (
-                    <Link to={ROUTES.PRODUCTS_ID_(product.id)} key={product.id}>
-                      <ProductCard product={product} category={product.category} viewStyle={viewStyle} />
-                    </Link>
-                  );
-                })
-              )}
-              fetchNextPage={product.fetchNextPage}
-              hasNextPage={product.hasNextPage}
-              isNextPageLoading={product.isFetchingNextPage}
-            />
-          )}
-          {/* list style view */}
-          {viewStyle === "list" && product.data && (
-            <ListWindowLayout
-              itemHeight={280}
-              childrens={product.data.pages.flatMap((page) =>
-                page.data.map((product) => {
-                  return (
-                    <Link to={ROUTES.PRODUCTS_ID_(product.id)} key={product.id}>
-                      <ProductCard product={product} category={product.category} viewStyle={viewStyle} />
-                    </Link>
-                  );
-                })
-              )}
-              hasNextPage={product.hasNextPage}
-              isNextPageLoading={product.isFetchingNextPage}
-              fetchNextPage={product.fetchNextPage}
-            />
-          )}
+      <CardContent className="h-5/6">
+        {/* grid style view */}
+        {viewStyle === "grid" && product.data && (
+          <GridWindowLayout
+            columnCount={3}
+            rowHeight={480}
+            childrens={product.data.pages.flatMap((page) =>
+              page.data.map((product) => {
+                return (
+                  <Link to={ROUTES.PRODUCTS_ID_(product.id)} key={product.id}>
+                    <ProductCard product={product} category={product.category} viewStyle={viewStyle} />
+                  </Link>
+                );
+              })
+            )}
+            fetchNextPage={product.fetchNextPage}
+            hasNextPage={product.hasNextPage}
+            isNextPageLoading={product.isFetchingNextPage}
+          />
+        )}
+        {/* list style view */}
+        {viewStyle === "list" && product.data && (
+          <ListWindowLayout
+            itemHeight={280}
+            childrens={product.data.pages.flatMap((page) =>
+              page.data.map((product) => {
+                return (
+                  <Link to={ROUTES.PRODUCTS_ID_(product.id)} key={product.id}>
+                    <ProductCard product={product} category={product.category} viewStyle={viewStyle} />
+                  </Link>
+                );
+              })
+            )}
+            hasNextPage={product.hasNextPage}
+            isNextPageLoading={product.isFetchingNextPage}
+            fetchNextPage={product.fetchNextPage}
+          />
+        )}
 
-          {product.data.pages[0].data.length === 0 && <p>검색된 상품이 없습니다.</p>}
-        </CardContent>
-      </Card>
-    </MainLayout>
+        {product.data.pages[0].data.length === 0 && <p>검색된 상품이 없습니다.</p>}
+      </CardContent>
+    </Card>
   );
 };
 
-export default ProductPage;
+export default function ProductPage() {
+  return (
+    <DashBoardLayout>
+      <ProductPageHelmet />
+
+      <_ProductPage />
+    </DashBoardLayout>
+  );
+}

@@ -16,7 +16,7 @@ import { ROUTES } from "@/shared/consts/route.const";
  * @desc 주문 화면
  *  - /orders/:id
  */
-const OrderPage = () => {
+const _OrderPage = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const orderId = Number(id);
@@ -115,10 +115,10 @@ const OrderPage = () => {
   );
 };
 
-export default function () {
+export default function OrderPage() {
   return (
     <MainLayout className="h-screen" mainClassName="h-5/6">
-      <OrderPage />
+      <_OrderPage />
     </MainLayout>
   );
 }

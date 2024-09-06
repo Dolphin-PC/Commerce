@@ -19,7 +19,7 @@ import { ROUTES } from "@/shared/consts/route.const";
 import { useLayoutEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
-const ProductEditPage = () => {
+const _ProductEditPage = () => {
   const { id } = useParams();
   const productId = Number(id);
   const navigate = useNavigate();
@@ -76,35 +76,39 @@ const ProductEditPage = () => {
   if (productCategory.isLoading || productImage.isLoading) return <CenterLoading />;
   if (!productCategory.data || !productImage.data || !quantity.data) return <CenterError />;
   return (
-    <DashBoardLayout>
-      <Column className="gap-3">
-        <Button asChild className="w-[100px]">
-          <Link to={ROUTES.DASHBOARD__PRODUCTS}>상품 목록</Link>
-        </Button>
-        <Card>
-          <CardHeader>
-            <Row className="justify-between">
-              <CardTitle>상품 정보</CardTitle>
+    <Column className="gap-3">
+      <Button asChild className="w-[100px]">
+        <Link to={ROUTES.DASHBOARD__PRODUCTS}>상품 목록</Link>
+      </Button>
+      <Card>
+        <CardHeader>
+          <Row className="justify-between">
+            <CardTitle>상품 정보</CardTitle>
 
-              <ConfirmDialog
-                title="상세보기로 돌아가시겠습니까?"
-                description="수정하신 내용은 저장되지 않습니다."
-                confirmText="돌아가기"
-                confirmAction={() => navigate(ROUTES.DASHBOARD__PRODUCTS__ID(productId))}
-                cancelText="취소"
-                cancelAction={() => {}}
-                triggerComponent={<Button>돌아가기</Button>}
-              />
-            </Row>
-          </CardHeader>
+            <ConfirmDialog
+              title="상세보기로 돌아가시겠습니까?"
+              description="수정하신 내용은 저장되지 않습니다."
+              confirmText="돌아가기"
+              confirmAction={() => navigate(ROUTES.DASHBOARD__PRODUCTS__ID(productId))}
+              cancelText="취소"
+              cancelAction={() => {}}
+              triggerComponent={<Button>돌아가기</Button>}
+            />
+          </Row>
+        </CardHeader>
 
-          <CardContent>
-            <ProductForm productCategory={{ ...productCategory.data, ...quantity.data }} productImages={productImage.data} onSave={handlePutProduct} />
-          </CardContent>
-        </Card>
-      </Column>
-    </DashBoardLayout>
+        <CardContent>
+          <ProductForm productCategory={{ ...productCategory.data, ...quantity.data }} productImages={productImage.data} onSave={handlePutProduct} />
+        </CardContent>
+      </Card>
+    </Column>
   );
 };
 
-export default ProductEditPage;
+export default function ProductEditPage() {
+  return (
+    <DashBoardLayout>
+      <_ProductEditPage />
+    </DashBoardLayout>
+  );
+}
