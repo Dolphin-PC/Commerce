@@ -8,7 +8,7 @@ import { Checkbox } from "@/shared/components/ui/checkbox";
 import { Input } from "@/shared/components/ui/input";
 import MainLayout from "@/widgets/MainLayout";
 import { useNavigate, useParams } from "react-router-dom";
-import { useGetOrderDetailProductSuspenseQuery } from "./api/get-order-product";
+import { useGetOrderDetailProductSuspenseQuery } from "../../features/order/api/get-order-detail-product";
 import { usePaymentHook } from "./hook/usePaymentHook";
 import { ROUTES } from "@/shared/consts/route.const";
 
@@ -22,13 +22,11 @@ const _OrderPage = () => {
   const orderId = Number(id);
   const { id: userId } = useAuthStore((state) => state.getUser());
 
-  const {
-    data: { data: order },
-  } = useGetOrderDetailProductSuspenseQuery({ orderId, userId, status: "PAY_BEFORE" });
+  const { data: order } = useGetOrderDetailProductSuspenseQuery({ orderId, userId, status: "PAY_BEFORE" });
 
   const { handlePayment, cancelPayment, isConfirmOrder, setIsConfirmOrder, setShipAddress, shipAddress, totalPrice } = usePaymentHook({
     orderId: order.id,
-    orderDetails: order.order_details,
+    orderDetails: order.orderDetails,
   });
 
   const handleCancelPayment = async () => {
@@ -66,7 +64,7 @@ const _OrderPage = () => {
             <CardTitle>주문 정보</CardTitle>
           </CardHeader>
           <CardContent>
-            {order.order_details.map((orderDetail) => (
+            {order.orderDetails.map((orderDetail) => (
               <div key={orderDetail.id}>
                 {orderDetail.product && (
                   <ProductCard

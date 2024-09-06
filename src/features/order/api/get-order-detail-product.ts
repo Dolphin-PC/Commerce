@@ -1,5 +1,6 @@
 import { Order, OrderStatus } from "@/features/order/type";
 import { OrderDetail } from "@/features/order_detail/type";
+import { PayHistory } from "@/features/pay_history/type";
 import { Product } from "@/features/product/type/type";
 import { User } from "@/features/user/model/type";
 import { supabase } from "@/shared/config/@db/supabase.config";
@@ -17,13 +18,13 @@ interface Props {
   status?: OrderStatus;
 }
 
-interface Return {
-  data: {
-    id: Order["id"];
-    order_details: (OrderDetail & {
-      product: Product;
-    })[];
-  };
+interface Return extends Order {
+  orderDetails: (OrderDetail & {
+    product: Product & {
+      seller: User;
+    };
+  })[];
+  payHistory: PayHistory | null;
 }
 
 const getOrderDetailProduct = async ({ orderId, userId, status }: Props): Promise<Return> => {
@@ -31,9 +32,14 @@ const getOrderDetailProduct = async ({ orderId, userId, status }: Props): Promis
     .from("order")
     .select(
       `
-        id,
-        order_details: order_detail(*, product: product(*))
-        `
+          *,
+          orderDetails: order_detail(*, 
+            product: product!inner(*,
+              seller: user!inner(*)
+            )
+          ),
+          payHistory: pay_history(*)
+          `
     )
     .eq("id", orderId)
     .eq("userId", userId);
@@ -43,11 +49,8 @@ const getOrderDetailProduct = async ({ orderId, userId, status }: Props): Promis
   const { data, error } = await q.maybeSingle();
   if (error) throw error;
   if (!data) throw new Error("주문 상품을 찾을 수 없습니다.");
-  if (!data.order_details) throw new Error("주문 상세 상품을 찾을 수 없습니다.");
-  if (data.order_details.length === 0) throw new Error("주문 상세 상품이 없습니다.");
-  if (data.order_details.some((orderDetail) => orderDetail.product === null)) throw new Error("주문 상세 상품 정보를 찾을 수 없습니다.");
 
-  return { data: data as Return["data"] };
+  return data;
 };
 
 export const useGetOrderDetailProductSuspenseQuery = (props: Props) => {
