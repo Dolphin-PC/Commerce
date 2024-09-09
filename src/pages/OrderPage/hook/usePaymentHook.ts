@@ -48,7 +48,7 @@ export const usePaymentHook = ({ orderId, orderDetails }: Props): Return => {
   }, [orderDetails]);
 
   const putOrderMutation = usePutOrderMutation();
-  const postPayHisttoryMutation = usePostPayHistoryMutation();
+  const postPayHistoryMutation = usePostPayHistoryMutation();
   const { handleIncrease } = useProductQuantityHooks();
   const deleteOrderMutation = useDeleteOrder();
   const deleteOrderDetailMutation = useDeleteOrderDetail();
@@ -94,7 +94,7 @@ export const usePaymentHook = ({ orderId, orderDetails }: Props): Return => {
     });
 
     // pay_history insert
-    await postPayHisttoryMutation.mutateAsync({
+    await postPayHistoryMutation.mutateAsync({
       insert: {
         orderId,
         paymentId: res.paymentId,

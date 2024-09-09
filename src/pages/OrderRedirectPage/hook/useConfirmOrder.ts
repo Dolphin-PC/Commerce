@@ -4,6 +4,8 @@ import { usePutPayHistoryMutation } from "@/features/pay_history/api/put-pay_his
 import { PayHistory } from "@/features/pay_history/type";
 import { getOrderByPaymentId } from "../api/get-orderByPaymentId";
 import { Order } from "@/features/order/type";
+import { usePutOrderDetail } from "@/features/order_detail/api/put-order_detail";
+import { getOrderDetails } from "@/features/order_detail/api/get-order_details";
 
 interface Props {}
 
@@ -18,6 +20,7 @@ interface Return {
 export const useConfirmOrder = () => {
   const putPayHistoryMutation = usePutPayHistoryMutation();
   const putOrderMutation = usePutOrderMutation();
+  const putOrderDetailMutation = usePutOrderDetail();
 
   const getOrder = async (paymentId: PayHistory["paymentId"]): Promise<Order> => {
     const order = await getOrderByPaymentId({ paymentId });
@@ -43,6 +46,19 @@ export const useConfirmOrder = () => {
           status: "PAY_COMPLETE_CONFIRM",
         },
       });
+
+      // order_detail: ORDER_COMPLETE
+      const orderDetails = await getOrderDetails({ orderId: updatedPayHistory.orderId });
+      await Promise.all(
+        orderDetails.map((orderDetail) =>
+          putOrderDetailMutation.mutateAsync({
+            id: orderDetail.id,
+            update: {
+              status: "ORDER_COMPLETE",
+            },
+          })
+        )
+      );
     }
   };
 
