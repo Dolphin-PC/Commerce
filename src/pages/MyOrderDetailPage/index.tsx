@@ -7,13 +7,13 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/shared/c
 import { formatDate, parseDate } from "@/shared/lib/date";
 import { T } from "@/shared/components/atoms/Typography";
 import { Badge } from "@/shared/components/ui/badge";
-import { translateOrderStatus } from "@/features/order/util/translate-order-status";
 import BadgeRowLead from "@/shared/components/atoms/BadgeRowLead";
 import { ROUTES } from "@/shared/consts/route.const";
 import { Button } from "@/shared/components/ui/button";
 import { ConfirmDialog } from "@/shared/components/molecules/ConfirmDialog";
 import { useRefundRequestHook } from "./hook/useRefundRequestHook";
 import { toast } from "@/shared/components/ui/use-toast";
+import { orderStatus } from "@/features/order/const/orderStatus";
 
 /**
  * @desc 내 주문 상세 페이지
@@ -72,7 +72,7 @@ const _MyOrderDetailPage = () => {
       <Card className="px-3 flex flex-col gap-3">
         <CardHeader className="flex flex-row items-center gap-3">
           <CardTitle>주문 정보</CardTitle>
-          <Badge className="w-fit">{translateOrderStatus(orderData.status)}</Badge>
+          <Badge className="w-fit">{orderStatus[orderData.status]}</Badge>
         </CardHeader>
         <CardContent className="flex flex-col gap-3">
           <T.H4>{orderData.orderName}</T.H4>
