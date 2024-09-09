@@ -56,7 +56,7 @@ const _DashboardProductEditPage = () => {
         onSuccess: (res) => {
           Promise.all(uploadImages.map((image) => postImageMutation.mutate({ productId: res.id, file: image }))).then(() => {
             toast({ title: "상품 수정이 완료되었습니다.", description: "상품 페이지로 이동합니다." });
-            navigate(ROUTES.DASHBOARD__PRODUCTS__ID(res.id));
+            navigate(ROUTES.DASHBOARD__PRODUCTS_ID_(res.id));
           });
         },
         onError: (err) => {
@@ -89,7 +89,7 @@ const _DashboardProductEditPage = () => {
               title="상세보기로 돌아가시겠습니까?"
               description="수정하신 내용은 저장되지 않습니다."
               confirmText="돌아가기"
-              confirmAction={() => navigate(ROUTES.DASHBOARD__PRODUCTS__ID(productId))}
+              confirmAction={() => navigate(ROUTES.DASHBOARD__PRODUCTS_ID_(productId))}
               cancelText="취소"
               cancelAction={() => {}}
               triggerComponent={<Button>돌아가기</Button>}

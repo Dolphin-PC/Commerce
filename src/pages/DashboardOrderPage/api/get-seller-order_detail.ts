@@ -13,23 +13,14 @@ interface Props {
   sellerId: User["id"];
 }
 
-interface Return {
-  productId: Product["id"];
-  orderDetails: OrderDetail[];
+interface Return extends OrderDetail {
+  product: Product;
 }
 
 const getSellerOrderDetail = async ({ sellerId }: Props): Promise<Return[]> => {
-  const q = supabase
-    .from("product")
-    .select(
-      `
-        productId:id,
-        orderDetails: order_detail!inner(*)
-        `
-    )
-    .eq("sellerId", sellerId);
+  const q = supabase.from("order_detail").select("*, product!inner(*)").eq("product.sellerId", sellerId);
 
-  const { data, error } = await q;
+  const { data, error } = await q.order("id");
   if (error) throw error;
 
   return data;

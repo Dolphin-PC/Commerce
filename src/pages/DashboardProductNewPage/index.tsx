@@ -39,7 +39,7 @@ const _ProductNewPage = () => {
 
       Promise.all(uploadImages.map((image) => postImageMutation.mutate({ productId: newProduct.id, file: image }))).then(() => {
         toast({ title: "상품 등록이 완료되었습니다.", description: "상품 페이지로 이동합니다." });
-        navigate(ROUTES.DASHBOARD__PRODUCTS__ID(newProduct.id));
+        navigate(ROUTES.DASHBOARD__PRODUCTS_ID_(newProduct.id));
       });
     } catch (err) {
       console.error(err);
