@@ -7,7 +7,7 @@ import { useProductCategorySuspenseQuery } from "@/features/product/api/get-prod
 import ProductImageCarousel from "@/features/product_image/ui/ProductImageCarousel";
 import Column from "@/shared/components/atoms/Column";
 import Row from "@/shared/components/atoms/Row";
-import { H2, H3, H4, Large } from "@/shared/components/atoms/Typography";
+import { H2, H3, H4, Large, T } from "@/shared/components/atoms/Typography";
 import { Badge } from "@/shared/components/ui/badge";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/shared/components/ui/card";
@@ -15,12 +15,13 @@ import { Input } from "@/shared/components/ui/input";
 import { useScrollTop } from "@/shared/hooks/useScrollTop";
 import { convertStringToNumber } from "@/shared/lib/string";
 import MainLayout from "@/widgets/MainLayout";
-import { Minus, Plus } from "lucide-react";
-import { useLayoutEffect, useMemo, useState } from "react";
+import { HeartIcon, Minus, Plus, ShoppingCartIcon } from "lucide-react";
+import { Fragment, useLayoutEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ProductDetailPageHelmet } from "../Helmets";
 import OrderDialog from "./ui/OrderDialog";
 import RecommendProductList from "./ui/RecommendProductList";
+import BadgeRowLead from "@/shared/components/atoms/BadgeRowLead";
 
 /**
  * @desc 상품 상세 페이지
@@ -43,9 +44,10 @@ const _ProductDetailPage = () => {
 
   const isProductInCart = useMemo(() => cartProductList?.some((cart) => cart.product?.id === productId), [cartProductList, productId]);
 
-  const onChangeProductCount = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    setProductCount(convertStringToNumber(value));
+  const handleChangeProductCount = (newCount: number) => {
+    if (!quantity) return;
+    if (quantity.quantity < newCount) newCount = quantity.quantity;
+    setProductCount(newCount);
   };
 
   const handleLike = () => {};
@@ -65,10 +67,26 @@ const _ProductDetailPage = () => {
           </Card>
 
           {/* 제품 설명 */}
-          <Card className="w-1/2 min-h-full flex flex-col justify-start">
+          <Card className="relative w-1/2 min-h-full flex flex-col justify-start">
             <CardHeader>
               <H3>{product.name}</H3>
               <H2>{product.price.toLocaleString("ko-KR")} 원</H2>
+
+              <Column className="absolute top-0 right-3">
+                {isProductInCart && cartProductList && (
+                  <CartViewDrawer
+                    data={cartProductList}
+                    trigger={
+                      <Button variant="ghost" size="icon">
+                        <ShoppingCartIcon />
+                      </Button>
+                    }
+                  />
+                )}
+                <Button variant="ghost" size="icon" onClick={handleLike}>
+                  <HeartIcon />
+                </Button>
+              </Column>
             </CardHeader>
 
             <CardContent>
@@ -82,32 +100,37 @@ const _ProductDetailPage = () => {
             <CardFooter>
               <Column className="w-full gap-3">
                 <hr />
-                <Row>
-                  <Button size="icon" onClick={() => setProductCount((p) => (p === 0 ? p : p - 1))} disabled={productCount === 0}>
-                    <Minus />
-                  </Button>
-                  <Input type="text" className="w-24" value={productCount.toLocaleString()} onChange={onChangeProductCount} />
-                  <Button size="icon" onClick={() => setProductCount((p) => p + 1)}>
-                    <Plus />
-                  </Button>
-                </Row>
-                <Column className="w-full gap-2">
-                  <Row className="m-2 justify-between">
-                    <Large>총 금액</Large>
-                    <H4>{(product.price * productCount).toLocaleString("ko-KR")} 원</H4>
-                  </Row>
 
-                  {!isProductInCart && <CartAddButton product={product} productCount={productCount} />}
-                  {isProductInCart && cartProductList && <CartViewDrawer data={cartProductList} />}
-                  <Button variant="outline" onClick={handleLike}>
-                    찜하기
-                  </Button>
-
-                  {/* 구매 모달 창 */}
-                  <OrderDialog trigger={<Button>구매</Button>}>
-                    <p>jdakslds</p>
-                  </OrderDialog>
-                </Column>
+                {quantity && quantity.quantity > 0 ? (
+                  <Fragment>
+                    <Row>
+                      <Button size="icon" onClick={() => handleChangeProductCount(productCount - 1)} disabled={productCount === 0}>
+                        <Minus />
+                      </Button>
+                      <Input type="text" className="w-24" value={productCount.toLocaleString()} onChange={(e) => handleChangeProductCount(convertStringToNumber(e.target.value))} />
+                      <Button size="icon" onClick={() => handleChangeProductCount(productCount + 1)} disabled={!quantity || quantity.quantity <= productCount}>
+                        <Plus />
+                      </Button>
+                    </Row>
+                    <Column className="w-full gap-2">
+                      <Row className="m-2 justify-between">
+                        <Large>총 금액</Large>
+                        <H4>{(product.price * productCount).toLocaleString("ko-KR")} 원</H4>
+                      </Row>
+                      {/* 구매 모달 창 */}
+                      {user && product && quantity && (
+                        <OrderDialog trigger={<Button disabled={productCount == 0}>구매</Button>} product={product} quantity={productCount}>
+                          <BadgeRowLead badge="구매수량" lead={`${productCount}개`} />
+                          <BadgeRowLead badge="결제금액" lead={`${(product.price * productCount).toLocaleString("ko-KR")}원`} />
+                        </OrderDialog>
+                      )}
+                      {/* 장바구니 */}
+                      {!isProductInCart && <CartAddButton product={product} productCount={productCount} />}
+                    </Column>
+                  </Fragment>
+                ) : (
+                  <T.Blockquote>상품이 품절되었어요.</T.Blockquote>
+                )}
               </Column>
             </CardFooter>
           </Card>

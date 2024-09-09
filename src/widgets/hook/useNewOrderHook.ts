@@ -7,9 +7,19 @@ import { useProductQuantityHooks } from "@/features/product/hooks/useProductQuan
 import { useDeleteOrder } from "../../features/order/api/delete-order";
 import { usePostOrder } from "../../features/order/api/post-order";
 import { Order } from "../../features/order/type";
+import { Product } from "@/features/product/type/type";
+import { User } from "@/features/user/model/type";
 
 interface Return {
-  handleNewOrder: (cartList: CartProductCategory[]) => Promise<Order>;
+  /** 장바구니를 통한 Order생성 */
+  handleNewOrderByCart: (cartList: CartProductCategory[]) => Promise<Order>;
+  handleNewOrder: ({ userId, productId, quantity }: handleNewOrderProps) => Promise<{ order: Order; orderDetail: OrderDetail }>;
+}
+
+interface handleNewOrderProps {
+  userId: User["id"];
+  productId: Product["id"];
+  quantity: OrderDetail["quantity"];
 }
 
 /**
@@ -23,28 +33,38 @@ export const useNewOrderHook = (): Return => {
   const postOrder = usePostOrder();
   const deleteOrder = useDeleteOrder();
 
-  const postOrderDetail = usePostOrderDetail();
-  const deleteOrderDetail = useDeleteOrderDetail();
-  const putOrderDetail = usePutOrderDetail();
+  const postOrderDetailMutation = usePostOrderDetail();
+  const deleteOrderDetailMutation = useDeleteOrderDetail();
+  const putOrderDetailMutation = usePutOrderDetail();
 
   const { handleDecrease, handleIncrease } = useProductQuantityHooks();
 
-  const handleNewOrder = async (cartList: CartProductCategory[]): Promise<Order> => {
+  interface postNewOrderProps {
+    userId: Order["userId"];
+  }
+
+  //* 주문 생성
+  const postNewOrder = async ({ userId }: postNewOrderProps): Promise<Order> => {
+    // 1. 주문::생성
+    return await postOrder
+      .mutateAsync({
+        insert: {
+          status: "PAY_BEFORE",
+          userId,
+        },
+      })
+      .catch(() => {
+        throw Error("주문 생성에 실패했습니다.");
+      });
+  };
+
+  //* 장바구니에서 주문 생성
+  const handleNewOrderByCart = async (cartList: CartProductCategory[]): Promise<Order> => {
     return new Promise(async (resolve, reject) => {
       try {
         if (cartList.length === 0) reject("구매할 상품이 없습니다.");
 
-        // 1. 주문::생성
-        const newOrder = await postOrder
-          .mutateAsync({
-            insert: {
-              userId: cartList[0].userId,
-              status: "PAY_BEFORE",
-            },
-          })
-          .catch(() => {
-            throw Error("주문 생성에 실패했습니다.");
-          });
+        const newOrder = await postNewOrder({ userId: cartList[0].userId });
 
         /**
          * @desc 재고수량 감소할 때, 오류발생시 처리 방법
@@ -64,7 +84,7 @@ export const useNewOrderHook = (): Return => {
         // 2. 주문상세::생성 (수량이 0인 상태)
         const orderDetailCartList: [OrderDetail, CartProductCategory][] = await Promise.all(
           cartList.map(async (cart) => {
-            const newOrderDetail = await postOrderDetail
+            const newOrderDetail = await postOrderDetailMutation
               .mutateAsync({
                 insert: {
                   orderId: newOrder.id,
@@ -91,7 +111,7 @@ export const useNewOrderHook = (): Return => {
               await handleDecrease({ productId: orderDetail.productId, quantity: cart.quantity });
 
               // 주문상세::수량 증가, 증가된 주문상세를 orderDetailCart에 업데이트
-              orderDetailCart[index] = await putOrderDetail
+              orderDetailCart[index] = await putOrderDetailMutation
                 .mutateAsync({
                   id: orderDetail.id,
                   update: {
@@ -110,7 +130,7 @@ export const useNewOrderHook = (): Return => {
           await Promise.all(
             orderDetailCartList.map(async ([orderDetail, _]) => {
               await handleIncrease({ productId: orderDetail.productId, quantity: orderDetail.quantity });
-              await deleteOrderDetail.mutateAsync({ id: orderDetail.id });
+              await deleteOrderDetailMutation.mutateAsync({ id: orderDetail.id });
             })
           );
 
@@ -124,5 +144,16 @@ export const useNewOrderHook = (): Return => {
     });
   };
 
-  return { handleNewOrder };
+  //* 즉시 주문
+  const handleNewOrder = async ({ userId, productId, quantity }: handleNewOrderProps): Promise<{ order: Order; orderDetail: OrderDetail }> => {
+    const order: Order = await postNewOrder({ userId });
+
+    const orderDetail: OrderDetail = await postOrderDetailMutation.mutateAsync({ insert: { orderId: order.id, quantity, productId } });
+
+    await handleDecrease({ productId, quantity });
+
+    return { order, orderDetail };
+  };
+
+  return { handleNewOrderByCart, handleNewOrder };
 };

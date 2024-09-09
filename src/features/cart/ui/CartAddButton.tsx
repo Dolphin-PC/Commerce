@@ -36,7 +36,11 @@ const CartAddButton = ({ product, productCount }: Props) => {
     });
   };
 
-  return <Button onClick={handleAddCart}>장바구니 담기</Button>;
+  return (
+    <Button onClick={handleAddCart} disabled={productCount === 0}>
+      장바구니 담기
+    </Button>
+  );
 };
 
 export default CartAddButton;

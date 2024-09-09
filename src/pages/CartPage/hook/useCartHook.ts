@@ -23,7 +23,7 @@ export const useCartHook = (): Return => {
   const [checkedAll, setCheckedAll] = useState(false);
 
   const deleteMutation = useDeleteCartList();
-  const { handleNewOrder } = useNewOrderHook();
+  const { handleNewOrderByCart } = useNewOrderHook();
 
   // 장바구니 개별선택
   const handleCheckedChange = (cart: CartProductCategory) => (checked: CheckedState) => {
@@ -64,7 +64,7 @@ export const useCartHook = (): Return => {
     }
 
     // 주문::생성
-    const newOrder = await handleNewOrder(checkedCartList);
+    const newOrder = await handleNewOrderByCart(checkedCartList);
 
     await deleteCartOnNewOrder(checkedCartList);
 

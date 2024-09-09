@@ -5,7 +5,7 @@ import { Badge } from "@/shared/components/ui/badge";
 import { Button } from "@/shared/components/ui/button";
 import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/shared/components/ui/drawer";
 import { ROUTES } from "@/shared/consts/route.const";
-import { useMemo } from "react";
+import { ReactNode, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { CartProductCategory } from "../type";
 import Cart from "./Cart";
@@ -14,12 +14,13 @@ import CartOptionMenu from "./CartOptionMenu";
 
 interface Props {
   data: CartProductCategory[];
+  trigger: ReactNode;
 }
 
 /**
  * @desc 장바구니 Drawer (오른쪽)
  */
-const CartViewDrawer = ({ data }: Props) => {
+const CartViewDrawer = ({ data, trigger }: Props) => {
   const totalPrice = useMemo(
     () =>
       data.reduce((acc, cur) => {
@@ -31,9 +32,7 @@ const CartViewDrawer = ({ data }: Props) => {
 
   return (
     <Drawer direction="right" handleOnly>
-      <Button asChild variant="outline">
-        <DrawerTrigger>장바구니 보기</DrawerTrigger>
-      </Button>
+      <DrawerTrigger asChild>{trigger}</DrawerTrigger>
       <DrawerContent className="w-1/2" direction="right">
         <DrawerHeader>
           <DrawerTitle>내 장바구니</DrawerTitle>

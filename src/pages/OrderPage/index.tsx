@@ -11,6 +11,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useGetOrderDetailProductSuspenseQuery } from "../../features/order/api/get-order-detail-product";
 import { usePaymentHook } from "../../widgets/hook/usePaymentHook";
 import { ROUTES } from "@/shared/consts/route.const";
+import { useMemo } from "react";
 
 /**
  * @desc 주문 화면
@@ -24,14 +25,23 @@ const _OrderPage = () => {
 
   const { data: order } = useGetOrderDetailProductSuspenseQuery({ orderId, userId, status: "PAY_BEFORE" });
 
-  const { handlePayment, cancelPayment, isConfirmOrder, setIsConfirmOrder, setShipAddress, shipAddress, totalPrice } = usePaymentHook({
-    orderId: order.id,
-    orderDetails: order.orderDetails,
-  });
+  const { handlePayment, cancelPayment, isConfirmOrder, setIsConfirmOrder, setShipAddress, shipAddress } = usePaymentHook();
 
-  const handleCancelPayment = async () => {
+  const totalAmount = useMemo(() => {
+    return order.orderDetails.reduce((acc, cur) => {
+      if (cur.product === null) return acc;
+      return acc + cur.quantity * cur.product.price;
+    }, 0);
+  }, [order.orderDetails]);
+
+  const _handlePayment = async () => {
+    const productNames = order.orderDetails.map((o) => o.product.name);
+    await handlePayment({ orderId: order.id, totalAmount, productNames });
+  };
+
+  const _handleCancelPayment = async () => {
     if (window.confirm("결제를 취소하시겠습니까?")) {
-      await cancelPayment();
+      await cancelPayment({ orderId: order.id, orderDetails: order.orderDetails });
       navigate(ROUTES.CART);
     }
   };
@@ -41,7 +51,7 @@ const _OrderPage = () => {
       <CardHeader>
         <Row className="items-center justify-between">
           <CardTitle>주문/결제</CardTitle>
-          <Button variant="outline" onClick={handleCancelPayment}>
+          <Button variant="outline" onClick={_handleCancelPayment}>
             결제취소
           </Button>
         </Row>
@@ -86,7 +96,7 @@ const _OrderPage = () => {
           </CardContent>
           <CardFooter>
             <Row className="w-full justify-end">
-              <Large>총 주문 금액: {totalPrice.toLocaleString("ko-KR")}원</Large>
+              <Large>총 주문 금액: {totalAmount.toLocaleString("ko-KR")}원</Large>
             </Row>
           </CardFooter>
         </Card>
@@ -106,7 +116,7 @@ const _OrderPage = () => {
             <Checkbox id="confirm-order" className="w-8 h-8" checked={isConfirmOrder} onCheckedChange={(check) => setIsConfirmOrder(!!check)} />
             <label htmlFor="confirm-order">주문 내용을 확인했습니다.</label>
           </Row>
-          <Button onClick={handlePayment}>결제하기</Button>
+          <Button onClick={_handlePayment}>결제하기</Button>
         </Row>
       </CardFooter>
     </Card>
