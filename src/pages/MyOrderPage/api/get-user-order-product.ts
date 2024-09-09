@@ -41,7 +41,7 @@ const getUserOrderProduct = async ({ userId }: Props): Promise<Return[]> => {
     )
     .eq("userId", userId);
 
-  const { data, error } = await q;
+  const { data, error } = await q.order("id", { ascending: false });
   if (error) throw error;
   if (!data) throw new Error("유저의 주문 데이터를 찾지 못했어요.");
 
