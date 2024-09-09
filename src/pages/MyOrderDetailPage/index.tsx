@@ -14,6 +14,7 @@ import { ConfirmDialog } from "@/shared/components/molecules/ConfirmDialog";
 import { useRefundRequestHook } from "./hook/useRefundRequestHook";
 import { toast } from "@/shared/components/ui/use-toast";
 import { orderStatusObj } from "@/features/order/const/orderStatus";
+import Row from "@/shared/components/atoms/Row";
 
 /**
  * @desc 내 주문 상세 페이지
@@ -35,9 +36,16 @@ const _MyOrderDetailPage = () => {
 
   return (
     <Column className="gap-5">
-      <Button variant="link" asChild className="w-fit">
-        <Link to={ROUTES.MY__ORDERS}>구매목록</Link>
-      </Button>
+      <Row className="items-center justify-between">
+        <Button variant="link" asChild className="w-fit">
+          <Link to={ROUTES.MY__ORDERS}>구매목록</Link>
+        </Button>
+        {orderData.status === "PAY_BEFORE" && (
+          <Button variant="default" asChild className="w-fit">
+            <Link to={ROUTES.ORDERS_ID_(String(orderId))}>결제하기</Link>
+          </Button>
+        )}
+      </Row>
       {orderData.payHistory && (
         <Card>
           <CardHeader>
