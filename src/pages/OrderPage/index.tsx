@@ -1,7 +1,7 @@
 import { useAuthStore } from "@/features/@auth/store/auth.store";
 import ProductCard from "@/features/product/ui/ProductCard";
 import Row from "@/shared/components/atoms/Row";
-import { Large, Small } from "@/shared/components/atoms/Typography";
+import { Large, Small, T } from "@/shared/components/atoms/Typography";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/shared/components/ui/card";
 import { Checkbox } from "@/shared/components/ui/checkbox";
@@ -47,7 +47,7 @@ const _OrderPage = () => {
   };
 
   return (
-    <Card className="h-full flex flex-col justify-between">
+    <Card className="flex flex-col justify-between">
       <CardHeader>
         <Row className="items-center justify-between">
           <CardTitle>주문/결제</CardTitle>
@@ -57,7 +57,7 @@ const _OrderPage = () => {
         </Row>
       </CardHeader>
 
-      <CardContent className="flex-1 flex flex-col gap-3 overflow-auto scrollbar-hide">
+      <CardContent className="flex flex-col gap-5">
         {/* 배송지 */}
         <Card>
           <CardHeader>
@@ -73,7 +73,7 @@ const _OrderPage = () => {
           <CardHeader>
             <CardTitle>주문 정보</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="flex flex-col gap-3">
             {order.orderDetails.map((orderDetail) => (
               <div key={orderDetail.id}>
                 {orderDetail.product && (
@@ -94,29 +94,21 @@ const _OrderPage = () => {
               </div>
             ))}
           </CardContent>
-          <CardFooter>
-            <Row className="w-full justify-end">
-              <Large>총 주문 금액: {totalAmount.toLocaleString("ko-KR")}원</Large>
-            </Row>
-          </CardFooter>
-        </Card>
-
-        {/* 결제정보 */}
-        <Card>
-          <CardHeader>
-            <CardTitle>결제 정보</CardTitle>
-          </CardHeader>
-          <CardContent></CardContent>
         </Card>
       </CardContent>
 
-      <CardFooter>
+      <CardFooter className="sticky bottom-0 bg-white p-3" style={{ boxShadow: "0px 0px 2px 0px" }}>
         <Row className="w-full justify-between">
           <Row className="items-center gap-3">
             <Checkbox id="confirm-order" className="w-8 h-8" checked={isConfirmOrder} onCheckedChange={(check) => setIsConfirmOrder(!!check)} />
             <label htmlFor="confirm-order">주문 내용을 확인했습니다.</label>
           </Row>
-          <Button onClick={_handlePayment}>결제하기</Button>
+
+          <Row className="items-center gap-5">
+            <T.H4>총 주문 금액: {totalAmount.toLocaleString("ko-KR")}원</T.H4>
+
+            <Button onClick={_handlePayment}>결제하기</Button>
+          </Row>
         </Row>
       </CardFooter>
     </Card>
