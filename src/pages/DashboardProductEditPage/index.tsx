@@ -19,7 +19,7 @@ import { ROUTES } from "@/shared/consts/route.const";
 import { useLayoutEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
-const _ProductEditPage = () => {
+const _DashboardProductEditPage = () => {
   const { id } = useParams();
   const productId = Number(id);
   const navigate = useNavigate();
@@ -105,10 +105,10 @@ const _ProductEditPage = () => {
   );
 };
 
-export default function ProductEditPage() {
+export default function DashboardProductEditPage() {
   return (
     <DashBoardLayout>
-      <_ProductEditPage />
+      <_DashboardProductEditPage />
     </DashBoardLayout>
   );
 }
