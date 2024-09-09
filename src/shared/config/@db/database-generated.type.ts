@@ -133,18 +133,21 @@ export type Database = {
           orderId: number;
           productId: number;
           quantity: number;
+          status: Database["public"]["Enums"]["ORDER_DETAIL_STATUS"];
         };
         Insert: {
           id?: number;
           orderId: number;
           productId: number;
           quantity?: number;
+          status?: Database["public"]["Enums"]["ORDER_DETAIL_STATUS"];
         };
         Update: {
           id?: number;
           orderId?: number;
           productId?: number;
           quantity?: number;
+          status?: Database["public"]["Enums"]["ORDER_DETAIL_STATUS"];
         };
         Relationships: [
           {
@@ -358,6 +361,7 @@ export type Database = {
     Enums: {
       CHANNEL_TYPE: "TOSS";
       DISCOUNT_TYPE: "PERCENT" | "COST" | "NONE";
+      ORDER_DETAIL_STATUS: "PAY_BEFORE" | "ORDER_COMPLETE" | "SHIP_WAIT" | "SHIP_START" | "SHIP_COMPLETE" | "ORDER_CANCEL";
       ORDER_STATUS: "PAY_BEFORE" | "PAY_COMPLETE" | "PAY_COMPLETE_CONFIRM" | "PAY_CANCEL" | "SELLER_CONFIRM" | "SHIPPING" | "SHIP_COMPLETE" | "REFUND_REQUEST" | "REFUND_COMPLETE";
       PAY_METHOD: "CARD";
     };

@@ -19,11 +19,13 @@ interface Props {
   cancelAction?: () => void;
   confirmText?: string;
   confirmAction?: () => void;
+
+  onOpenChange?: (open: boolean) => void;
 }
 
-export const ConfirmDialog = ({ children, triggerComponent, title, description, cancelText, cancelAction = () => {}, confirmText = "확인", confirmAction = () => {} }: Props) => {
+export const ConfirmDialog = ({ children, triggerComponent, title, description, cancelText, cancelAction = () => {}, confirmText = "확인", confirmAction = () => {}, onOpenChange }: Props) => {
   return (
-    <AlertDialog>
+    <AlertDialog onOpenChange={onOpenChange}>
       <AlertDialogTrigger asChild>{triggerComponent}</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>

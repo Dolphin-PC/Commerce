@@ -44,7 +44,7 @@ const DashboardProductCard = ({ product }: Props) => {
       <CardFooter className="w-full">
         <Row className="w-full justify-between">
           <Button asChild>
-            <Link to={ROUTES.DASHBOARD__PRODUCTS__ID(product.id)}>상세보기</Link>
+            <Link to={ROUTES.DASHBOARD__PRODUCTS_ID_(product.id)}>상세보기</Link>
           </Button>
           <Row className="gap-2">
             <Button>
