@@ -23,4 +23,5 @@ const oneMinute = 1000 * 60;
 export const staleTime = {
   product: oneMinute * 5,
   cart: oneMinute * 5,
+  order_detail: oneMinute * 5,
 };

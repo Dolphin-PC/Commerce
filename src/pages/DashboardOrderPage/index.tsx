@@ -1,17 +1,18 @@
-import DashBoardLayout from "@/shared/components/templates/DashBoardLayout";
-import { useGetSellerOrderDetailQuery } from "./api/get-seller-order_detail";
 import { useAuthStore } from "@/features/@auth/store/auth.store";
-import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui/card";
-import { Fragment } from "react/jsx-runtime";
+import { orderDetailStatus } from "@/features/order_detail/const/orderDetailStatus";
+import { OrderDetailStatus } from "@/features/order_detail/type";
 import BadgeRowLead from "@/shared/components/atoms/BadgeRowLead";
 import Row from "@/shared/components/atoms/Row";
-import { Link } from "react-router-dom";
-import { ROUTES } from "@/shared/consts/route.const";
 import { T } from "@/shared/components/atoms/Typography";
-import { orderDetailStatus } from "@/features/order_detail/const/orderDetailStatus";
-import { ConfirmDialog } from "@/shared/components/molecules/ConfirmDialog";
+import DashBoardLayout from "@/shared/components/templates/DashBoardLayout";
 import { Button } from "@/shared/components/ui/button";
-import { OrderDetailStatus } from "@/features/order_detail/type";
+import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui/card";
+import { ROUTES } from "@/shared/consts/route.const";
+import { ObjectEntries } from "@/shared/lib/object";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { Fragment } from "react/jsx-runtime";
+import { useGetSellerOrderDetailQuery } from "./api/get-seller-order_detail";
 import OrderStatusDialog from "./ui/OrderStatusDialog";
 
 /**
@@ -20,13 +21,26 @@ import OrderStatusDialog from "./ui/OrderStatusDialog";
  */
 const _DashboardOrderPage = () => {
   const user = useAuthStore((state) => state.getUser());
-  const { data: orderDetails } = useGetSellerOrderDetailQuery({ sellerId: user.id });
+  const [filterStatus, setFilterStatus] = useState<OrderDetailStatus | null>(null);
+  const { data: orderDetails } = useGetSellerOrderDetailQuery({ sellerId: user.id, status: filterStatus });
 
-  console.log({ orderDetails });
   return (
     <Fragment>
       <CardHeader>
         <CardTitle>주문 내역</CardTitle>
+
+        <Row className="gap-3 flex-wrap">
+          <Button variant={filterStatus === null ? "default" : "outline"} onClick={() => setFilterStatus(null)}>
+            전체
+          </Button>
+          {(Object.entries(orderDetailStatus) as ObjectEntries<Record<OrderDetailStatus, string>>).map(([key, value]) => {
+            return (
+              <Button key={`btn-${key}`} variant={filterStatus === key ? "default" : "outline"} onClick={() => setFilterStatus(key)}>
+                {value}
+              </Button>
+            );
+          })}
+        </Row>
       </CardHeader>
 
       <CardContent className="flex flex-col gap-5">
