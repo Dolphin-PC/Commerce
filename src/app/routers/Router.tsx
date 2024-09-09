@@ -30,7 +30,6 @@ const DashboardProductDetailPage = lazy(() => import("@/pages/DashboardProductDe
 const DashboardProductNewPage = lazy(() => import("@/pages/DashboardProductNewPage"));
 const DashboardProductEditPage = lazy(() => import("@/pages/DashboardProductEditPage"));
 const DashboardOrderPage = lazy(() => import("@/pages/DashboardOrderPage"));
-const DashboardOrderDetailPage = lazy(() => import("@/pages/DashboardOrderDetailPage"));
 
 export const Router = () => {
   return (
@@ -63,7 +62,6 @@ export const Router = () => {
                 <Route path={ROUTES.DASHBOARD__PRODUCTS_ID} element={<DashboardProductDetailPage />} />
                 <Route path={ROUTES.DASHBOARD__PRODUCTS__EDIT_ID} element={<DashboardProductEditPage />} />
                 <Route path={ROUTES.DASHBOARD__ORDERS} element={<DashboardOrderPage />} />
-                <Route path={ROUTES.DASHBOARD__ORDERS_ID} element={<DashboardOrderDetailPage />} />
               </Route>
             </Route>
           </Routes>
