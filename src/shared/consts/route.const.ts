@@ -35,8 +35,6 @@ export const ROUTES = {
   DASHBOARD__PRODUCTS__EDIT_ID: "/dashboard/products/edit/:id",
   DASHBOARD__PRODUCTS__EDIT__ID: (id: number) => `/dashboard/products/edit/${id}`,
   DASHBOARD__ORDERS: "/dashboard/orders",
-  DASHBOARD__ORDERS_ID: "/dashboard/orders:/id",
-  DASHBOARD__ORDERS_ID_: (id: string) => `/dashboard/orders:/${id}`,
 } as const;
 
 export type Routes = (typeof ROUTES)[keyof typeof ROUTES];

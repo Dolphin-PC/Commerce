@@ -1,4 +1,6 @@
+import { Order } from "@/features/order/type";
 import { OrderDetail } from "@/features/order_detail/type";
+import { PayHistory } from "@/features/pay_history/type";
 import { Product } from "@/features/product/type/type";
 import { User } from "@/features/user/model/type";
 import { supabase } from "@/shared/config/@db/supabase.config";
@@ -11,19 +13,32 @@ import { useQuery } from "@tanstack/react-query";
 
 interface Props {
   sellerId: User["id"];
-  status: OrderDetail["status"] | null;
+  orderStatus: Order["status"] | null;
+  orderDetailStatus: OrderDetail["status"] | null;
 }
 
 interface Return extends OrderDetail {
   product: Product;
+  order: Order & { payHistory: PayHistory | null };
 }
 
-const getSellerOrderDetail = async ({ sellerId, status }: Props): Promise<Return[]> => {
-  const q = supabase.from("order_detail").select("*, product!inner(*)").eq("product.sellerId", sellerId);
+const getSellerOrderDetail = async ({ sellerId, orderDetailStatus, orderStatus }: Props): Promise<Return[]> => {
+  const q = supabase
+    .from("order_detail")
+    .select(
+      `
+    *, 
+    product!inner(*),
+    order!inner(
+      *,
+      payHistory:pay_history(*)
+    )
+  `
+    )
+    .eq("product.sellerId", sellerId);
 
-  if (status) {
-    q.eq("status", status);
-  }
+  if (orderStatus) q.eq("order.status", orderStatus);
+  if (orderDetailStatus) q.eq("status", orderDetailStatus);
 
   const { data, error } = await q.order("id");
   if (error) throw error;
@@ -33,7 +48,7 @@ const getSellerOrderDetail = async ({ sellerId, status }: Props): Promise<Return
 
 export const useGetSellerOrderDetailQuery = (props: Props) => {
   return useQuery({
-    queryKey: [queryKey.order_detail, props.status, props.sellerId],
+    queryKey: [queryKey.order_detail, props.orderStatus, props.orderDetailStatus, props.sellerId],
     queryFn: () => getSellerOrderDetail(props),
     staleTime: staleTime.order_detail,
   });

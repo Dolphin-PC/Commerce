@@ -1,6 +1,5 @@
 import { useAuthStore } from "@/features/@auth/store/auth.store";
 import { genOrderName } from "@/features/@portOne/gen-order-name";
-import { translateOrderStatus } from "@/features/order/util/translate-order-status";
 import Column from "@/shared/components/atoms/Column";
 import Row from "@/shared/components/atoms/Row";
 import { H4, Muted } from "@/shared/components/atoms/Typography";
@@ -15,6 +14,7 @@ import { Link } from "react-router-dom";
 import { Fragment } from "react/jsx-runtime";
 import { useGetUserOrderProductQuery } from "./api/get-user-order-product";
 import { ROUTES } from "@/shared/consts/route.const";
+import { orderStatusObj } from "@/features/order/const/orderStatus";
 
 /**
  * @desc 내 주문내역
@@ -36,7 +36,7 @@ const _MyOrderPage = () => {
             <CardHeader>
               <Row className="items-center justify-between">
                 <Badge variant="outline" className="w-fit h-fit">
-                  {translateOrderStatus(order.status)}
+                  {orderStatusObj[order.status]}
                 </Badge>
                 <Button variant="link" asChild className="w-fit">
                   <Link to={ROUTES.MY__ORDERS_ID_(String(order.id))}>결제상세</Link>
