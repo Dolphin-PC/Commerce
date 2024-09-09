@@ -10,7 +10,7 @@ import { queryKey } from "@/shared/consts/react-query";
 import { useNewOrderHook } from "@/widgets/hook/useNewOrderHook";
 import { usePaymentHook } from "@/widgets/hook/usePaymentHook";
 import { useQueryClient } from "@tanstack/react-query";
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 
 interface OrderDialogMainProps {
   children: ReactNode;
@@ -23,6 +23,7 @@ interface OrderDialogMainProps {
  * @desc 주문 결제창 Dialog
  */
 const OrderDialog = ({ children, trigger, product, quantity }: OrderDialogMainProps) => {
+  const [open, setOpen] = useState(false);
   const user = useAuthStore((state) => state.getUser());
 
   const { handleNewOrder } = useNewOrderHook();
@@ -30,6 +31,8 @@ const OrderDialog = ({ children, trigger, product, quantity }: OrderDialogMainPr
   const qc = useQueryClient();
 
   const _handleOrder = async () => {
+    setOpen(false);
+
     const totalAmount = product.price * quantity;
 
     try {
@@ -51,7 +54,7 @@ const OrderDialog = ({ children, trigger, product, quantity }: OrderDialogMainPr
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={(o) => setOpen(o)}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
