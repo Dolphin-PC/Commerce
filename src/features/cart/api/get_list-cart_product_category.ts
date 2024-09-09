@@ -23,10 +23,18 @@ export const getCartProductCategory = async ({ userId }: Props): Promise<Return>
   return data;
 };
 
-export const useCartProductCategoryQuery = (props: Props) => {
+interface QueryProps {
+  userId?: User["id"];
+}
+
+export const useCartProductCategoryQuery = (props: QueryProps) => {
   return useQuery({
     queryKey: [queryKey.cart, queryKey.product, props.userId],
-    queryFn: () => getCartProductCategory(props),
+    queryFn: () => {
+      if (props.userId) {
+        return getCartProductCategory({ userId: props.userId });
+      }
+    },
     staleTime: staleTime.cart,
     enabled: !!props.userId,
   });
