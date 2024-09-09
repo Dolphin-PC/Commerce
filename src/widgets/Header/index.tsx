@@ -1,6 +1,6 @@
 import LogoIcon from "@/shared/components/molecules/LogoIcon";
 import Row from "../../shared/components/atoms/Row";
-import ProductSearchDrawer from "../product-search-drawer/ui/ProductSearchDrawer";
+import ProductSearchDrawer from "../ProductSearchDrawer";
 import UserMenu from "./ui/UserMenu";
 import LoginButton from "./ui/LoginButton";
 import { PropsWithChildren } from "react";

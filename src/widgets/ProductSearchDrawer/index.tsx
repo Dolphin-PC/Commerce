@@ -8,10 +8,10 @@ import { ROUTES } from "@/shared/consts/route.const";
 import { X } from "lucide-react";
 import { FormEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSearchDrawerStore } from "../store/useSearchDrawerStore";
-import CategoryBadgeList from "./CategoryBadgeList";
-import PriceRangeSlider from "./PriceRangeSlider";
-import { useSearchStore } from "../store/useSearchStore";
+import { useSearchDrawerStore } from "./store/useSearchDrawerStore";
+import CategoryBadgeList from "./ui/CategoryBadgeList";
+import PriceRangeSlider from "./ui/PriceRangeSlider";
+import { useSearchStore } from "./store/useSearchStore";
 import { toast } from "@/shared/components/ui/use-toast";
 import { Checkbox } from "@/shared/components/ui/checkbox";
 
