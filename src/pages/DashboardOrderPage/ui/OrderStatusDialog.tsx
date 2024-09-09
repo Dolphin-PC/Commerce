@@ -1,5 +1,5 @@
 import { usePutOrderDetail } from "@/features/order_detail/api/put-order_detail";
-import { orderDetailStatus } from "@/features/order_detail/const/orderDetailStatus";
+import { orderDetailStatusObj } from "@/features/order_detail/const/orderDetailStatus";
 import { OrderDetail, OrderDetailStatus } from "@/features/order_detail/type";
 import { ConfirmDialog } from "@/shared/components/molecules/ConfirmDialog";
 import { Button } from "@/shared/components/ui/button";
@@ -49,7 +49,7 @@ const OrderStatusDialog = ({ orderDetail }: Props) => {
       triggerComponent={<Button variant="outline">주문상태 변경</Button>}
     >
       <select value={selectedValue} onChange={(e) => setSelectedValue(e.target.value as OrderDetailStatus)}>
-        {(Object.entries(orderDetailStatus) as ObjectEntries<Record<OrderDetailStatus, string>>).map(([key, value]) => {
+        {(Object.entries(orderDetailStatusObj) as ObjectEntries<Record<OrderDetailStatus, string>>).map(([key, value]) => {
           if (key === "PAY_BEFORE") return null;
           return (
             <option key={key} value={key}>

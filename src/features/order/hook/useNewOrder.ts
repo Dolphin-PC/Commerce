@@ -70,7 +70,7 @@ export const useNewOrder = (): Return => {
                   orderId: newOrder.id,
                   productId: cart.productId,
                   quantity: 0,
-                  status: "PAY_BEFORE",
+                  status: "ORDER_WAIT",
                 },
               })
               .catch(() => {

@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 import { Fragment } from "react/jsx-runtime";
 import { useGetUserOrderProductQuery } from "./api/get-user-order-product";
 import { ROUTES } from "@/shared/consts/route.const";
-import { orderStatus } from "@/features/order/const/orderStatus";
+import { orderStatusObj } from "@/features/order/const/orderStatus";
 
 /**
  * @desc 내 주문내역
@@ -36,7 +36,7 @@ const _MyOrderPage = () => {
             <CardHeader>
               <Row className="items-center justify-between">
                 <Badge variant="outline" className="w-fit h-fit">
-                  {orderStatus[order.status]}
+                  {orderStatusObj[order.status]}
                 </Badge>
                 <Button variant="link" asChild className="w-fit">
                   <Link to={ROUTES.MY__ORDERS_ID_(String(order.id))}>결제상세</Link>

@@ -1,7 +1,7 @@
 import { OrderDetailStatus } from "../type";
 
-export const orderDetailStatus: Record<OrderDetailStatus, string> = {
-  PAY_BEFORE: "결제 전",
+export const orderDetailStatusObj: Record<OrderDetailStatus, string> = {
+  ORDER_WAIT: "주문 대기",
   ORDER_COMPLETE: "주문 완료",
   ORDER_CANCEL: "주문 취소",
   SHIP_WAIT: "배송 대기",

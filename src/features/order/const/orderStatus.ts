@@ -1,6 +1,6 @@
 import { OrderStatus } from "../type";
 
-export const orderStatus: Record<OrderStatus, string> = {
+export const orderStatusObj: Record<OrderStatus, string> = {
   PAY_BEFORE: "결제 전",
   PAY_CANCEL: "결제 취소",
   PAY_COMPLETE: "결제 완료",
