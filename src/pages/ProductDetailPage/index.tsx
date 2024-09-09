@@ -18,8 +18,9 @@ import MainLayout from "@/widgets/MainLayout";
 import { Minus, Plus } from "lucide-react";
 import { useLayoutEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
-import RecommendProductList from "./ui/RecommendProductList";
 import { ProductDetailPageHelmet } from "../Helmets";
+import OrderDialog from "./ui/OrderDialog";
+import RecommendProductList from "./ui/RecommendProductList";
 
 /**
  * @desc 상품 상세 페이지
@@ -34,7 +35,7 @@ const _ProductDetailPage = () => {
   const productId = Number(id);
 
   const [productCount, setProductCount] = useState(0);
-  const user = useAuthStore((state) => state.getUser());
+  const user = useAuthStore((state) => state.user);
 
   const { data: product } = useProductCategorySuspenseQuery({ id: productId });
   const { data: cartProductList } = useCartProductCategoryQuery({ userId: user?.id });
@@ -101,6 +102,11 @@ const _ProductDetailPage = () => {
                   <Button variant="outline" onClick={handleLike}>
                     찜하기
                   </Button>
+
+                  {/* 구매 모달 창 */}
+                  <OrderDialog trigger={<Button>구매</Button>}>
+                    <p>jdakslds</p>
+                  </OrderDialog>
                 </Column>
               </Column>
             </CardFooter>

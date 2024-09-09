@@ -4,9 +4,9 @@ import { usePostOrderDetail } from "@/features/order_detail/api/post-order_detai
 import { usePutOrderDetail } from "@/features/order_detail/api/put-order_detail";
 import { OrderDetail } from "@/features/order_detail/type";
 import { useProductQuantityHooks } from "@/features/product/hooks/useProductQuantityHooks";
-import { useDeleteOrder } from "../api/delete-order";
-import { usePostOrder } from "../api/post-order";
-import { Order } from "../type";
+import { useDeleteOrder } from "../../features/order/api/delete-order";
+import { usePostOrder } from "../../features/order/api/post-order";
+import { Order } from "../../features/order/type";
 
 interface Return {
   handleNewOrder: (cartList: CartProductCategory[]) => Promise<Order>;
@@ -19,7 +19,7 @@ interface Return {
  *  3. 상품::재고 수량 감소
  *  4. 장바구니::해당 상품 삭제
  */
-export const useNewOrder = (): Return => {
+export const useNewOrderHook = (): Return => {
   const postOrder = usePostOrder();
   const deleteOrder = useDeleteOrder();
 
