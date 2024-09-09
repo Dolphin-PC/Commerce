@@ -26,7 +26,10 @@ export const useProductQuantityHooks = (): Return => {
       const { quantity: productQuantity } = await getProductQuantity({ id: productId });
 
       const newQuantity = productQuantity - quantity;
-      if (newQuantity < 0) reject("재고 수량이 부족합니다.");
+      if (newQuantity < 0) {
+        reject("재고 수량이 부족합니다.");
+        return;
+      }
 
       // 상품 재고 감소
       const updatedProduct = await mutateAsync({ id: productId, update: { quantity: newQuantity } });

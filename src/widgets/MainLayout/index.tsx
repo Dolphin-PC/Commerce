@@ -25,7 +25,7 @@ const MainLayout = ({ children, className, mainClassName, headerChildren, subHea
         </div>
         {subHeaderChildren && subHeaderChildren}
       </div>
-      <main className={cn("container mt-8", mainClassName)}>{children}</main>
+      <main className={cn("container mt-8 mb-2", mainClassName)}>{children}</main>
     </div>
   );
 };

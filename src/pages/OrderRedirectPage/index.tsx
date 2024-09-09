@@ -7,6 +7,8 @@ import { CheckCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useConfirmOrder } from "./hook/useConfirmOrder";
+import { Order } from "@/features/order/type";
+import Row from "@/shared/components/atoms/Row";
 
 /**
  * @desc 결제 완료시, Redirect
@@ -24,6 +26,7 @@ const OrderRediretPage = () => {
   const message = searchParams.get("message");
 
   const [isConfirmLoading, setIsConfirmLoading] = useState(true);
+  const [order, setOrder] = useState<Order | null>(null);
 
   const { getOrder, handleConfirmOrder } = useConfirmOrder();
 
@@ -42,6 +45,8 @@ const OrderRediretPage = () => {
       handleConfirmOrder(paymentId).then(() => {
         setIsConfirmLoading(false);
       });
+
+      setOrder(order);
     });
   }, []);
 
@@ -63,9 +68,16 @@ const OrderRediretPage = () => {
     <CenterLayout>
       <CheckCircle size={100} className="text-green-600" />
       <div className="w-1/2 p-4 m-2 bg-slate-100 rounded-md text-center">결제가 완료되었습니다.</div>
-      <Button asChild>
-        <Link to={ROUTES.HOME}>홈으로 이동</Link>
-      </Button>
+      <Row className="items-center gap-3">
+        <Button variant="outline" asChild>
+          <Link to={ROUTES.HOME}>상품 둘러보기</Link>
+        </Button>
+        {order && (
+          <Button asChild>
+            <Link to={ROUTES.MY__ORDERS_ID_(String(order.id))}>구매내역 보기</Link>
+          </Button>
+        )}
+      </Row>
     </CenterLayout>
   );
 };

@@ -35,7 +35,7 @@ const _MyOrderPage = () => {
           <Card key={order.id}>
             <CardHeader>
               <Row className="items-center justify-between">
-                <Badge variant="outline" className="w-fit h-fit">
+                <Badge variant="outline" size="large">
                   {orderStatusObj[order.status]}
                 </Badge>
                 <Button variant="link" asChild className="w-fit">

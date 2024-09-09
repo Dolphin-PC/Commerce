@@ -1,11 +1,11 @@
 import { useDeleteCartList } from "@/features/cart/api/delete-cart_list";
 import { CartProductCategory } from "@/features/cart/type";
-import { useNewOrder } from "@/features/order/hook/useNewOrder";
+import { useNewOrderHook } from "@/widgets/hook/useNewOrderHook";
 import { toast } from "@/shared/components/ui/use-toast";
 import { ROUTES } from "@/shared/consts/route.const";
-import { CheckedState } from "@radix-ui/react-checkbox";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { CheckedState } from "@radix-ui/react-checkbox";
 
 interface Return {
   checkedCartList: CartProductCategory[];
@@ -23,7 +23,7 @@ export const useCartHook = (): Return => {
   const [checkedAll, setCheckedAll] = useState(false);
 
   const deleteMutation = useDeleteCartList();
-  const { handleNewOrder } = useNewOrder();
+  const { handleNewOrderByCart } = useNewOrderHook();
 
   // 장바구니 개별선택
   const handleCheckedChange = (cart: CartProductCategory) => (checked: CheckedState) => {
@@ -64,7 +64,7 @@ export const useCartHook = (): Return => {
     }
 
     // 주문::생성
-    const newOrder = await handleNewOrder(checkedCartList);
+    const newOrder = await handleNewOrderByCart(checkedCartList);
 
     await deleteCartOnNewOrder(checkedCartList);
 

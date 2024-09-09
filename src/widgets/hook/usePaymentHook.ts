@@ -10,42 +10,39 @@ import { useProductQuantityHooks } from "@/features/product/hooks/useProductQuan
 import { Product } from "@/features/product/type/type";
 import { toast } from "@/shared/components/ui/use-toast";
 import { ROUTES } from "@/shared/consts/route.const";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-interface Props {
-  orderId: Order["id"];
-  orderDetails: (OrderDetail & { product: Product })[];
-}
-
 interface Return {
-  handlePayment: () => Promise<void>;
-  cancelPayment: () => Promise<void>;
+  handlePayment: (props: handlePaymentProps) => Promise<void>;
+  cancelPayment: (props: cancelPaymentProps) => Promise<void>;
 
   shipAddress: string;
   setShipAddress: React.Dispatch<React.SetStateAction<string>>;
-
-  totalPrice: number;
 
   isConfirmOrder: boolean;
   setIsConfirmOrder: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+interface handlePaymentProps {
+  orderId: Order["id"];
+  productNames: Product["name"][];
+  totalAmount: number;
+}
+
+interface cancelPaymentProps {
+  orderId: Order["id"];
+  orderDetails: OrderDetail[];
+}
+
 /**
  * @desc 결제 Hook
  */
-export const usePaymentHook = ({ orderId, orderDetails }: Props): Return => {
+export const usePaymentHook = (): Return => {
   const navigate = useNavigate();
 
   const [isConfirmOrder, setIsConfirmOrder] = useState(false);
   const [shipAddress, setShipAddress] = useState("");
-
-  const totalPrice = useMemo(() => {
-    return orderDetails.reduce((acc, cur) => {
-      if (cur.product === null) return acc;
-      return acc + cur.quantity * cur.product.price;
-    }, 0);
-  }, [orderDetails]);
 
   const putOrderMutation = usePutOrderMutation();
   const postPayHistoryMutation = usePostPayHistoryMutation();
@@ -53,7 +50,7 @@ export const usePaymentHook = ({ orderId, orderDetails }: Props): Return => {
   const deleteOrderMutation = useDeleteOrder();
   const deleteOrderDetailMutation = useDeleteOrderDetail();
 
-  const handlePayment = async () => {
+  const handlePayment = async ({ orderId, productNames, totalAmount }: handlePaymentProps) => {
     if (!isConfirmOrder) {
       alert("주문 내용을 확인해주세요.");
       return;
@@ -62,12 +59,11 @@ export const usePaymentHook = ({ orderId, orderDetails }: Props): Return => {
       alert("배송지를 입력해주세요.");
       return;
     }
-    const productNames: Product["name"][] = orderDetails.map((orderDetail) => orderDetail.product.name);
 
     // 결제 요청
     const res = await requestPayment({
       orderName: genOrderName({ productNames }),
-      totalAmount: totalPrice,
+      totalAmount,
       channelType: "TOSS",
       payMethod: "CARD",
       redirectUrl: `${window.location.origin}${ROUTES.ORDERS_REDIRECT}`,
@@ -104,7 +100,7 @@ export const usePaymentHook = ({ orderId, orderDetails }: Props): Return => {
     navigate(ROUTES.ORDERS_REDIRECT_({ paymentId: res.paymentId }));
   };
 
-  const cancelPayment = async () => {
+  const cancelPayment = async ({ orderDetails, orderId }: cancelPaymentProps) => {
     // order status: PAY_CANCEL로 변경 (status를 변경해두면, quantity 복구되고, order삭제 오류가 발생해도 order를 사용못하게 할 수 있음)
     await putOrderMutation.mutateAsync({ id: orderId, update: { status: "PAY_CANCEL" } });
 
@@ -125,6 +121,5 @@ export const usePaymentHook = ({ orderId, orderDetails }: Props): Return => {
     isConfirmOrder,
     setIsConfirmOrder,
     setShipAddress,
-    totalPrice,
   };
 };

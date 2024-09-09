@@ -55,7 +55,7 @@ const getOrderDetailProduct = async ({ orderId, userId, status }: Props): Promis
 
 export const useGetOrderDetailProductSuspenseQuery = (props: Props) => {
   return useSuspenseQuery({
-    queryKey: [queryKey.order, queryKey.order_detail, queryKey.product, props.orderId, props.userId],
+    queryKey: [queryKey.order, queryKey.order_detail, queryKey.product, { ...props }],
     queryFn: () => getOrderDetailProduct(props),
   });
 };
