@@ -1,7 +1,6 @@
 import { useAuthStore } from "@/features/@auth/store/auth.store";
 import { useOrderRefundHook } from "@/features/order/hook/useOrderRefundHook";
 import { Order } from "@/features/order/type";
-import { useProductQuantityHooks } from "@/features/product/hooks/useProductQuantityHooks";
 import { useRefundHistoryHook } from "@/features/refund_history/hook/useRefundHistoryHook";
 
 interface Return {
@@ -27,8 +26,6 @@ export const useRefundRequestHook = (): Return => {
 
   const { updateOrderToRefund } = useOrderRefundHook();
   const { addNewRefundHistory } = useRefundHistoryHook();
-
-  const { handleIncrease } = useProductQuantityHooks();
 
   const requestRefund = async ({ orderId }: { orderId: Order["id"] }) => {
     // 0 ~ 2. 주문 상태 변경

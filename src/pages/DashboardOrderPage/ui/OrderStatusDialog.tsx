@@ -50,7 +50,7 @@ const OrderStatusDialog = ({ orderDetail }: Props) => {
     >
       <select value={selectedValue} onChange={(e) => setSelectedValue(e.target.value as OrderDetailStatus)}>
         {(Object.entries(orderDetailStatusObj) as ObjectEntries<Record<OrderDetailStatus, string>>).map(([key, value]) => {
-          if (key === "PAY_BEFORE") return null;
+          if (key === "ORDER_WAIT") return null;
           return (
             <option key={key} value={key}>
               {value}
