@@ -2,6 +2,8 @@
   "files": [],
   "references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.node.json" }],
   "compilerOptions": {
+    "skipLibCheck": true,
+    "moduleResolution": "Node",
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
