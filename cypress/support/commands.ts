@@ -1,12 +1,19 @@
 /// <reference types="cypress" />
 
 import "@testing-library/cypress/add-commands";
+import { Method, RouteHandler } from "node_modules/cypress/types/net-stubbing";
+import { Database } from "@/shared/config/@db/database-generated.type";
+
+// type T = TableName extends string & keyof Schema['Tables']
+type Table = keyof Database["public"]["Tables"];
 
 declare global {
   namespace Cypress {
     interface Chainable {
       assertUrl(url: string): Chainable<void>;
       login(): Chainable<void>;
+      interceptor_supabase_auth(method: Method, response?: RouteHandler): Chainable<() => {}>;
+      interceptor_supabase_db(method: Method, table: Table, response?: RouteHandler): Chainable<() => {}>;
     }
   }
 }
@@ -35,30 +42,10 @@ Cypress.Commands.add("login", () => {
   cy.visit("/");
 });
 
-// 커스텀 쿼리 예제
-// Cypress.Commands.addQuery('get', () => {
-//     const getFn = cy.now('get', '[data-testid="cart-icon"]');
+Cypress.Commands.add("interceptor_supabase_auth", (method, response) => {
+  cy.intercept(method, `${Cypress.env("supabase_auth_url")}*`, response);
+});
 
-// inner function 형태로 반환해야 함
-//     return subject => {
-//         const btn = getFn(subject);
-
-//         return btn;
-//     }
-// })
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-//
+Cypress.Commands.add("interceptor_supabase_db", (method, table, response) => {
+  cy.intercept(method, `${Cypress.env("supabase_db_url")}${table}*`, response);
+});
