@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - 66-e2e-테스트-유저-플로우-및-서비스-로직-테스트
   pull_request:
     branches:
       - main
