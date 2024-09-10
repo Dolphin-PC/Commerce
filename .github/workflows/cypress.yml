@@ -1,0 +1,56 @@
+name: Cypress CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "22"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Start Vite server
+        run: yarn dev
+        env:
+          CYPRESS_baseUrl: "http://localhost:5173"
+
+      - name: Run Cypress tests
+        uses: cypress-io/github-action@v5
+        with:
+          start: yarn-dev dev
+          wait-on: "http://localhost:5173"
+          browser: chrome # or any browser you want to run tests in
+        env:
+          baseUrl: ${{ secrets.baseUrl }}
+          sellerId: ${{ secrets.sellerId }}
+          sellerPw: ${{ secrets.sellerPw }}
+          registerId: ${{ secrets.registerId }}
+          registerPW: ${{ secrets.registerPW }}
+          userId: ${{ secrets.userId }}
+          userPw: ${{ secrets.userPw }}
+          supabase_auth_url: ${{ secrets.supabase_auth_url }}
+          supabase_db_url: ${{ secrets.supabase_db_url }}
+
+      - name: Upload Cypress screenshots and videos (if tests fail)
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-artifacts
+          path: |
+            cypress/screenshots
+            cypress/videos
