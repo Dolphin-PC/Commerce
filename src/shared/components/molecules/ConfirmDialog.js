@@ -1,5 +1,0 @@
-import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import { AlertDialogHeader, AlertDialogFooter, AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogTitle, AlertDialogDescription, AlertDialogCancel, AlertDialogAction, } from "../ui/alert-dialog";
-export const ConfirmDialog = ({ children, triggerComponent, title, description, cancelText, cancelAction = () => { }, confirmText = "확인", confirmAction = () => { }, onOpenChange }) => {
-    return (_jsxs(AlertDialog, { onOpenChange: onOpenChange, children: [_jsx(AlertDialogTrigger, { asChild: true, children: triggerComponent }), _jsxs(AlertDialogContent, { children: [_jsxs(AlertDialogHeader, { children: [_jsx(AlertDialogTitle, { children: title }), _jsx(AlertDialogDescription, { children: description }), children && children] }), _jsxs(AlertDialogFooter, { children: [cancelText && _jsx(AlertDialogCancel, { onClick: cancelAction, children: cancelText }), _jsx(AlertDialogAction, { onClick: confirmAction, children: confirmText })] })] })] }));
-};
