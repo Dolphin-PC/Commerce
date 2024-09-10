@@ -6,7 +6,4 @@ export default defineConfig({
   e2e: {
     baseUrl,
   },
-  env: {
-    baseUrl,
-  },
 });
