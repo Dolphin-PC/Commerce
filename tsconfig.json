@@ -8,5 +8,6 @@
     },
     "types": ["cypress", "@testing-library/cypress", "vitest/globals"],
     "module": "ES2015" // ES6 이상으로 설정
-  }
+  },
+  "include": ["**/*.ts"]
 }
