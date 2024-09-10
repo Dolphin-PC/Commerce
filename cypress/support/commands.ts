@@ -1,5 +1,3 @@
-/// <reference types="cypress" />
-
 import "@testing-library/cypress/add-commands";
 import { Method, RouteHandler } from "node_modules/cypress/types/net-stubbing";
 import { Database } from "@/shared/config/@db/database-generated.type";

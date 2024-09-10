@@ -1,5 +1,4 @@
-import { fireEvent, render, renderWithRouter, screen, waitFor } from "@/test/test-util";
-import { expect } from "vitest";
+import { fireEvent, render, renderWithRouter, screen, waitFor } from "test/test-util";
 import SignInPage from "@/pages/SignInPage";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { ROUTES } from "@/shared/consts/route.const";
