@@ -1,0 +1,31 @@
+export declare const ROUTES: {
+    readonly HOME: "/";
+    readonly SIGNIN: "/sign-in";
+    readonly SIGNUP: "/sign-up";
+    readonly SIGNUP__OAUTH: "/sign-up/oauth";
+    readonly PRODUCTS: "/products";
+    readonly PRODUCTS_ID: "/products/:id";
+    readonly PRODUCTS_ID_: (id: number) => string;
+    readonly MY: "/my";
+    readonly CART: "/cart";
+    readonly MY__ORDERS: "/my/orders";
+    readonly MY__ORDERS_ID: "/my/orders/:id";
+    readonly MY__ORDERS_ID_: (id: string) => string;
+    readonly ORDERS_ID: "/orders/:id";
+    readonly ORDERS_ID_: (id: string) => string;
+    readonly ORDERS_REDIRECT: "/orders/redirect";
+    readonly ORDERS_REDIRECT_: ({ paymentId, code, message }: {
+        paymentId: string;
+        code?: string;
+        message?: string;
+    }) => string;
+    readonly DASHBOARD: "/dashboard";
+    readonly DASHBOARD__PRODUCTS: "/dashboard/products";
+    readonly DASHBOARD__PRODUCTS_ID: "/dashboard/products/:id";
+    readonly DASHBOARD__PRODUCTS_ID_: (id: number) => string;
+    readonly DASHBOARD__PRODUCTS__NEW: "/dashboard/products/new";
+    readonly DASHBOARD__PRODUCTS__EDIT_ID: "/dashboard/products/edit/:id";
+    readonly DASHBOARD__PRODUCTS__EDIT__ID: (id: number) => string;
+    readonly DASHBOARD__ORDERS: "/dashboard/orders";
+};
+export type Routes = (typeof ROUTES)[keyof typeof ROUTES];
