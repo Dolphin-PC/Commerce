@@ -33,15 +33,15 @@ jobs:
           wait-on: "http://localhost:5173"
           browser: chrome # or any browser you want to run tests in
         env:
-          baseUrl: ${{ secrets.baseUrl }}
-          sellerId: ${{ secrets.sellerId }}
-          sellerPw: ${{ secrets.sellerPw }}
-          registerId: ${{ secrets.registerId }}
-          registerPW: ${{ secrets.registerPW }}
-          userId: ${{ secrets.userId }}
-          userPw: ${{ secrets.userPw }}
-          supabase_auth_url: ${{ secrets.supabase_auth_url }}
-          supabase_db_url: ${{ secrets.supabase_db_url }}
+          CYPRESS_baseUrl: ${{ secrets.baseUrl }}
+          CYPRESS_sellerId: ${{ secrets.sellerId }}
+          CYPRESS_sellerPw: ${{ secrets.sellerPw }}
+          CYPRESS_registerId: ${{ secrets.registerId }}
+          CYPRESS_registerPW: ${{ secrets.registerPW }}
+          CYPRESS_userId: ${{ secrets.userId }}
+          CYPRESS_userPw: ${{ secrets.userPw }}
+          CYPRESS_supabase_auth_url: ${{ secrets.supabase_auth_url }}
+          CYPRESS_supabase_db_url: ${{ secrets.supabase_db_url }}
 
       - name: Upload Cypress screenshots and videos (if tests fail)
         if: failure()
