@@ -1,8 +1,8 @@
 import { ReactNode } from "react";
-import { render } from "@testing-library/react";
-import { BrowserRouter } from "react-router-dom";
-import userEvent from "@testing-library/user-event";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { render, RenderResult } from "@testing-library/react";
+import { BrowserRouter } from "react-router-dom";
+import userEvent, { UserEvent } from "@testing-library/user-event";
 
 export * from "@testing-library/react";
 
@@ -12,13 +12,14 @@ export * from "@testing-library/react";
  * @param {route} route 라우터 경로
  * @see https://testing-library.com/docs/example-react-router/#reducing-boilerplate
  */
-export const renderWithRouter = (ui: ReactNode, { route = "/" } = {}) => {
+export const renderWithRouter = (ui: ReactNode, { route = "/" } = {}): RenderResult => {
   window.history.pushState({}, "Test page", route);
 
-  return {
-    user: userEvent.setup(),
-    ...render(ui, { wrapper: BrowserRouter }),
-  };
+  return render(ui, { wrapper: BrowserRouter });
+};
+
+export const setupUser = (): UserEvent => {
+  return userEvent.setup();
 };
 
 export const queryWrapper = () => {
