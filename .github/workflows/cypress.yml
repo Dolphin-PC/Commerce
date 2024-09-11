@@ -15,7 +15,8 @@ jobs:
 
     steps:
       - name: Echo secret
-        run: echo ${{ secrets.VITE_SUPABASE_URL }}
+        run: |
+          echo "::set-output name=my_secret::${{ secrets.TEST }}"
       # - name: Checkout code
       #   uses: actions/checkout@v3
 
