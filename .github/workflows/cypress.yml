@@ -26,6 +26,22 @@ jobs:
         run: |
           echo "VITE_SUPABASE_URL=${{ secrets.VITE_SUPABASE_URL }}" >> $GITHUB_ENV
           echo "VITE_SUPABASE_SECRET_KEY=${{ secrets.VITE_SUPABASE_SECRET_KEY }}" >> $GITHUB_ENV
+          echo "VITE_BUCKET_BASE_URL=${{ secrets.VITE_BUCKET_BASE_URL }}" >> $GITHUB_ENV
+          echo "VITE_OAUTH_REDIRECT_URI=${{ secrets.VITE_OAUTH_REDIRECT_URI }}" >> $GITHUB_ENV
+          echo "VITE_STORE_ID=${{ secrets.VITE_STORE_ID }}" >> $GITHUB_ENV
+          echo "VITE_CHANNEL_KEY_TOSS=${{ secrets.VITE_CHANNEL_KEY_TOSS }}" >> $GITHUB_ENV
+          echo "VITE_PORTONE_SECRET_KEY=${{ secrets.VITE_PORTONE_SECRET_KEY }}" >> $GITHUB_ENV
+          echo "VITE_USER_SELLER_ID=${{ secrets.VITE_USER_SELLER_ID }}" >> $GITHUB_ENV
+          echo "VITE_USER_SELLER_PASSWORD=${{ secrets.VITE_USER_SELLER_PASSWORD }}" >> $GITHUB_ENV
+          echo "CYPRESS_BASEURL=${{ secrets.CYPRESS_BASEURL }}" >> $GITHUB_ENV
+          echo "CYPRESS_SELLERID=${{ secrets.CYPRESS_SELLERID }}" >> $GITHUB_ENV
+          echo "CYPRESS_SELLERPW=${{ secrets.CYPRESS_SELLERPW }}" >> $GITHUB_ENV
+          echo "CYPRESS_REGISTERID=${{ secrets.CYPRESS_REGISTERID }}" >> $GITHUB_ENV
+          echo "CYPRESS_REGISTERPW=${{ secrets.CYPRESS_REGISTERPW }}" >> $GITHUB_ENV
+          echo "CYPRESS_USERID=${{ secrets.CYPRESS_USERID }}" >> $GITHUB_ENV
+          echo "CYPRESS_USERPW=${{ secrets.CYPRESS_USERPW }}" >> $GITHUB_ENV
+          echo "CYPRESS_SUPABASE_AUTH_URL=${{ secrets.CYPRESS_SUPABASE_AUTH_URL }}" >> $GITHUB_ENV
+          echo "CYPRESS_SUPABASE_DB_URL=${{ secrets.CYPRESS_SUPABASE_DB_URL }}" >> $GITHUB_ENV
 
       - name: Install dependencies
         run: yarn install
@@ -33,16 +49,15 @@ jobs:
       - name: Build
         run: yarn build
         env:
-          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL}}
-          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY}}
-          VITE_SUPABASE_SECRET_KEY: ${{ secrets.VITE_SUPABASE_SECRET_KEY}}
-          VITE_BUCKET_BASE_URL: ${{ secrets.VITE_BUCKET_BASE_URL}}
-          VITE_OAUTH_REDIRECT_URI: ${{ secrets.VITE_OAUTH_REDIRECT_URI}}
-          VITE_STORE_ID: ${{ secrets.VITE_STORE_ID}}
-          VITE_CHANNEL_KEY_TOSS: ${{ secrets.VITE_CHANNEL_KEY_TOSS}}
-          VITE_PORTONE_SECRET_KEY: ${{ secrets.VITE_PORTONE_SECRET_KEY}}
-          VITE_USER_SELLER_ID: ${{ secrets.VITE_USER_SELLER_ID}}
-          VITE_USER_SELLER_PASSWORD: ${{ secrets.VITE_USER_SELLER_PASSWORD}}
+          VITE_SUPABASE_URL: $VITE_SUPABASE_URL
+          VITE_SUPABASE_SECRET_KEY: $VITE_SUPABASE_SECRET_KEY
+          VITE_BUCKET_BASE_URL: $VITE_BUCKET_BASE_URL
+          VITE_OAUTH_REDIRECT_URI: $VITE_OAUTH_REDIRECT_URI
+          VITE_STORE_ID: $VITE_STORE_ID
+          VITE_CHANNEL_KEY_TOSS: $VITE_CHANNEL_KEY_TOSS
+          VITE_PORTONE_SECRET_KEY: $VITE_PORTONE_SECRET_KEY
+          VITE_USER_SELLER_ID: $VITE_USER_SELLER_ID
+          VITE_USER_SELLER_PASSWORD: $VITE_USER_SELLER_PASSWORD
 
       - name: Run Cypress tests
         uses: cypress-io/github-action@v5
@@ -51,15 +66,15 @@ jobs:
           wait-on: "http://localhost:5173"
           browser: chrome # or any browser you want to run tests in
         env:
-          CYPRESS_BASEURL: ${{ secrets.CYPRESS_BASEURL }}
-          CYPRESS_SELLERID: ${{ secrets.CYPRESS_SELLERID }}
-          CYPRESS_SELLERPW: ${{ secrets.CYPRESS_SELLERPW }}
-          CYPRESS_REGISTERID: ${{ secrets.CYPRESS_REGISTERID }}
-          CYPRESS_REGISTERPW: ${{ secrets.CYPRESS_REGISTERPW }}
-          CYPRESS_USERID: ${{ secrets.CYPRESS_USERID }}
-          CYPRESS_USERPW: ${{ secrets.CYPRESS_USERPW }}
-          CYPRESS_SUPABASE_AUTH_URL: ${{ secrets.CYPRESS_SUPABASE_AUTH_URL }}
-          CYPRESS_SUPABASE_DB_URL: ${{ secrets.CYPRESS_SUPABASE_DB_URL }}
+          CYPRESS_BASEURL: $CYPRESS_BASEURL
+          CYPRESS_SELLERID: $CYPRESS_SELLERID
+          CYPRESS_SELLERPW: $CYPRESS_SELLERPW
+          CYPRESS_REGISTERID: $CYPRESS_REGISTERID
+          CYPRESS_REGISTERPW: $CYPRESS_REGISTERPW
+          CYPRESS_USERID: $CYPRESS_USERID
+          CYPRESS_USERPW: $CYPRESS_USERPW
+          CYPRESS_SUPABASE_AUTH_URL: $CYPRESS_SUPABASE_AUTH_URL
+          CYPRESS_SUPABASE_DB_URL: $CYPRESS_SUPABASE_DB_URL
 
       - name: Upload Cypress screenshots and videos (if tests fail)
         if: failure()
