@@ -33,12 +33,22 @@ jobs:
           echo "VITE_USER_SELLER_ID=${{ secrets.VITE_USER_SELLER_ID }}" >> $GITHUB_ENV
           echo "VITE_USER_SELLER_PASSWORD=${{ secrets.VITE_USER_SELLER_PASSWORD }}" >> $GITHUB_ENV
 
+      # Yarn 캐시 설정
+      - name: Cache Yarn
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/yarn
+          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
       - name: Install dependencies
         run: yarn install
 
       - name: Build
         run: yarn build
 
+      # 단위/통합 테스트
       - name: Vitest Run
         run: yarn test:run
 
@@ -56,6 +66,7 @@ jobs:
             "CYPRESS_SUPABASE_DB_URL": "${{ secrets.CYPRESS_SUPABASE_DB_URL }}"
           }' > cypress.env.json
 
+      # E2E 테스트
       - name: Run Cypress tests
         uses: cypress-io/github-action@v5
         with:
