@@ -24,13 +24,11 @@ Cypress.Commands.add("assertUrl", (url) => {
 });
 
 Cypress.Commands.add("login", (isSeller) => {
-  let id, pw;
+  let id = Cypress.env("CYPRESS_USERID");
+  let pw = Cypress.env("CYPRESS_USERPW");
   if (isSeller) {
     id = Cypress.env("CYPRESS_SELLERID");
     pw = Cypress.env("CYPRESS_SELLERPW");
-  } else {
-    id = Cypress.env("CYPRESS_USERID");
-    pw = Cypress.env("CYPRESS_USERPW");
   }
 
   cy.session(id, () => {
