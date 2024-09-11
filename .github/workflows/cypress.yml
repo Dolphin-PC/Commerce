@@ -39,28 +39,28 @@ jobs:
           VITE_USER_SELLER_ID: ${{ secrets.VITE_USER_SELLER_ID}}
           VITE_USER_SELLER_PASSWORD: ${{ secrets.VITE_USER_SELLER_PASSWORD}}
 
-      # - name: Run Cypress tests
-      #   uses: cypress-io/github-action@v5
-      #   with:
-      #     start: yarn dev
-      #     wait-on: "http://localhost:5173"
-      #     browser: chrome # or any browser you want to run tests in
-      #   env:
-      #     CYPRESS_baseUrl: ${{ secrets.baseUrl }}
-      #     CYPRESS_sellerId: ${{ secrets.sellerId }}
-      #     CYPRESS_sellerPw: ${{ secrets.sellerPw }}
-      #     CYPRESS_registerId: ${{ secrets.registerId }}
-      #     CYPRESS_registerPW: ${{ secrets.registerPW }}
-      #     CYPRESS_userId: ${{ secrets.userId }}
-      #     CYPRESS_userPw: ${{ secrets.userPw }}
-      #     CYPRESS_supabase_auth_url: ${{ secrets.supabase_auth_url }}
-      #     CYPRESS_supabase_db_url: ${{ secrets.supabase_db_url }}
+      - name: Run Cypress tests
+        uses: cypress-io/github-action@v5
+        with:
+          start: yarn dev
+          wait-on: "http://localhost:5173"
+          browser: chrome # or any browser you want to run tests in
+        env:
+          CYPRESS_baseUrl: ${{ secrets.baseUrl }}
+          CYPRESS_sellerId: ${{ secrets.sellerId }}
+          CYPRESS_sellerPw: ${{ secrets.sellerPw }}
+          CYPRESS_registerId: ${{ secrets.registerId }}
+          CYPRESS_registerPW: ${{ secrets.registerPW }}
+          CYPRESS_userId: ${{ secrets.userId }}
+          CYPRESS_userPw: ${{ secrets.userPw }}
+          CYPRESS_supabase_auth_url: ${{ secrets.supabase_auth_url }}
+          CYPRESS_supabase_db_url: ${{ secrets.supabase_db_url }}
 
-      # - name: Upload Cypress screenshots and videos (if tests fail)
-      #   if: failure()
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: cypress-artifacts
-      #     path: |
-      #       ./cypress/screenshots
-      #       ./cypress/videos
+      - name: Upload Cypress screenshots and videos (if tests fail)
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-artifacts
+          path: |
+            ./cypress/screenshots
+            ./cypress/videos
