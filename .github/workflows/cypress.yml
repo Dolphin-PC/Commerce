@@ -53,16 +53,16 @@ jobs:
       - name: Create cypress.env.json
         run: |
           echo '{
-            "CYPRESS_BASEURL": "http://localhost:5173",
-            "CYPRESS_SELLERID": "seller@gmail.com",
-            "CYPRESS_SELLERPW": "PCdolphin110!",
-            "CYPRESS_REGISTERID": "test@gmail.com",
-            "CYPRESS_REGISTERPW": "QEdolphin110!",
-            "CYPRESS_USERID": "test@gmail.com",
-            "CYPRESS_USERPW": "QEdolphin110!",
-            "CYPRESS_SUPABASE_AUTH_URL": "https://xabzwagyailcdexnydis.supabase.co/auth/v1/",
-            "CYPRESS_SUPABASE_DB_URL": "https://xabzwagyailcdexnydis.supabase.co/rest/v1/"
-          }'
+            "CYPRESS_BASEURL": "${{ secrets.CYPRESS_BASEURL }}",
+            "CYPRESS_SELLERID": "${{ secrets.CYPRESS_SELLERID }}",
+            "CYPRESS_SELLERPW": "${{ secrets.CYPRESS_SELLERPW }}",
+            "CYPRESS_REGISTERID": "${{ secrets.CYPRESS_REGISTERID }}",
+            "CYPRESS_REGISTERPW": "${{ secrets.CYPRESS_REGISTERPW }}",
+            "CYPRESS_USERID": "${{ secrets.CYPRESS_USERID }}",
+            "CYPRESS_USERPW": "${{ secrets.CYPRESS_USERPW }}",
+            "CYPRESS_SUPABASE_AUTH_URL": "${{ secrets.CYPRESS_SUPABASE_AUTH_URL }}",
+            "CYPRESS_SUPABASE_DB_URL": "${{ secrets.CYPRESS_SUPABASE_DB_URL }}"
+          } > cypress.env.json'
 
       - name: Run Cypress tests
         uses: cypress-io/github-action@v5
@@ -70,16 +70,16 @@ jobs:
           start: yarn dev
           wait-on: "http://localhost:5173"
           browser: chrome # or any browser you want to run tests in
-        env:
-          CYPRESS_BASEURL: ${{ secrets.CYPRESS_BASEURL }}
-          CYPRESS_SELLERID: ${{ secrets.CYPRESS_SELLERID }}
-          CYPRESS_SELLERPW: ${{ secrets.CYPRESS_SELLERPW }}
-          CYPRESS_REGISTERID: ${{ secrets.CYPRESS_REGISTERID }}
-          CYPRESS_REGISTERPW: ${{ secrets.CYPRESS_REGISTERPW }}
-          CYPRESS_USERID: ${{ secrets.CYPRESS_USERID }}
-          CYPRESS_USERPW: ${{ secrets.CYPRESS_USERPW }}
-          CYPRESS_SUPABASE_AUTH_URL: ${{ secrets.CYPRESS_SUPABASE_AUTH_URL }}
-          CYPRESS_SUPABASE_DB_URL: ${{ secrets.CYPRESS_SUPABASE_DB_URL }}
+        # env:
+        #   CYPRESS_BASEURL: ${{ secrets.CYPRESS_BASEURL }}
+        #   CYPRESS_SELLERID: ${{ secrets.CYPRESS_SELLERID }}
+        #   CYPRESS_SELLERPW: ${{ secrets.CYPRESS_SELLERPW }}
+        #   CYPRESS_REGISTERID: ${{ secrets.CYPRESS_REGISTERID }}
+        #   CYPRESS_REGISTERPW: ${{ secrets.CYPRESS_REGISTERPW }}
+        #   CYPRESS_USERID: ${{ secrets.CYPRESS_USERID }}
+        #   CYPRESS_USERPW: ${{ secrets.CYPRESS_USERPW }}
+        #   CYPRESS_SUPABASE_AUTH_URL: ${{ secrets.CYPRESS_SUPABASE_AUTH_URL }}
+        #   CYPRESS_SUPABASE_DB_URL: ${{ secrets.CYPRESS_SUPABASE_DB_URL }}
 
       - name: Upload Cypress screenshots and videos (if tests fail)
         if: failure()
