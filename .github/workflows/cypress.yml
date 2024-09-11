@@ -1,10 +1,9 @@
-name: Cypress CI
+name: Cypress CI 자동화
 
 on:
   push:
     branches:
       - main
-      - 66-e2e-테스트-유저-플로우-및-서비스-로직-테스트
   pull_request:
     branches:
       - main
@@ -34,12 +33,6 @@ jobs:
           echo "VITE_USER_SELLER_ID=${{ secrets.VITE_USER_SELLER_ID }}" >> $GITHUB_ENV
           echo "VITE_USER_SELLER_PASSWORD=${{ secrets.VITE_USER_SELLER_PASSWORD }}" >> $GITHUB_ENV
 
-      - name: Install dependencies
-        run: yarn install
-
-      - name: Build
-        run: yarn build
-
       - name: Create cypress.env.json
         run: |
           echo '{
@@ -53,6 +46,12 @@ jobs:
             "CYPRESS_SUPABASE_AUTH_URL": "${{ secrets.CYPRESS_SUPABASE_AUTH_URL }}",
             "CYPRESS_SUPABASE_DB_URL": "${{ secrets.CYPRESS_SUPABASE_DB_URL }}"
           }' > cypress.env.json
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build
+        run: yarn build
 
       - name: Run Cypress tests
         uses: cypress-io/github-action@v5
