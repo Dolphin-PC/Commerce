@@ -33,15 +33,6 @@ jobs:
           echo "VITE_PORTONE_SECRET_KEY=${{ secrets.VITE_PORTONE_SECRET_KEY }}" >> $GITHUB_ENV
           echo "VITE_USER_SELLER_ID=${{ secrets.VITE_USER_SELLER_ID }}" >> $GITHUB_ENV
           echo "VITE_USER_SELLER_PASSWORD=${{ secrets.VITE_USER_SELLER_PASSWORD }}" >> $GITHUB_ENV
-          echo "CYPRESS_BASEURL=${{ secrets.CYPRESS_BASEURL }}" >> $GITHUB_ENV
-          echo "CYPRESS_SELLERID=${{ secrets.CYPRESS_SELLERID }}" >> $GITHUB_ENV
-          echo "CYPRESS_SELLERPW=${{ secrets.CYPRESS_SELLERPW }}" >> $GITHUB_ENV
-          echo "CYPRESS_REGISTERID=${{ secrets.CYPRESS_REGISTERID }}" >> $GITHUB_ENV
-          echo "CYPRESS_REGISTERPW=${{ secrets.CYPRESS_REGISTERPW }}" >> $GITHUB_ENV
-          echo "CYPRESS_USERID=${{ secrets.CYPRESS_USERID }}" >> $GITHUB_ENV
-          echo "CYPRESS_USERPW=${{ secrets.CYPRESS_USERPW }}" >> $GITHUB_ENV
-          echo "CYPRESS_SUPABASE_AUTH_URL=${{ secrets.CYPRESS_SUPABASE_AUTH_URL }}" >> $GITHUB_ENV
-          echo "CYPRESS_SUPABASE_DB_URL=${{ secrets.CYPRESS_SUPABASE_DB_URL }}" >> $GITHUB_ENV
 
       - name: Install dependencies
         run: yarn install
@@ -59,6 +50,20 @@ jobs:
           VITE_USER_SELLER_ID: $VITE_USER_SELLER_ID
           VITE_USER_SELLER_PASSWORD: $VITE_USER_SELLER_PASSWORD
 
+      - name: Create cypress.env.json
+        run: |
+          echo '{
+            "CYPRESS_BASEURL": "http://localhost:5173",
+            "CYPRESS_SELLERID": "seller@gmail.com",
+            "CYPRESS_SELLERPW": "PCdolphin110!",
+            "CYPRESS_REGISTERID": "test@gmail.com",
+            "CYPRESS_REGISTERPW": "QEdolphin110!",
+            "CYPRESS_USERID": "test@gmail.com",
+            "CYPRESS_USERPW": "QEdolphin110!",
+            "CYPRESS_SUPABASE_AUTH_URL": "https://xabzwagyailcdexnydis.supabase.co/auth/v1/",
+            "CYPRESS_SUPABASE_DB_URL": "https://xabzwagyailcdexnydis.supabase.co/rest/v1/"
+          }'
+
       - name: Run Cypress tests
         uses: cypress-io/github-action@v5
         with:
@@ -66,15 +71,15 @@ jobs:
           wait-on: "http://localhost:5173"
           browser: chrome # or any browser you want to run tests in
         env:
-          CYPRESS_BASEURL: $CYPRESS_BASEURL
-          CYPRESS_SELLERID: $CYPRESS_SELLERID
-          CYPRESS_SELLERPW: $CYPRESS_SELLERPW
-          CYPRESS_REGISTERID: $CYPRESS_REGISTERID
-          CYPRESS_REGISTERPW: $CYPRESS_REGISTERPW
-          CYPRESS_USERID: $CYPRESS_USERID
-          CYPRESS_USERPW: $CYPRESS_USERPW
-          CYPRESS_SUPABASE_AUTH_URL: $CYPRESS_SUPABASE_AUTH_URL
-          CYPRESS_SUPABASE_DB_URL: $CYPRESS_SUPABASE_DB_URL
+          CYPRESS_BASEURL: ${{ secrets.CYPRESS_BASEURL }}
+          CYPRESS_SELLERID: ${{ secrets.CYPRESS_SELLERID }}
+          CYPRESS_SELLERPW: ${{ secrets.CYPRESS_SELLERPW }}
+          CYPRESS_REGISTERID: ${{ secrets.CYPRESS_REGISTERID }}
+          CYPRESS_REGISTERPW: ${{ secrets.CYPRESS_REGISTERPW }}
+          CYPRESS_USERID: ${{ secrets.CYPRESS_USERID }}
+          CYPRESS_USERPW: ${{ secrets.CYPRESS_USERPW }}
+          CYPRESS_SUPABASE_AUTH_URL: ${{ secrets.CYPRESS_SUPABASE_AUTH_URL }}
+          CYPRESS_SUPABASE_DB_URL: ${{ secrets.CYPRESS_SUPABASE_DB_URL }}
 
       - name: Upload Cypress screenshots and videos (if tests fail)
         if: failure()
