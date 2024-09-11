@@ -40,15 +40,15 @@ jobs:
       - name: Build
         run: yarn build
         env:
-          VITE_SUPABASE_URL: $VITE_SUPABASE_URL
-          VITE_SUPABASE_SECRET_KEY: $VITE_SUPABASE_SECRET_KEY
-          VITE_BUCKET_BASE_URL: $VITE_BUCKET_BASE_URL
-          VITE_OAUTH_REDIRECT_URI: $VITE_OAUTH_REDIRECT_URI
-          VITE_STORE_ID: $VITE_STORE_ID
-          VITE_CHANNEL_KEY_TOSS: $VITE_CHANNEL_KEY_TOSS
-          VITE_PORTONE_SECRET_KEY: $VITE_PORTONE_SECRET_KEY
-          VITE_USER_SELLER_ID: $VITE_USER_SELLER_ID
-          VITE_USER_SELLER_PASSWORD: $VITE_USER_SELLER_PASSWORD
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_SECRET_KEY: ${{ secrets.VITE_SUPABASE_SECRET_KEY }}
+          VITE_BUCKET_BASE_URL: ${{ secrets.VITE_BUCKET_BASE_URL }}
+          VITE_OAUTH_REDIRECT_URI: ${{ secrets.VITE_OAUTH_REDIRECT_URI }}
+          VITE_STORE_ID: ${{ secrets.VITE_STORE_ID }}
+          VITE_CHANNEL_KEY_TOSS: ${{ secrets.VITE_CHANNEL_KEY_TOSS }}
+          VITE_PORTONE_SECRET_KEY: ${{ secrets.VITE_PORTONE_SECRET_KEY }}
+          VITE_USER_SELLER_ID: ${{ secrets.VITE_USER_SELLER_ID }}
+          VITE_USER_SELLER_PASSWORD: ${{ secrets.VITE_USER_SELLER_PASSWORD }}
 
       - name: Create cypress.env.json
         run: |
@@ -62,25 +62,14 @@ jobs:
             "CYPRESS_USERPW": "${{ secrets.CYPRESS_USERPW }}",
             "CYPRESS_SUPABASE_AUTH_URL": "${{ secrets.CYPRESS_SUPABASE_AUTH_URL }}",
             "CYPRESS_SUPABASE_DB_URL": "${{ secrets.CYPRESS_SUPABASE_DB_URL }}"
-          } > cypress.env.json'
+          }' > cypress.env.json
 
       - name: Run Cypress tests
         uses: cypress-io/github-action@v5
         with:
           start: yarn dev
           wait-on: "http://localhost:5173"
-          browser: chrome # or any browser you want to run tests in
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # pass GitHub token to allow accurately detecting a build vs a re-run build
-          CYPRESS_BASEURL: ${{ secrets.CYPRESS_BASEURL }}
-          CYPRESS_SELLERID: ${{ secrets.CYPRESS_SELLERID }}
-          CYPRESS_SELLERPW: ${{ secrets.CYPRESS_SELLERPW }}
-          CYPRESS_REGISTERID: ${{ secrets.CYPRESS_REGISTERID }}
-          CYPRESS_REGISTERPW: ${{ secrets.CYPRESS_REGISTERPW }}
-          CYPRESS_USERID: ${{ secrets.CYPRESS_USERID }}
-          CYPRESS_USERPW: ${{ secrets.CYPRESS_USERPW }}
-          CYPRESS_SUPABASE_AUTH_URL: ${{ secrets.CYPRESS_SUPABASE_AUTH_URL }}
-          CYPRESS_SUPABASE_DB_URL: ${{ secrets.CYPRESS_SUPABASE_DB_URL }}
+          browser: chrome
 
       - name: Upload Cypress screenshots and videos (if tests fail)
         if: failure()
