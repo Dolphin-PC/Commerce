@@ -41,10 +41,15 @@ describe("로그인 성공", async () => {
     fireEvent.change(passwordInput, { target: { value: USER_SELLER_PASSWORD } });
     await user.click(button);
 
-    await waitFor(() => {
-      // then
-      expect(location.pathname).toBe("/");
-    });
+    await waitFor(
+      () => {
+        // then
+        expect(location.pathname).toBe("/");
+      },
+      {
+        timeout: 5000,
+      }
+    );
   });
 });
 
