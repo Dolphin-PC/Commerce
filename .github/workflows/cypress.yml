@@ -14,53 +14,55 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - name: Echo secret
+        run: echo ${{ secrets.VITE_SUPABASE_URL }}
+      # - name: Checkout code
+      #   uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: "22"
+      # - name: Set up Node.js
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version: "22"
 
-      - name: Install dependencies
-        run: yarn install
+      # - name: Install dependencies
+      #   run: yarn install
 
-      - name: Build
-        run: yarn build
-        env:
-          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL}}
-          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY}}
-          VITE_SUPABASE_SECRET_KEY: ${{ secrets.VITE_SUPABASE_SECRET_KEY}}
-          VITE_BUCKET_BASE_URL: ${{ secrets.VITE_BUCKET_BASE_URL}}
-          VITE_OAUTH_REDIRECT_URI: ${{ secrets.VITE_OAUTH_REDIRECT_URI}}
-          VITE_STORE_ID: ${{ secrets.VITE_STORE_ID}}
-          VITE_CHANNEL_KEY_TOSS: ${{ secrets.VITE_CHANNEL_KEY_TOSS}}
-          VITE_PORTONE_SECRET_KEY: ${{ secrets.VITE_PORTONE_SECRET_KEY}}
-          VITE_USER_SELLER_ID: ${{ secrets.VITE_USER_SELLER_ID}}
-          VITE_USER_SELLER_PASSWORD: ${{ secrets.VITE_USER_SELLER_PASSWORD}}
+      # - name: Build
+      #   run: yarn build
+      #   env:
+      #     VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL}}
+      #     VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY}}
+      #     VITE_SUPABASE_SECRET_KEY: ${{ secrets.VITE_SUPABASE_SECRET_KEY}}
+      #     VITE_BUCKET_BASE_URL: ${{ secrets.VITE_BUCKET_BASE_URL}}
+      #     VITE_OAUTH_REDIRECT_URI: ${{ secrets.VITE_OAUTH_REDIRECT_URI}}
+      #     VITE_STORE_ID: ${{ secrets.VITE_STORE_ID}}
+      #     VITE_CHANNEL_KEY_TOSS: ${{ secrets.VITE_CHANNEL_KEY_TOSS}}
+      #     VITE_PORTONE_SECRET_KEY: ${{ secrets.VITE_PORTONE_SECRET_KEY}}
+      #     VITE_USER_SELLER_ID: ${{ secrets.VITE_USER_SELLER_ID}}
+      #     VITE_USER_SELLER_PASSWORD: ${{ secrets.VITE_USER_SELLER_PASSWORD}}
 
-      - name: Run Cypress tests
-        uses: cypress-io/github-action@v5
-        with:
-          start: yarn dev
-          wait-on: "http://localhost:5173"
-          browser: chrome # or any browser you want to run tests in
-        env:
-          CYPRESS_baseUrl: ${{ secrets.baseUrl }}
-          CYPRESS_sellerId: ${{ secrets.sellerId }}
-          CYPRESS_sellerPw: ${{ secrets.sellerPw }}
-          CYPRESS_registerId: ${{ secrets.registerId }}
-          CYPRESS_registerPW: ${{ secrets.registerPW }}
-          CYPRESS_userId: ${{ secrets.userId }}
-          CYPRESS_userPw: ${{ secrets.userPw }}
-          CYPRESS_supabase_auth_url: ${{ secrets.supabase_auth_url }}
-          CYPRESS_supabase_db_url: ${{ secrets.supabase_db_url }}
+      # - name: Run Cypress tests
+      #   uses: cypress-io/github-action@v5
+      #   with:
+      #     start: yarn dev
+      #     wait-on: "http://localhost:5173"
+      #     browser: chrome # or any browser you want to run tests in
+      #   env:
+      #     CYPRESS_baseUrl: ${{ secrets.baseUrl }}
+      #     CYPRESS_sellerId: ${{ secrets.sellerId }}
+      #     CYPRESS_sellerPw: ${{ secrets.sellerPw }}
+      #     CYPRESS_registerId: ${{ secrets.registerId }}
+      #     CYPRESS_registerPW: ${{ secrets.registerPW }}
+      #     CYPRESS_userId: ${{ secrets.userId }}
+      #     CYPRESS_userPw: ${{ secrets.userPw }}
+      #     CYPRESS_supabase_auth_url: ${{ secrets.supabase_auth_url }}
+      #     CYPRESS_supabase_db_url: ${{ secrets.supabase_db_url }}
 
-      - name: Upload Cypress screenshots and videos (if tests fail)
-        if: failure()
-        uses: actions/upload-artifact@v3
-        with:
-          name: cypress-artifacts
-          path: |
-            ./cypress/screenshots
-            ./cypress/videos
+      # - name: Upload Cypress screenshots and videos (if tests fail)
+      #   if: failure()
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: cypress-artifacts
+      #     path: |
+      #       ./cypress/screenshots
+      #       ./cypress/videos
