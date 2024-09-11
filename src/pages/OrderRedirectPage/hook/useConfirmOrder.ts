@@ -7,8 +7,6 @@ import { Order } from "@/features/order/type";
 import { usePutOrderDetail } from "@/features/order_detail/api/put-order_detail";
 import { getOrderDetails } from "@/features/order_detail/api/get-order_details";
 
-interface Props {}
-
 interface Return {
   getOrder: (paymentId: PayHistory["paymentId"]) => Promise<Order>;
   handleConfirmOrder: (paymentId: PayHistory["paymentId"]) => Promise<void>;
@@ -17,7 +15,7 @@ interface Return {
 /**
  * @desc 결제 검증 후, 주문 완료처리
  */
-export const useConfirmOrder = () => {
+export const useConfirmOrder = (): Return => {
   const putPayHistoryMutation = usePutPayHistoryMutation();
   const putOrderMutation = usePutOrderMutation();
   const putOrderDetailMutation = usePutOrderDetail();

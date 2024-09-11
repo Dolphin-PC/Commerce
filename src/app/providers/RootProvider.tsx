@@ -12,7 +12,7 @@ export const RootProvider = ({ children }: Props) => {
   return (
     <Fragment>
       <QueryClientProvider client={queryClient}>
-        <ReactQueryDevtools initialIsOpen={true} />
+        <ReactQueryDevtools initialIsOpen={false} />
         <HelmetProvider>{children}</HelmetProvider>
       </QueryClientProvider>
     </Fragment>

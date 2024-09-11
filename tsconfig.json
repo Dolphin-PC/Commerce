@@ -1,11 +1,48 @@
 {
-  "files": [],
-  "references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.node.json" }],
+  "files": ["vite.config.ts", "vitest.config.ts", "./test/test-util.tsx"],
+  // "references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.node.json" }],
+
+  "include": ["src", "cypress", "test"],
+
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     },
-    "types": ["vitest/globals"]
+
+    "types": ["vitest/globals", "@testing-library/jest-dom", "cypress", "@testing-library/cypress"],
+    // "types": ["vitest/globals", "@testing-library/jest-dom/vitest"],
+
+    "target": "ES2020",
+    "module": "ESNext",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "useDefineForClassFields": true,
+    "skipLibCheck": true,
+    "composite": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "react-jsx",
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true
   }
 }
+
+// {
+//   "references": [
+//     {
+//       "path": "./tsconfig.app.json"
+//     },
+//     {
+//       "path": "./tsconfig.node.json"
+//     }
+//   ]
+// }

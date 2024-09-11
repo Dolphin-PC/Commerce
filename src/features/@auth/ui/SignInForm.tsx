@@ -42,11 +42,7 @@ export const SignInForm = () => {
       toast({
         title: "로그인이 완료되었습니다.",
       });
-      if (userInfo.isseller) {
-        navigate("/dashboard");
-      } else {
-        navigate("/");
-      }
+      navigate("/");
     } catch (err) {
       console.error(err);
       toast({

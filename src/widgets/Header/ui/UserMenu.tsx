@@ -24,7 +24,7 @@ const UserMenu = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon">
+        <Button variant="outline" size="icon" data-testid="user-icon-button">
           <CircleUserRound />
         </Button>
       </DropdownMenuTrigger>

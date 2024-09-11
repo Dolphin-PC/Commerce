@@ -1,18 +1,25 @@
 {
+  "files": ["vite.config.ts", "vitest.config.ts"],
+
+  "include": ["src", "test"],
+
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     },
+
+    "types": ["vitest/globals", "@testing-library/jest-dom/vitest"],
+
     "target": "ES2020",
-    "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "skipLibCheck": true,
+    "composite": true,
+    "declaration": true,
 
     /* Bundler mode */
     "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
     "isolatedModules": true,
     "moduleDetection": "force",
     "noEmit": true,
@@ -23,6 +30,5 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
-  },
-  "include": ["src"]
+  }
 }

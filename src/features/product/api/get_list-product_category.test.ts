@@ -1,6 +1,6 @@
 import { renderHook, waitFor } from "@testing-library/react";
 import { useProductListCategoryInfiniteQuery } from "./get_list-product_category";
-import { queryWrapper } from "@/test/test-util";
+import { queryWrapper } from "test/test-util";
 
 describe("제품 목록 조회 | 성공", async () => {
   it("기본 조회", async () => {
