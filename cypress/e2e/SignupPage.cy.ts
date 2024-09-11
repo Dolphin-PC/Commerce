@@ -8,9 +8,9 @@ it.only("회원가입 성공", () => {
   //* given
   cy.visit(ROUTES.SIGNUP);
 
-  cy.findByLabelText("Email").type(Cypress.env("registerId"));
-  cy.findByLabelText("Password").type(Cypress.env("registerPW"));
-  cy.findByLabelText("Confirm Password").type(Cypress.env("registerPW"));
+  cy.findByLabelText("Email").type(Cypress.env("CYPRESS_REGISTERID"));
+  cy.findByLabelText("Password").type(Cypress.env("CYPRESS_REGISTERPW"));
+  cy.findByLabelText("Confirm Password").type(Cypress.env("CYPRESS_REGISTERPW"));
   cy.findByLabelText("Nickname").type("cypress");
 
   //* when

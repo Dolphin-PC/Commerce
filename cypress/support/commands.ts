@@ -20,17 +20,17 @@ declare global {
 // custom queries https://docs.cypress.io/api/cypress-api/custom-queries
 
 Cypress.Commands.add("assertUrl", (url) => {
-  cy.url().should("eq", `${Cypress.env("baseUrl")}${url}`);
+  cy.url().should("eq", `${Cypress.env("CYPRESS_BASEURL")}${url}`);
 });
 
 Cypress.Commands.add("login", (isSeller) => {
   let id, pw;
   if (isSeller) {
-    id = Cypress.env("sellerId");
-    pw = Cypress.env("sellerPw");
+    id = Cypress.env("CYPRESS_SELLERID");
+    pw = Cypress.env("CYPRESS_SELLERPW");
   } else {
-    id = Cypress.env("userId");
-    pw = Cypress.env("userPw");
+    id = Cypress.env("CYPRESS_USERID");
+    pw = Cypress.env("CYPRESS_USERPW");
   }
 
   cy.session(id, () => {
@@ -47,9 +47,9 @@ Cypress.Commands.add("login", (isSeller) => {
 });
 
 Cypress.Commands.add("interceptor_supabase_auth", (method, response) => {
-  cy.intercept(method, `${Cypress.env("supabase_auth_url")}*`, response);
+  cy.intercept(method, `${Cypress.env("CYPRESS_SUPABASE_AUTH_URL")}*`, response);
 });
 
 Cypress.Commands.add("interceptor_supabase_db", (method, table, response) => {
-  cy.intercept(method, `${Cypress.env("supabase_db_url")}${table}*`, response);
+  cy.intercept(method, `${Cypress.env("CYPRESS_SUPABASE_DB_URL")}${table}*`, response);
 });
