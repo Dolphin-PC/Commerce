@@ -22,6 +22,11 @@ jobs:
         with:
           node-version: "22"
 
+      - name: Set environment variables
+        run: |
+          echo "VITE_SUPABASE_URL=${{ secrets.VITE_SUPABASE_URL }}" >> $GITHUB_ENV
+          echo "VITE_SUPABASE_SECRET_KEY=${{ secrets.VITE_SUPABASE_SECRET_KEY }}" >> $GITHUB_ENV
+
       - name: Install dependencies
         run: yarn install
 
