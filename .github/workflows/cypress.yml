@@ -70,16 +70,17 @@ jobs:
           start: yarn dev
           wait-on: "http://localhost:5173"
           browser: chrome # or any browser you want to run tests in
-        # env:
-        #   CYPRESS_BASEURL: ${{ secrets.CYPRESS_BASEURL }}
-        #   CYPRESS_SELLERID: ${{ secrets.CYPRESS_SELLERID }}
-        #   CYPRESS_SELLERPW: ${{ secrets.CYPRESS_SELLERPW }}
-        #   CYPRESS_REGISTERID: ${{ secrets.CYPRESS_REGISTERID }}
-        #   CYPRESS_REGISTERPW: ${{ secrets.CYPRESS_REGISTERPW }}
-        #   CYPRESS_USERID: ${{ secrets.CYPRESS_USERID }}
-        #   CYPRESS_USERPW: ${{ secrets.CYPRESS_USERPW }}
-        #   CYPRESS_SUPABASE_AUTH_URL: ${{ secrets.CYPRESS_SUPABASE_AUTH_URL }}
-        #   CYPRESS_SUPABASE_DB_URL: ${{ secrets.CYPRESS_SUPABASE_DB_URL }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # pass GitHub token to allow accurately detecting a build vs a re-run build
+          CYPRESS_BASEURL: ${{ secrets.CYPRESS_BASEURL }}
+          CYPRESS_SELLERID: ${{ secrets.CYPRESS_SELLERID }}
+          CYPRESS_SELLERPW: ${{ secrets.CYPRESS_SELLERPW }}
+          CYPRESS_REGISTERID: ${{ secrets.CYPRESS_REGISTERID }}
+          CYPRESS_REGISTERPW: ${{ secrets.CYPRESS_REGISTERPW }}
+          CYPRESS_USERID: ${{ secrets.CYPRESS_USERID }}
+          CYPRESS_USERPW: ${{ secrets.CYPRESS_USERPW }}
+          CYPRESS_SUPABASE_AUTH_URL: ${{ secrets.CYPRESS_SUPABASE_AUTH_URL }}
+          CYPRESS_SUPABASE_DB_URL: ${{ secrets.CYPRESS_SUPABASE_DB_URL }}
 
       - name: Upload Cypress screenshots and videos (if tests fail)
         if: failure()
