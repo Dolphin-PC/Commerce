@@ -10,9 +10,9 @@ import MainLayout from "@/widgets/MainLayout";
 import { useSearchDrawerStore } from "@/widgets/ProductSearchDrawer/store/useSearchDrawerStore";
 import { useSearchStore } from "@/widgets/ProductSearchDrawer/store/useSearchStore";
 import { LayoutGrid, LayoutList, SlidersHorizontal } from "lucide-react";
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ProductPageHelmet } from "../Helmets";
+import { useViewStore } from "./store/useViewStore";
 
 /**
  * @desc 상품 목록 페이지
@@ -20,8 +20,7 @@ import { ProductPageHelmet } from "../Helmets";
  *
  */
 const _ProductPage = () => {
-  const [orderColumn, setOrderColumn] = useState<"createdAt" | "price">("createdAt");
-  const [viewStyle, setViewStyle] = useState<"grid" | "list">("grid");
+  const { orderColumn, setOrderColumn, viewStyle, setViewStyle } = useViewStore();
 
   const drawerStore = useSearchDrawerStore((state) => ({ setIsOpen: state.setIsOpen }));
   const searchStore = useSearchStore((state) => ({ searchFilter: state.getSearch() }));
