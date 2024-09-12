@@ -24,4 +24,5 @@ export const staleTime = {
   product: oneMinute * 5,
   cart: oneMinute * 5,
   order_detail: oneMinute * 5,
+  category: oneMinute * 5,
 };

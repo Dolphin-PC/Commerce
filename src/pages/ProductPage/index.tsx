@@ -80,7 +80,7 @@ const _ProductPage = () => {
         {/* grid style view */}
         {viewStyle === "grid" && product.data && (
           <GridWindowLayout
-            columnCount={3}
+            columnCount={4}
             rowHeight={480}
             childrens={product.data.pages.flatMap((page) =>
               page.data.map((product) => {
