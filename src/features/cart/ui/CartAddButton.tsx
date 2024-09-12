@@ -3,6 +3,8 @@ import { Button } from "@/shared/components/ui/button";
 import { toast } from "@/shared/components/ui/use-toast";
 import { useCartPost } from "../api/post-cart";
 import { useAuthStore } from "@/features/@auth/store/auth.store";
+import { Link } from "react-router-dom";
+import { ROUTES } from "@/shared/consts/route.const";
 
 interface Props {
   productCount: number;
@@ -18,7 +20,17 @@ const CartAddButton = ({ product, productCount }: Props) => {
   const mtt = useCartPost();
 
   const handleAddCart = () => {
-    if (!user) throw new Error("로그인이 필요합니다.");
+    if (!user) {
+      toast({
+        title: "로그인이 필요해요.",
+        action: (
+          <Button variant="outline" asChild>
+            <Link to={ROUTES.SIGNIN}>로그인 페이지 이동</Link>
+          </Button>
+        ),
+      });
+      return;
+    }
 
     if (productCount === 0) {
       toast({

@@ -101,7 +101,7 @@ const _ProductDetailPage = () => {
               <Column className="w-full gap-3">
                 <hr />
 
-                {quantity && quantity.quantity > 0 ? (
+                {quantity && quantity.quantity > 0 && (
                   <Fragment>
                     <Row>
                       <Button size="icon" onClick={() => handleChangeProductCount(productCount - 1)} disabled={productCount === 0}>
@@ -128,9 +128,9 @@ const _ProductDetailPage = () => {
                       {!isProductInCart && <CartAddButton product={product} productCount={productCount} />}
                     </Column>
                   </Fragment>
-                ) : (
-                  <T.Blockquote>상품이 품절되었어요.</T.Blockquote>
                 )}
+
+                {quantity && quantity.quantity == 0 && <T.Blockquote>상품이 품절되었어요.</T.Blockquote>}
               </Column>
             </CardFooter>
           </Card>
