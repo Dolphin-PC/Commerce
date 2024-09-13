@@ -72,7 +72,6 @@ const _DashboardOrderPage = () => {
       <CardContent className="flex flex-col gap-5">
         {orderDetails &&
           orderDetails.map((orderDetail) => {
-            console.log({ orderDetail });
             return (
               <Card key={orderDetail.id}>
                 <CardHeader>

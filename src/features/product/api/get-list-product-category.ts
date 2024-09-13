@@ -3,18 +3,16 @@ import { useQuery, useSuspenseInfiniteQuery, useSuspenseQuery } from "@tanstack/
 import { Product, ProductCategory } from "../type/type";
 import { queryKey, staleTime } from "@/shared/consts/react-query";
 import { Category } from "@/features/category/model/type";
+import { PaginationReq } from "@/shared/types/api";
 
 /**
  * @desc 제품 목록 조회 (카테고리 포함, 페이지네이션)
  */
 
 //* 추상
-interface Props {
+interface Props extends PaginationReq {
   sellerId?: Product["sellerId"];
   categoryId?: Category["id"];
-
-  pageNumber?: number;
-  pageSize?: number;
 
   order?: {
     column: "createdAt" | "price";

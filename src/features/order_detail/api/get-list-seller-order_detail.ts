@@ -5,25 +5,26 @@ import { Product } from "@/features/product/type/type";
 import { User } from "@/features/user/model/type";
 import { supabase } from "@/shared/config/@db/supabase.config";
 import { queryKey, staleTime } from "@/shared/consts/react-query";
+import { PaginationReq } from "@/shared/types/api";
 import { useQuery } from "@tanstack/react-query";
 
 /**
  * @desc 판매자 상품 주문 내역 조회
  */
 
-interface Props {
+interface Props extends PaginationReq {
   sellerId: User["id"];
   orderStatus: Order["status"] | null;
   orderDetailStatus: OrderDetail["status"] | null;
 }
 
-interface Return extends OrderDetail {
+export interface getListSellerOrderDetailReturn extends OrderDetail {
   product: Product;
   order: Order & { payHistory: PayHistory | null };
 }
 
-const getListSellerOrderDetail = async ({ sellerId, orderDetailStatus, orderStatus }: Props): Promise<Return[]> => {
-  let q = supabase
+const getListSellerOrderDetail = async ({ sellerId, orderDetailStatus, orderStatus, pageNumber = 0, pageSize = 10 }: Props): Promise<getListSellerOrderDetailReturn[]> => {
+  const q = supabase
     .from("order_detail")
     .select(
       `
@@ -37,8 +38,10 @@ const getListSellerOrderDetail = async ({ sellerId, orderDetailStatus, orderStat
     )
     .eq("product.sellerId", sellerId);
 
-  if (orderStatus) q = q.eq("order.status", orderStatus);
-  if (orderDetailStatus) q = q.eq("status", orderDetailStatus);
+  if (orderStatus) q.eq("order.status", orderStatus);
+  if (orderDetailStatus) q.eq("status", orderDetailStatus);
+
+  q.range(pageNumber * pageSize, pageNumber * pageSize + pageSize - 1);
 
   const { data, error } = await q.order("id");
   if (error) throw error;
