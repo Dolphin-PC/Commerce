@@ -1,7 +1,7 @@
 import { cn } from "@/shared/lib/shadcn-util";
 import { bucketBaseUrl } from "../const/bucket";
 import { ProductImage } from "../type/type";
-import { useProductImageQuery } from "../api/get_list-product-image";
+import { useProductImageQuery } from "../api/get-list-product-image";
 
 interface Props {
   productId: ProductImage["productId"];

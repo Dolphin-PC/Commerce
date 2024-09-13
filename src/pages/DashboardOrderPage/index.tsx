@@ -16,7 +16,7 @@ import { ObjectEntries } from "@/shared/lib/object";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Fragment } from "react/jsx-runtime";
-import { useGetSellerOrderDetailQuery } from "./api/get-seller-order_detail";
+import { useGetListSellerOrderDetailQuery } from "../../features/order_detail/api/get-list-seller-order_detail";
 import OrderStatusDialog from "./ui/OrderStatusDialog";
 
 /**
@@ -29,7 +29,7 @@ const _DashboardOrderPage = () => {
   const [orderStatus, setOrderStatus] = useState<OrderStatus | null>(null);
   const [orderDetailStatus, setOrderDetailStatus] = useState<OrderDetailStatus | null>(null);
 
-  const { data: orderDetails } = useGetSellerOrderDetailQuery({ sellerId: user.id, orderStatus, orderDetailStatus });
+  const { data: orderDetails } = useGetListSellerOrderDetailQuery({ sellerId: user.id, orderStatus, orderDetailStatus });
 
   return (
     <Fragment>

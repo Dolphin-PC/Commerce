@@ -1,8 +1,8 @@
 import { useAuthStore } from "@/features/@auth/store/auth.store";
 import { useDeleteProduct } from "@/features/product/api/delete-product";
 import { useProductQuantity } from "@/features/product/api/get-product-quantity";
-import { useProductCategoryQuery } from "@/features/product/api/get-product_category";
-import { useProductImageQuery } from "@/features/product_image/api/get_list-product-image";
+import { useProductCategoryQuery } from "@/features/product/api/get-product-category";
+import { useProductImageQuery } from "@/features/product_image/api/get-list-product-image";
 import { bucketBaseUrl } from "@/features/product_image/const/bucket";
 import Column from "@/shared/components/atoms/Column";
 import Row from "@/shared/components/atoms/Row";

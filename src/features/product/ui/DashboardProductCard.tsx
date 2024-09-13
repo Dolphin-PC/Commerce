@@ -1,62 +1,39 @@
+import BadgeRowLead from "@/shared/components/atoms/BadgeRowLead";
 import Column from "@/shared/components/atoms/Column";
-import Row from "@/shared/components/atoms/Row";
-import { P } from "@/shared/components/atoms/Typography";
-import { Badge } from "@/shared/components/ui/badge";
-import { Button } from "@/shared/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/shared/components/ui/card";
-import { formatDate } from "@/shared/lib/date";
-import { FilePen, Trash2 } from "lucide-react";
-import { ProductCategory } from "../type/type";
-import { Link } from "react-router-dom";
+import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui/card";
 import { ROUTES } from "@/shared/consts/route.const";
+import { formatDate } from "@/shared/lib/date";
+import { useQueryClient } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
+import { productCategoryPrefetchOptions } from "../api/get-product-category";
+import { ProductCategory } from "../type/type";
 
 interface Props {
   product: ProductCategory;
 }
 
 const DashboardProductCard = ({ product }: Props) => {
-  return (
-    <Card className="">
-      <CardHeader>
-        <CardTitle>{product.name}</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <Column>
-          <Row className="gap-2 items-center">
-            <Badge>가격</Badge>
-            <P>{product.price.toLocaleString("ko-KR")}원</P>
-          </Row>
-          <Row className="gap-2 items-center">
-            <Badge>수량</Badge>
-            <P>{product.quantity.toLocaleString("ko-KR")}개</P>
-          </Row>
-          <Row className="gap-2 items-center">
-            <Badge>등록일</Badge>
-            <P>{formatDate(new Date(product.createdAt))}</P>
-          </Row>
-          <Row className="gap-2 items-center">
-            <Badge>수정일</Badge>
-            <P>{formatDate(new Date(product.updatedAt))}</P>
-          </Row>
-        </Column>
-      </CardContent>
+  const qc = useQueryClient();
 
-      <CardFooter className="w-full">
-        <Row className="w-full justify-between">
-          <Button asChild>
-            <Link to={ROUTES.DASHBOARD__PRODUCTS_ID_(product.id)}>상세보기</Link>
-          </Button>
-          <Row className="gap-2">
-            <Button>
-              <FilePen />
-            </Button>
-            <Button variant={"destructive"}>
-              <Trash2 />
-            </Button>
-          </Row>
-        </Row>
-      </CardFooter>
-    </Card>
+  const handlePrefetch = () => {
+    qc.prefetchQuery(productCategoryPrefetchOptions({ id: product.id }));
+  };
+  return (
+    <Link to={ROUTES.DASHBOARD__PRODUCTS_ID_(product.id)}>
+      <Card onMouseEnter={handlePrefetch} className="hover:-translate-y-3 transition-transform duration-300">
+        <CardHeader>
+          <CardTitle>{product.name}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Column className="gap-2">
+            <BadgeRowLead badge="가격" lead={`${product.price.toLocaleString("ko-KR")}원`} />
+            <BadgeRowLead badge="수량" lead={`${product.quantity.toLocaleString("ko-KR")}개`} />
+            <BadgeRowLead badge="등록일" lead={`${formatDate(new Date(product.createdAt))}`} />
+            <BadgeRowLead badge="수정일" lead={`${formatDate(new Date(product.updatedAt))}`} />
+          </Column>
+        </CardContent>
+      </Card>
+    </Link>
   );
 };
 

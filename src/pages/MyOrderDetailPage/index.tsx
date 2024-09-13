@@ -1,6 +1,6 @@
 import MainLayout from "@/widgets/MainLayout";
 import { Link, useParams } from "react-router-dom";
-import { useGetOrderDetailProductSuspenseQuery } from "../../features/order/api/get-order-detail-product";
+import { useGetOrderDetailProductSuspenseQuery } from "../../features/order/api/get-order_detail-product";
 import { useAuthStore } from "@/features/@auth/store/auth.store";
 import Column from "@/shared/components/atoms/Column";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/shared/components/ui/card";

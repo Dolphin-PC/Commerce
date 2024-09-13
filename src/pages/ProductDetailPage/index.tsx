@@ -3,7 +3,7 @@ import { useCartProductCategoryQuery } from "@/features/cart/api/get_list-cart_p
 import CartAddButton from "@/features/cart/ui/CartAddButton";
 import CartViewDrawer from "@/features/cart/ui/CartViewDrawer";
 import { useProductQuantity } from "@/features/product/api/get-product-quantity";
-import { useProductCategorySuspenseQuery } from "@/features/product/api/get-product_category";
+import { useProductCategorySuspenseQuery } from "@/features/product/api/get-product-category";
 import ProductImageCarousel from "@/features/product_image/ui/ProductImageCarousel";
 import BadgeRowLead from "@/shared/components/atoms/BadgeRowLead";
 import Column from "@/shared/components/atoms/Column";

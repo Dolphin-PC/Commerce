@@ -1,4 +1,4 @@
-import { useCategoryListQuery } from "@/features/category/api/get_list-category";
+import { useCategoryListQuery } from "@/features/category/api/get-list-category";
 import { Category } from "@/features/category/model/type";
 import Column from "@/shared/components/atoms/Column";
 import { Badge } from "@/shared/components/ui/badge";

@@ -1,5 +1,5 @@
-import { useGetCategoryListOnExistsProduct } from "@/features/category/api/get_list-category-exists-product";
-import { useProductListCategoryQuery } from "@/features/product/api/get_list-product_category";
+import { useGetCategoryListOnExistsProduct } from "@/features/category/api/get-list-category-exists-product";
+import { useProductListCategoryQuery } from "@/features/product/api/get-list-product-category";
 import ProductCard from "@/features/product/ui/ProductCard";
 import Column from "@/shared/components/atoms/Column";
 import Grid from "@/shared/components/atoms/Grid";

@@ -1,10 +1,10 @@
 import { useAuthStore } from "@/features/@auth/store/auth.store";
 import { useProductQuantity } from "@/features/product/api/get-product-quantity";
-import { useProductCategoryQuery } from "@/features/product/api/get-product_category";
+import { useProductCategoryQuery } from "@/features/product/api/get-product-category";
 import { useProductPut } from "@/features/product/api/put-product";
 import { ProductFormDataType } from "@/features/product/model/product.zod";
 import ProductForm from "@/features/product/ui/ProductForm";
-import { useProductImageQuery } from "@/features/product_image/api/get_list-product-image";
+import { useProductImageQuery } from "@/features/product_image/api/get-list-product-image";
 import { useAddProductImage } from "@/features/product_image/api/post-product-image";
 import Column from "@/shared/components/atoms/Column";
 import Row from "@/shared/components/atoms/Row";

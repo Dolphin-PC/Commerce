@@ -1,5 +1,5 @@
 import { Product } from "@/features/product/type/type";
-import { useProductImageQuery } from "../api/get_list-product-image";
+import { useProductImageQuery } from "../api/get-list-product-image";
 import Loading from "@/shared/components/molecules/Loading";
 import { bucketBaseUrl } from "../const/bucket";
 import { Carousel, CarouselApi, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/shared/components/ui/carousel";

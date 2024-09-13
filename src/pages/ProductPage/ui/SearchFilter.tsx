@@ -1,4 +1,4 @@
-import { useCategoryListQuery } from "@/features/category/api/get_list-category";
+import { useCategoryListQuery } from "@/features/category/api/get-list-category";
 import Column from "@/shared/components/atoms/Column";
 import Row from "@/shared/components/atoms/Row";
 import { T } from "@/shared/components/atoms/Typography";

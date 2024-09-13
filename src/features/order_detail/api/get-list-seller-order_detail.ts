@@ -22,7 +22,7 @@ interface Return extends OrderDetail {
   order: Order & { payHistory: PayHistory | null };
 }
 
-const getSellerOrderDetail = async ({ sellerId, orderDetailStatus, orderStatus }: Props): Promise<Return[]> => {
+const getListSellerOrderDetail = async ({ sellerId, orderDetailStatus, orderStatus }: Props): Promise<Return[]> => {
   const q = supabase
     .from("order_detail")
     .select(
@@ -46,10 +46,10 @@ const getSellerOrderDetail = async ({ sellerId, orderDetailStatus, orderStatus }
   return data;
 };
 
-export const useGetSellerOrderDetailQuery = (props: Props) => {
+export const useGetListSellerOrderDetailQuery = (props: Props) => {
   return useQuery({
-    queryKey: [queryKey.order_detail, props.orderStatus, props.orderDetailStatus, props.sellerId],
-    queryFn: () => getSellerOrderDetail(props),
+    queryKey: [queryKey.order_detail, queryKey.list, props.orderStatus, props.orderDetailStatus, props.sellerId],
+    queryFn: () => getListSellerOrderDetail(props),
     staleTime: staleTime.order_detail,
   });
 };
