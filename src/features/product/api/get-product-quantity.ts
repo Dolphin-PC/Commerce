@@ -33,5 +33,6 @@ export const useProductQuantity = (props: Props) => {
   return useQuery({
     queryKey: [queryKey.product, queryKey.quantity, props.id],
     queryFn: () => getProductQuantity(props),
+    gcTime: 0,
   });
 };

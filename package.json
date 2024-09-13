@@ -12,7 +12,7 @@
     "test:ui": "vitest --ui",
     "test:run": "vitest run",
     "cypress:open": "cypress open",
-    "cypress:run": "cypress:run",
+    "cypress:run": "cypress run --browser chrome",
     "e2e": "start-server-and-test dev http://localhost:5173 cypress:open",
     "e2e:ci": "start-server-and-test dev http://localhost:5173 cypress:run"
   },
@@ -90,6 +90,7 @@
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.0.1",
     "vite": "^5.4.1",
+    "vite-plugin-remove-console": "^2.2.0",
     "vite-plugin-svgr": "^4.2.0",
     "vitest": "^2.0.5"
   }

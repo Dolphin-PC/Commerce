@@ -3,24 +3,23 @@ import { orderStatusObj } from "@/features/order/const/orderStatus";
 import { OrderStatus } from "@/features/order/type";
 import { orderDetailStatusObj } from "@/features/order_detail/const/orderDetailStatus";
 import { OrderDetailStatus } from "@/features/order_detail/type";
-import BadgeRowLead from "@/shared/components/atoms/BadgeRowLead";
 import Column from "@/shared/components/atoms/Column";
 import Row from "@/shared/components/atoms/Row";
 import { T } from "@/shared/components/atoms/Typography";
+import Pagination from "@/shared/components/molecules/Pagination";
 import DashBoardLayout from "@/shared/components/templates/DashBoardLayout";
+import { Badge } from "@/shared/components/ui/badge";
 import { Button } from "@/shared/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui/card";
-import { ROUTES } from "@/shared/consts/route.const";
-import { formatDate, parseDate } from "@/shared/lib/date";
+import { Card } from "@/shared/components/ui/card";
+import { TableCell, TableRow } from "@/shared/components/ui/table";
 import { ObjectEntries } from "@/shared/lib/object";
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { Fragment } from "react/jsx-runtime";
-import { useGetSellerOrderDetailQuery } from "./api/get-seller-order_detail";
+import { useListSellerOrderDetailQuery } from "../../features/order_detail/api/get-list-seller-order_detail";
+import OrderDetailTable from "../../features/order_detail/ui/OrderDetailTable";
 import OrderStatusDialog from "./ui/OrderStatusDialog";
 
 /**
- * @desc 판매자 주문(상세) 페이지
+ * @desc 판매자 주문 목록 페이지
  *  - /dashboard/orders
  */
 const _DashboardOrderPage = () => {
@@ -29,50 +28,86 @@ const _DashboardOrderPage = () => {
   const [orderStatus, setOrderStatus] = useState<OrderStatus | null>(null);
   const [orderDetailStatus, setOrderDetailStatus] = useState<OrderDetailStatus | null>(null);
 
-  const { data: orderDetails } = useGetSellerOrderDetailQuery({ sellerId: user.id, orderStatus, orderDetailStatus });
+  const [pageNumber, setPageNumber] = useState<number>(0);
+  const [pageSize, _] = useState<number>(10);
+
+  const { data: orderDetails } = useListSellerOrderDetailQuery({ sellerId: user.id, orderStatus, orderDetailStatus, pageNumber, pageSize });
+
+  const handleOrderStatus = (value: OrderStatus | null) => {
+    setPageNumber(0);
+    setOrderStatus(value);
+  };
+  const handleOrderDetailStatus = (value: OrderDetailStatus | null) => {
+    setPageNumber(0);
+    setOrderDetailStatus(value);
+  };
 
   return (
-    <Fragment>
-      <CardHeader>
-        <CardTitle>주문 내역</CardTitle>
+    <Column className="gap-3">
+      <T.H3>주문 내역</T.H3>
 
-        <Card className="p-4">
-          <T.Large>결제상태</T.Large>
-          <Row className="gap-3 flex-wrap">
-            <Button variant={orderStatus === null ? "default" : "outline"} onClick={() => setOrderStatus(null)}>
-              전체
-            </Button>
-            {(Object.entries(orderStatusObj) as ObjectEntries<Record<OrderStatus, string>>).map(([key, value]) => {
-              if (value === "") return null;
-              return (
-                <Button key={`btn-${key}`} variant={orderStatus === key ? "default" : "outline"} onClick={() => setOrderStatus(key)}>
-                  {value}
-                </Button>
-              );
-            })}
-          </Row>
-        </Card>
-        <Card className="p-4">
-          <T.Large>주문상태</T.Large>
-          <Row className="gap-3 flex-wrap">
-            <Button variant={orderDetailStatus === null ? "default" : "outline"} onClick={() => setOrderDetailStatus(null)}>
-              전체
-            </Button>
-            {(Object.entries(orderDetailStatusObj) as ObjectEntries<Record<OrderDetailStatus, string>>).map(([key, value]) => {
-              return (
-                <Button key={`btn-${key}`} variant={orderDetailStatus === key ? "default" : "outline"} onClick={() => setOrderDetailStatus(key)}>
-                  {value}
-                </Button>
-              );
-            })}
-          </Row>
-        </Card>
-      </CardHeader>
+      <Card className="p-4">
+        <T.Large>결제상태</T.Large>
+        <Row className="gap-3 flex-wrap">
+          <Button variant={orderStatus === null ? "default" : "outline"} onClick={() => handleOrderStatus(null)}>
+            전체
+          </Button>
+          {(Object.entries(orderStatusObj) as ObjectEntries<Record<OrderStatus, string>>).map(([key, value]) => {
+            if (value === "") return null;
+            return (
+              <Button key={`btn-${key}`} variant={orderStatus === key ? "default" : "outline"} onClick={() => handleOrderStatus(key)}>
+                {value}
+              </Button>
+            );
+          })}
+        </Row>
+      </Card>
+      <Card className="p-4">
+        <T.Large>주문상태</T.Large>
+        <Row className="gap-3 flex-wrap">
+          <Button variant={orderDetailStatus === null ? "default" : "outline"} onClick={() => handleOrderDetailStatus(null)}>
+            전체
+          </Button>
+          {(Object.entries(orderDetailStatusObj) as ObjectEntries<Record<OrderDetailStatus, string>>).map(([key, value]) => {
+            return (
+              <Button key={`btn-${key}`} variant={orderDetailStatus === key ? "default" : "outline"} onClick={() => handleOrderDetailStatus(key)}>
+                {value}
+              </Button>
+            );
+          })}
+        </Row>
+      </Card>
 
-      <CardContent className="flex flex-col gap-5">
-        {orderDetails &&
+      <Card className="p-4">
+        {orderDetails && (
+          <Column>
+            <OrderDetailTable
+              tableBody={orderDetails.data.map((orderDetail) => {
+                return (
+                  <TableRow key={orderDetail.id}>
+                    <TableCell>{orderDetail.product.name}</TableCell>
+                    <TableCell>{orderDetail.quantity}</TableCell>
+                    <TableCell>{(orderDetail.quantity * orderDetail.product.price).toLocaleString("ko-KR")}원</TableCell>
+                    <TableCell className="text-center">
+                      <Badge variant="outline">{orderStatusObj[orderDetail.order.status]}</Badge>
+                    </TableCell>
+                    <TableCell className="text-center">
+                      <OrderStatusDialog orderDetail={orderDetail}>
+                        <Button variant="outline" disabled={orderDetail.status === "ORDER_WAIT"}>
+                          {orderDetailStatusObj[orderDetail.status]}
+                        </Button>
+                      </OrderStatusDialog>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            />
+            <Pagination pageNumber={pageNumber} pageSize={pageSize} setPageNumber={setPageNumber} totalCount={orderDetails.totalCount} />
+          </Column>
+        )}
+
+        {/* {orderDetails &&
           orderDetails.map((orderDetail) => {
-            console.log({ orderDetail });
             return (
               <Card key={orderDetail.id}>
                 <CardHeader>
@@ -98,9 +133,9 @@ const _DashboardOrderPage = () => {
                 </CardContent>
               </Card>
             );
-          })}
-      </CardContent>
-    </Fragment>
+          })} */}
+      </Card>
+    </Column>
   );
 };
 

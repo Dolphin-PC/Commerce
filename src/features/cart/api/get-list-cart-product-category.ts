@@ -12,10 +12,10 @@ interface Props {
   userId: User["id"];
 }
 
-type Return = CartProductCategory[];
+interface Return extends CartProductCategory {}
 
-export const getCartProductCategory = async ({ userId }: Props): Promise<Return> => {
-  const q = supabase.from("cart").select("*, product(*, category(*))").eq("userId", userId);
+export const getCartProductCategory = async ({ userId }: Props): Promise<Return[]> => {
+  const q = supabase.from("cart").select("*, product!inner(*, category!inner(*))").eq("userId", userId);
 
   const { data, error } = await q;
 

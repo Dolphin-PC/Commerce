@@ -1,20 +1,18 @@
 import { supabase } from "@/shared/config/@db/supabase.config";
-import { useQuery, useSuspenseInfiniteQuery } from "@tanstack/react-query";
+import { useQuery, useSuspenseInfiniteQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { Product, ProductCategory } from "../type/type";
 import { queryKey, staleTime } from "@/shared/consts/react-query";
 import { Category } from "@/features/category/model/type";
+import { PaginationReq, PaginationRes } from "@/shared/types/pagination";
 
 /**
  * @desc 제품 목록 조회 (카테고리 포함, 페이지네이션)
  */
 
 //* 추상
-interface Props {
+interface Props extends PaginationReq {
   sellerId?: Product["sellerId"];
   categoryId?: Category["id"];
-
-  pageNumber?: number;
-  pageSize?: number;
 
   order?: {
     column: "createdAt" | "price";
@@ -28,17 +26,13 @@ interface Props {
   } | null;
 }
 
-interface Return {
+interface Return extends PaginationRes {
   data: ProductCategory[];
-
-  /** 조회된 데이터의 개수와 pageSize를 비교하여 도출 */
-  hasNextPage: boolean;
-  nextPageNumber: number;
 }
 
 //* 구현
 const getProductListWithCategory = async ({ sellerId, categoryId, pageNumber = 0, pageSize = 10, order, filter }: Props): Promise<Return> => {
-  let q = supabase.from("product").select("*, category(*)").neq("isDelete", true);
+  let q = supabase.from("product").select("*, category!inner(*)", { count: "exact" }).neq("isDelete", true);
   q = q.range(pageNumber * pageSize, pageNumber * pageSize + pageSize - 1);
 
   // 조건 필터링
@@ -59,12 +53,14 @@ const getProductListWithCategory = async ({ sellerId, categoryId, pageNumber = 0
   else q = q.order("createdAt", { ascending: false });
   q.order("id", { ascending: false }); // 생성일자가 동일할 떄, 데이터가 겹치는 경우 방비
 
-  const { data, error } = await q;
+  const { data, error, count } = await q;
   if (error) throw error;
+  if (!count) throw "getProductListWithCategory::count is null";
 
   return {
-    data: data as ProductCategory[],
-    hasNextPage: data.length === pageSize,
+    data,
+    totalCount: count,
+    hasNextPage: count > (1 + pageNumber) * pageSize,
     nextPageNumber: pageNumber + 1,
   };
 };
@@ -85,6 +81,14 @@ export const useProductListCategoryInfiniteQuery = (props: Props) => {
 /** 목록 조회 */
 export const useProductListCategoryQuery = (props: Props) => {
   return useQuery({
+    queryKey: [queryKey.product, queryKey.list, props.categoryId],
+    queryFn: () => getProductListWithCategory({ ...props }),
+    staleTime: staleTime.product,
+  });
+};
+
+export const useProductListCategorySuspenseQuery = (props: Props) => {
+  return useSuspenseQuery({
     queryKey: [queryKey.product, queryKey.list, props.categoryId],
     queryFn: () => getProductListWithCategory({ ...props }),
     staleTime: staleTime.product,

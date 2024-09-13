@@ -1,5 +1,5 @@
 import { useAuthStore } from "@/features/@auth/store/auth.store";
-import { useCartProductCategoryQuery } from "@/features/cart/api/get_list-cart_product_category";
+import { useCartProductCategoryQuery } from "@/features/cart/api/get-list-cart-product-category";
 import Cart from "@/features/cart/ui/Cart";
 import Column from "@/shared/components/atoms/Column";
 import Row from "@/shared/components/atoms/Row";
@@ -38,11 +38,13 @@ const _CartPage = () => {
             <Column className="gap-3">
               {cartList.map((cart) => (
                 <Cart key={cart.id} cart={cart}>
-                  <Card>
+                  <Card className="relative">
                     <Row className="items-center justify-between mr-4">
                       <Link to={ROUTES.PRODUCTS_ID_(cart.productId)}>
                         <Cart.Product />
                       </Link>
+                      <Cart.OptionMenu />
+
                       <Checkbox id="all-carts" className="h-6 w-6" onCheckedChange={handleCheckedChange(cart)} checked={!!checkedCartList.find((e) => e.id === cart.id)} />
                     </Row>
                   </Card>

@@ -8,7 +8,7 @@ import { Checkbox } from "@/shared/components/ui/checkbox";
 import { Input } from "@/shared/components/ui/input";
 import MainLayout from "@/widgets/MainLayout";
 import { useNavigate, useParams } from "react-router-dom";
-import { useGetOrderDetailProductSuspenseQuery } from "../../features/order/api/get-order-detail-product";
+import { useGetOrderDetailProductSuspenseQuery } from "../../features/order/api/get-order_detail-product";
 import { usePaymentHook } from "../../widgets/hook/usePaymentHook";
 import { ROUTES } from "@/shared/consts/route.const";
 import { useMemo } from "react";

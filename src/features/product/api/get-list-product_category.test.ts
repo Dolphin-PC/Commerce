@@ -1,5 +1,5 @@
 import { queryWrapper, renderHook, waitFor } from "@/test/test-util";
-import { useProductListCategoryInfiniteQuery } from "./get_list-product_category";
+import { useProductListCategoryInfiniteQuery } from "./get-list-product-category";
 
 describe("제품 목록 조회 | 성공", async () => {
   it("기본 조회", async () => {

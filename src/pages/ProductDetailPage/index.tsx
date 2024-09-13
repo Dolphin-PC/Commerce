@@ -1,13 +1,15 @@
 import { useAuthStore } from "@/features/@auth/store/auth.store";
-import { useCartProductCategoryQuery } from "@/features/cart/api/get_list-cart_product_category";
+import { useCartProductCategoryQuery } from "@/features/cart/api/get-list-cart-product-category";
 import CartAddButton from "@/features/cart/ui/CartAddButton";
 import CartViewDrawer from "@/features/cart/ui/CartViewDrawer";
+import { useProductCategorySuspenseQuery } from "@/features/product/api/get-product-category";
 import { useProductQuantity } from "@/features/product/api/get-product-quantity";
-import { useProductCategorySuspenseQuery } from "@/features/product/api/get-product_category";
 import ProductImageCarousel from "@/features/product_image/ui/ProductImageCarousel";
+import BadgeRowLead from "@/shared/components/atoms/BadgeRowLead";
 import Column from "@/shared/components/atoms/Column";
 import Row from "@/shared/components/atoms/Row";
 import { H2, H3, H4, Large, T } from "@/shared/components/atoms/Typography";
+import Loading from "@/shared/components/molecules/Loading";
 import { Badge } from "@/shared/components/ui/badge";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/shared/components/ui/card";
@@ -15,13 +17,12 @@ import { Input } from "@/shared/components/ui/input";
 import { useScrollTop } from "@/shared/hooks/useScrollTop";
 import { convertStringToNumber } from "@/shared/lib/string";
 import MainLayout from "@/widgets/MainLayout";
-import { HeartIcon, Minus, Plus, ShoppingCartIcon } from "lucide-react";
-import { Fragment, useLayoutEffect, useMemo, useState } from "react";
+import { Minus, Plus, ShoppingCartIcon } from "lucide-react";
+import { Fragment, Suspense, useLayoutEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ProductDetailPageHelmet } from "../Helmets";
 import OrderDialog from "./ui/OrderDialog";
 import RecommendProductList from "./ui/RecommendProductList";
-import BadgeRowLead from "@/shared/components/atoms/BadgeRowLead";
 
 /**
  * @desc 상품 상세 페이지
@@ -49,8 +50,6 @@ const _ProductDetailPage = () => {
     if (quantity.quantity < newCount) newCount = quantity.quantity;
     setProductCount(newCount);
   };
-
-  const handleLike = () => {};
 
   // 추천 상품에 의해 페이지 이동시 제품 수량 초기화
   useLayoutEffect(() => {
@@ -83,9 +82,6 @@ const _ProductDetailPage = () => {
                     }
                   />
                 )}
-                <Button variant="ghost" size="icon" onClick={handleLike}>
-                  <HeartIcon />
-                </Button>
               </Column>
             </CardHeader>
 
@@ -101,7 +97,7 @@ const _ProductDetailPage = () => {
               <Column className="w-full gap-3">
                 <hr />
 
-                {quantity && quantity.quantity > 0 ? (
+                {quantity && quantity.quantity > 0 && (
                   <Fragment>
                     <Row>
                       <Button size="icon" onClick={() => handleChangeProductCount(productCount - 1)} disabled={productCount === 0}>
@@ -128,16 +124,20 @@ const _ProductDetailPage = () => {
                       {!isProductInCart && <CartAddButton product={product} productCount={productCount} />}
                     </Column>
                   </Fragment>
-                ) : (
-                  <T.Blockquote>상품이 품절되었어요.</T.Blockquote>
                 )}
+
+                {quantity && quantity.quantity == 0 && <T.Blockquote>상품이 품절되었어요.</T.Blockquote>}
               </Column>
             </CardFooter>
           </Card>
         </Row>
       </Column>
       {/* 추천 상품 */}
-      {product.category && <RecommendProductList id={productId} category={product.category} />}
+      {product.category && (
+        <Suspense fallback={<Loading />}>
+          <RecommendProductList id={productId} category={product.category} />
+        </Suspense>
+      )}
     </Column>
   );
 };

@@ -5,7 +5,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/shared/components/ui/
 import { cn } from "@/shared/lib/shadcn-util";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useCategoryListQuery } from "../api/get_list-category";
+import { useCategoryListQuery } from "../api/get-list-category";
 import { Category } from "../model/type";
 
 interface Props {

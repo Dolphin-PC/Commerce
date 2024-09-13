@@ -5,7 +5,7 @@ import { P } from "@/shared/components/atoms/Typography";
 import { Badge } from "@/shared/components/ui/badge";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/shared/components/ui/card";
 import { useQueryClient } from "@tanstack/react-query";
-import { productCategoryPrefetchOptions } from "../api/get-product_category";
+import { productCategoryPrefetchOptions } from "../api/get-product-category";
 import { Product } from "../type/type";
 import { Category } from "@/features/category/model/type";
 

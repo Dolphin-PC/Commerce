@@ -1,18 +1,17 @@
-import { useProductListCategoryInfiniteQuery } from "@/features/product/api/get_list-product_category";
+import { useProductListCategoryInfiniteQuery } from "@/features/product/api/get-list-product-category";
 import ProductCard from "@/features/product/ui/ProductCard";
 import Row from "@/shared/components/atoms/Row";
 import { GridWindowLayout, ListWindowLayout } from "@/shared/components/templates/WindowLayout";
-import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/shared/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/shared/components/ui/tabs";
 import { ROUTES } from "@/shared/consts/route.const";
 import MainLayout from "@/widgets/MainLayout";
-import { useSearchDrawerStore } from "@/widgets/ProductSearchDrawer/store/useSearchDrawerStore";
 import { useSearchStore } from "@/widgets/ProductSearchDrawer/store/useSearchStore";
-import { LayoutGrid, LayoutList, SlidersHorizontal } from "lucide-react";
-import { useState } from "react";
+import { LayoutGrid, LayoutList } from "lucide-react";
 import { Link } from "react-router-dom";
 import { ProductPageHelmet } from "../Helmets";
+import { useViewStore } from "./store/useViewStore";
+import SearchFilter from "./ui/SearchFilter";
 
 /**
  * @desc 상품 목록 페이지
@@ -20,10 +19,8 @@ import { ProductPageHelmet } from "../Helmets";
  *
  */
 const _ProductPage = () => {
-  const [orderColumn, setOrderColumn] = useState<"createdAt" | "price">("createdAt");
-  const [viewStyle, setViewStyle] = useState<"grid" | "list">("grid");
+  const { orderColumn, setOrderColumn, viewStyle, setViewStyle } = useViewStore();
 
-  const drawerStore = useSearchDrawerStore((state) => ({ setIsOpen: state.setIsOpen }));
   const searchStore = useSearchStore((state) => ({ searchFilter: state.getSearch() }));
 
   const product = useProductListCategoryInfiniteQuery({
@@ -50,29 +47,26 @@ const _ProductPage = () => {
     <Card className="h-full">
       <CardHeader>
         <Row className="justify-between">
-          <Tabs defaultValue={viewStyle} onValueChange={handleViewStyleChange}>
-            <TabsList>
-              <TabsTrigger value="grid">
-                <LayoutGrid />
-              </TabsTrigger>
-              <TabsTrigger value="list">
-                <LayoutList />
-              </TabsTrigger>
-            </TabsList>
-          </Tabs>
-
           <Row className="gap-3">
+            <Tabs defaultValue={viewStyle} onValueChange={handleViewStyleChange}>
+              <TabsList>
+                <TabsTrigger value="grid">
+                  <LayoutGrid />
+                </TabsTrigger>
+                <TabsTrigger value="list">
+                  <LayoutList />
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
             <Tabs defaultValue={orderColumn} onValueChange={handleFilterChange}>
               <TabsList>
                 <TabsTrigger value="createdAt">최신순</TabsTrigger>
                 <TabsTrigger value="price">가격순</TabsTrigger>
               </TabsList>
             </Tabs>
-
-            <Button size={"icon"} onClick={() => drawerStore.setIsOpen(true)}>
-              <SlidersHorizontal size={20} />
-            </Button>
           </Row>
+
+          <SearchFilter />
         </Row>
       </CardHeader>
 
@@ -80,7 +74,7 @@ const _ProductPage = () => {
         {/* grid style view */}
         {viewStyle === "grid" && product.data && (
           <GridWindowLayout
-            columnCount={3}
+            columnCount={4}
             rowHeight={480}
             childrens={product.data.pages.flatMap((page) =>
               page.data.map((product) => {

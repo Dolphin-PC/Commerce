@@ -210,7 +210,7 @@ export type Database = {
           name: string;
           price: number;
           quantity: number;
-          sellerId: string | null;
+          sellerId: string;
           updatedAt: string;
         };
         Insert: {
@@ -224,7 +224,7 @@ export type Database = {
           name: string;
           price: number;
           quantity: number;
-          sellerId?: string | null;
+          sellerId: string;
           updatedAt?: string;
         };
         Update: {
@@ -238,7 +238,7 @@ export type Database = {
           name?: string;
           price?: number;
           quantity?: number;
-          sellerId?: string | null;
+          sellerId?: string;
           updatedAt?: string;
         };
         Relationships: [

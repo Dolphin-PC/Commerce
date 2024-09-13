@@ -21,7 +21,7 @@ const getProductCategory = async ({ id, sellerId }: Props): Promise<Return> => {
     id, name, desc, sellerId,
     price, discountType, discountValue,
     createdAt, updatedAt, isDelete,
-    categoryId, category(*)
+    categoryId, category!inner(*)
   `);
 
   q = q.eq("id", id);

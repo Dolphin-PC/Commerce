@@ -49,6 +49,15 @@ const ProductSearchDrawer = () => {
     toast({ title: "검색 조건이 초기화 되었습니다." });
   };
 
+  const onDrawerOpenChange = (open: boolean) => {
+    searchStore.setSearchText(drawerStore.searchText);
+    searchStore.setCategoryIds(drawerStore.categoryIds);
+    searchStore.setPriceRange(isCheckPrice ? drawerStore.priceRange : null);
+
+    searchStore.setIsEnable(true);
+    drawerStore.setIsOpen(open);
+  };
+
   useEffect(() => {
     if (searchStore.isEnable && drawerStore.isOpen) {
       drawerStore.setSearchText(searchStore.searchText);
@@ -58,7 +67,7 @@ const ProductSearchDrawer = () => {
   }, [drawerStore.isOpen]);
 
   return (
-    <Drawer direction="bottom" handleOnly open={drawerStore.isOpen} onOpenChange={drawerStore.setIsOpen}>
+    <Drawer direction="bottom" handleOnly open={drawerStore.isOpen} onOpenChange={onDrawerOpenChange}>
       <DrawerTrigger>
         <div className="w-[300px]">
           <SearchInput size={"md"} value={drawerStore.searchText} onChange={handleChangeSearchText} />

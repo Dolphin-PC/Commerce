@@ -1,6 +1,6 @@
 import { useAuthStore } from "@/features/@auth/store/auth.store";
-import { useCartListQuery } from "@/features/cart/api/get_list-cart";
-import { useGetOrderListQuery } from "@/features/order/api/get-order_list";
+import { useCartListQuery } from "@/features/cart/api/get-list-cart";
+import { useGetOrderListQuery } from "@/features/order/api/get-list-order";
 import Column from "@/shared/components/atoms/Column";
 import Row from "@/shared/components/atoms/Row";
 import { H3, H4, Muted } from "@/shared/components/atoms/Typography";
