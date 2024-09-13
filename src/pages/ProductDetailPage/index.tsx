@@ -5,9 +5,11 @@ import CartViewDrawer from "@/features/cart/ui/CartViewDrawer";
 import { useProductQuantity } from "@/features/product/api/get-product-quantity";
 import { useProductCategorySuspenseQuery } from "@/features/product/api/get-product_category";
 import ProductImageCarousel from "@/features/product_image/ui/ProductImageCarousel";
+import BadgeRowLead from "@/shared/components/atoms/BadgeRowLead";
 import Column from "@/shared/components/atoms/Column";
 import Row from "@/shared/components/atoms/Row";
 import { H2, H3, H4, Large, T } from "@/shared/components/atoms/Typography";
+import Loading from "@/shared/components/molecules/Loading";
 import { Badge } from "@/shared/components/ui/badge";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/shared/components/ui/card";
@@ -15,14 +17,12 @@ import { Input } from "@/shared/components/ui/input";
 import { useScrollTop } from "@/shared/hooks/useScrollTop";
 import { convertStringToNumber } from "@/shared/lib/string";
 import MainLayout from "@/widgets/MainLayout";
-import { HeartIcon, Minus, Plus, ShoppingCartIcon } from "lucide-react";
+import { Minus, Plus, ShoppingCartIcon } from "lucide-react";
 import { Fragment, Suspense, useLayoutEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ProductDetailPageHelmet } from "../Helmets";
 import OrderDialog from "./ui/OrderDialog";
 import RecommendProductList from "./ui/RecommendProductList";
-import BadgeRowLead from "@/shared/components/atoms/BadgeRowLead";
-import Loading from "@/shared/components/molecules/Loading";
 
 /**
  * @desc 상품 상세 페이지

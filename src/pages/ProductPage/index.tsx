@@ -2,18 +2,16 @@ import { useProductListCategoryInfiniteQuery } from "@/features/product/api/get_
 import ProductCard from "@/features/product/ui/ProductCard";
 import Row from "@/shared/components/atoms/Row";
 import { GridWindowLayout, ListWindowLayout } from "@/shared/components/templates/WindowLayout";
-import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/shared/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/shared/components/ui/tabs";
 import { ROUTES } from "@/shared/consts/route.const";
 import MainLayout from "@/widgets/MainLayout";
-import { useSearchDrawerStore } from "@/widgets/ProductSearchDrawer/store/useSearchDrawerStore";
 import { useSearchStore } from "@/widgets/ProductSearchDrawer/store/useSearchStore";
-import { LayoutGrid, LayoutList, SlidersHorizontal } from "lucide-react";
+import { LayoutGrid, LayoutList } from "lucide-react";
 import { Link } from "react-router-dom";
 import { ProductPageHelmet } from "../Helmets";
 import { useViewStore } from "./store/useViewStore";
-import { T } from "@/shared/components/atoms/Typography";
+import SearchFilter from "./ui/SearchFilter";
 
 /**
  * @desc 상품 목록 페이지
@@ -23,7 +21,6 @@ import { T } from "@/shared/components/atoms/Typography";
 const _ProductPage = () => {
   const { orderColumn, setOrderColumn, viewStyle, setViewStyle } = useViewStore();
 
-  const drawerStore = useSearchDrawerStore((state) => ({ setIsOpen: state.setIsOpen }));
   const searchStore = useSearchStore((state) => ({ searchFilter: state.getSearch() }));
 
   const product = useProductListCategoryInfiniteQuery({
@@ -69,14 +66,7 @@ const _ProductPage = () => {
             </Tabs>
           </Row>
 
-          <Row>
-            {searchStore.searchFilter?.categoryIds.map((categoryId) => (
-              <T.Large>{categoryId}</T.Large>
-            ))}
-            <Button size={"icon"} onClick={() => drawerStore.setIsOpen(true)}>
-              <SlidersHorizontal size={20} />
-            </Button>
-          </Row>
+          <SearchFilter />
         </Row>
       </CardHeader>
 
