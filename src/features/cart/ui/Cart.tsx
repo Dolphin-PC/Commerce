@@ -1,11 +1,17 @@
+import ProductCardImage from "@/features/product_image/ui/ProductCardImage";
 import Column from "@/shared/components/atoms/Column";
 import Row from "@/shared/components/atoms/Row";
 import { P } from "@/shared/components/atoms/Typography";
 import { Badge } from "@/shared/components/ui/badge";
+import { Button } from "@/shared/components/ui/button";
 import { CardContent, CardFooter, CardHeader, CardTitle } from "@/shared/components/ui/card";
-import { CartProductCategory } from "../type";
-import ProductCardImage from "@/features/product_image/ui/ProductCardImage";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/shared/components/ui/dropdown-menu";
+import { CircleEllipsis } from "lucide-react";
 import { createContext, useContext } from "react";
+import { useCartProductQuantity } from "../hook/useCartProductQuantity";
+import { CartProductCategory } from "../type";
+import CartDeleteButton from "./CartDeleteButton";
+import CartUpdateButton from "./CartUpdateButton";
 
 const CartProductCardContext = createContext<{ cart: CartProductCategory } | null>(null);
 
@@ -24,7 +30,9 @@ const Cart = ({ cart, children }: CartProps) => {
   return <CartProductCardContext.Provider value={{ cart }}>{children}</CartProductCardContext.Provider>;
 };
 
-// 장바구니 > 상품
+/**
+ * 장바구니 > 상품
+ */
 const Product = () => {
   const context = useContext(CartProductCardContext);
   if (context === null) throw new Error("Cart.Product must be used within Cart");
@@ -32,7 +40,8 @@ const Product = () => {
   const { cart } = context;
   const { product } = cart;
 
-  if (product === null) return;
+  const { isLoading, enable, remainQuantity } = useCartProductQuantity({ cart, product });
+
   return (
     <Row className="m-4">
       <CardHeader>
@@ -59,6 +68,14 @@ const Product = () => {
               <Badge size="small">개수</Badge>
               <P>{cart.quantity.toLocaleString("ko-KR")}개</P>
             </Row>
+            {!isLoading && !enable && (
+              <Row className="gap-2 items-center">
+                <Badge size="small" variant="destructive">
+                  재고부족(남은수량)
+                </Badge>
+                <P>{remainQuantity.toLocaleString("ko-KR")}개</P>
+              </Row>
+            )}
           </Row>
         </CardFooter>
       </Column>
@@ -67,5 +84,38 @@ const Product = () => {
 };
 Product.displayName = "Cart.Product";
 
+/**
+ * 장바구니 > 옵션 드롭다운 메뉴
+ */
+const OptionMenu = () => {
+  const context = useContext(CartProductCardContext);
+  if (context === null) throw new Error("Cart.Product must be used within Cart");
+
+  const { cart } = context;
+  return (
+    <div className="absolute top-0 left-0">
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant={"ghost"} size={"icon"}>
+            <CircleEllipsis />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuLabel>장바구니</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+
+          {/* 장바구니 삭제 */}
+          <CartDeleteButton id={cart.id} isNeedConfirm />
+
+          {/* 장바구니 수량 변경 */}
+          <CartUpdateButton id={cart.id} />
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
+  );
+};
+OptionMenu.displayName = "Cart.OptionMenu";
+
 Cart.Product = Product;
+Cart.OptionMenu = OptionMenu;
 export default Cart;

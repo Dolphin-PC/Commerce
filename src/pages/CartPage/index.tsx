@@ -38,11 +38,13 @@ const _CartPage = () => {
             <Column className="gap-3">
               {cartList.map((cart) => (
                 <Cart key={cart.id} cart={cart}>
-                  <Card>
+                  <Card className="relative">
                     <Row className="items-center justify-between mr-4">
                       <Link to={ROUTES.PRODUCTS_ID_(cart.productId)}>
                         <Cart.Product />
                       </Link>
+                      <Cart.OptionMenu />
+
                       <Checkbox id="all-carts" className="h-6 w-6" onCheckedChange={handleCheckedChange(cart)} checked={!!checkedCartList.find((e) => e.id === cart.id)} />
                     </Row>
                   </Card>

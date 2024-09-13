@@ -3,7 +3,6 @@ import { useQuery, useSuspenseInfiniteQuery, useSuspenseQuery } from "@tanstack/
 import { Product, ProductCategory } from "../type/type";
 import { queryKey, staleTime } from "@/shared/consts/react-query";
 import { Category } from "@/features/category/model/type";
-import { delay } from "@/shared/lib/delay";
 
 /**
  * @desc 제품 목록 조회 (카테고리 포함, 페이지네이션)

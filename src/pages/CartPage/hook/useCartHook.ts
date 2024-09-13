@@ -63,12 +63,16 @@ export const useCartHook = (): Return => {
       return;
     }
 
-    // 주문::생성
-    const newOrder = await handleNewOrderByCart(checkedCartList);
+    try {
+      // 주문::생성
+      const newOrder = await handleNewOrderByCart(checkedCartList);
 
-    await deleteCartOnNewOrder(checkedCartList);
+      await deleteCartOnNewOrder(checkedCartList);
 
-    navigate(ROUTES.ORDERS_ID_(String(newOrder.id)));
+      navigate(ROUTES.ORDERS_ID_(String(newOrder.id)));
+    } catch (err) {
+      toast({ title: "장바구니 구매에 실패했습니다." });
+    }
   };
 
   const deleteCartOnNewOrder = async (cartList: CartProductCategory[]) => {
