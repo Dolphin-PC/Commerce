@@ -16,12 +16,13 @@ import { useScrollTop } from "@/shared/hooks/useScrollTop";
 import { convertStringToNumber } from "@/shared/lib/string";
 import MainLayout from "@/widgets/MainLayout";
 import { HeartIcon, Minus, Plus, ShoppingCartIcon } from "lucide-react";
-import { Fragment, useLayoutEffect, useMemo, useState } from "react";
+import { Fragment, Suspense, useLayoutEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ProductDetailPageHelmet } from "../Helmets";
 import OrderDialog from "./ui/OrderDialog";
 import RecommendProductList from "./ui/RecommendProductList";
 import BadgeRowLead from "@/shared/components/atoms/BadgeRowLead";
+import Loading from "@/shared/components/molecules/Loading";
 
 /**
  * @desc 상품 상세 페이지
@@ -49,8 +50,6 @@ const _ProductDetailPage = () => {
     if (quantity.quantity < newCount) newCount = quantity.quantity;
     setProductCount(newCount);
   };
-
-  const handleLike = () => {};
 
   // 추천 상품에 의해 페이지 이동시 제품 수량 초기화
   useLayoutEffect(() => {
@@ -83,9 +82,6 @@ const _ProductDetailPage = () => {
                     }
                   />
                 )}
-                <Button variant="ghost" size="icon" onClick={handleLike}>
-                  <HeartIcon />
-                </Button>
               </Column>
             </CardHeader>
 
@@ -137,7 +133,11 @@ const _ProductDetailPage = () => {
         </Row>
       </Column>
       {/* 추천 상품 */}
-      {product.category && <RecommendProductList id={productId} category={product.category} />}
+      {product.category && (
+        <Suspense fallback={<Loading />}>
+          <RecommendProductList id={productId} category={product.category} />
+        </Suspense>
+      )}
     </Column>
   );
 };

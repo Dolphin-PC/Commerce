@@ -1,8 +1,9 @@
 import { supabase } from "@/shared/config/@db/supabase.config";
-import { useQuery, useSuspenseInfiniteQuery } from "@tanstack/react-query";
+import { useQuery, useSuspenseInfiniteQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { Product, ProductCategory } from "../type/type";
 import { queryKey, staleTime } from "@/shared/consts/react-query";
 import { Category } from "@/features/category/model/type";
+import { delay } from "@/shared/lib/delay";
 
 /**
  * @desc 제품 목록 조회 (카테고리 포함, 페이지네이션)
@@ -85,6 +86,14 @@ export const useProductListCategoryInfiniteQuery = (props: Props) => {
 /** 목록 조회 */
 export const useProductListCategoryQuery = (props: Props) => {
   return useQuery({
+    queryKey: [queryKey.product, queryKey.list, props.categoryId],
+    queryFn: () => getProductListWithCategory({ ...props }),
+    staleTime: staleTime.product,
+  });
+};
+
+export const useProductListCategorySuspenseQuery = (props: Props) => {
+  return useSuspenseQuery({
     queryKey: [queryKey.product, queryKey.list, props.categoryId],
     queryFn: () => getProductListWithCategory({ ...props }),
     staleTime: staleTime.product,

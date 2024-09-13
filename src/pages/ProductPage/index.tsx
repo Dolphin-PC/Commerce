@@ -13,6 +13,7 @@ import { LayoutGrid, LayoutList, SlidersHorizontal } from "lucide-react";
 import { Link } from "react-router-dom";
 import { ProductPageHelmet } from "../Helmets";
 import { useViewStore } from "./store/useViewStore";
+import { T } from "@/shared/components/atoms/Typography";
 
 /**
  * @desc 상품 목록 페이지
@@ -49,25 +50,29 @@ const _ProductPage = () => {
     <Card className="h-full">
       <CardHeader>
         <Row className="justify-between">
-          <Tabs defaultValue={viewStyle} onValueChange={handleViewStyleChange}>
-            <TabsList>
-              <TabsTrigger value="grid">
-                <LayoutGrid />
-              </TabsTrigger>
-              <TabsTrigger value="list">
-                <LayoutList />
-              </TabsTrigger>
-            </TabsList>
-          </Tabs>
-
           <Row className="gap-3">
+            <Tabs defaultValue={viewStyle} onValueChange={handleViewStyleChange}>
+              <TabsList>
+                <TabsTrigger value="grid">
+                  <LayoutGrid />
+                </TabsTrigger>
+                <TabsTrigger value="list">
+                  <LayoutList />
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
             <Tabs defaultValue={orderColumn} onValueChange={handleFilterChange}>
               <TabsList>
                 <TabsTrigger value="createdAt">최신순</TabsTrigger>
                 <TabsTrigger value="price">가격순</TabsTrigger>
               </TabsList>
             </Tabs>
+          </Row>
 
+          <Row>
+            {searchStore.searchFilter?.categoryIds.map((categoryId) => (
+              <T.Large>{categoryId}</T.Large>
+            ))}
             <Button size={"icon"} onClick={() => drawerStore.setIsOpen(true)}>
               <SlidersHorizontal size={20} />
             </Button>
