@@ -12,7 +12,6 @@ interface Props {
   totalAmount: PaymentRequest["totalAmount"];
   payMethod: PayMethod;
   channelType: ChannelType;
-  redirectUrl: PaymentRequest["redirectUrl"];
 }
 
 /**
@@ -34,7 +33,7 @@ interface Return extends PaymentResponse {
 /**
  * @desc 아임포트 결제 요청
  */
-export const requestPayment = async ({ orderName, totalAmount, payMethod, channelType, redirectUrl }: Props): Promise<Return> => {
+export const requestPayment = async ({ orderName, totalAmount, payMethod, channelType }: Props): Promise<Return> => {
   if (totalAmount <= 0) throw new Error("결제 금액은 0원 이상이어야 합니다.");
   const reqPaymentId = `payment-${crypto.randomUUID()}`;
 
@@ -48,7 +47,6 @@ export const requestPayment = async ({ orderName, totalAmount, payMethod, channe
     totalAmount,
     currency: "CURRENCY_KRW",
     payMethod,
-    redirectUrl,
   });
 
   if (response === undefined) throw new Error("결제 응답처리에 실패했습니다.");

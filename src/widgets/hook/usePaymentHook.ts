@@ -66,7 +66,6 @@ export const usePaymentHook = (): Return => {
       totalAmount,
       channelType: "TOSS",
       payMethod: "CARD",
-      redirectUrl: `${window.location.origin}${ROUTES.ORDERS_REDIRECT}`,
     }).catch((e) => {
       throw e;
     });
