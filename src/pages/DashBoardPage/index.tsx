@@ -1,5 +1,5 @@
 import { useAuthStore } from "@/features/@auth/store/auth.store";
-import { useGetListSellerOrderDetailQuery } from "@/features/order_detail/api/get-list-seller-order_detail";
+import { useListSellerOrderDetailQuery } from "@/features/order_detail/api/get-list-seller-order_detail";
 import Column from "@/shared/components/atoms/Column";
 import Row from "@/shared/components/atoms/Row";
 import { T } from "@/shared/components/atoms/Typography";
@@ -9,14 +9,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui
 import { ROUTES } from "@/shared/consts/route.const";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
+import OrderDetailTable from "../../features/order_detail/ui/OrderDetailTable";
 import { DashBoardPageHelmet } from "../Helmets";
 import { useOrderDetailSummaryQuery } from "./api/get-order_detail-summary";
-import OrderDetailTable from "./ui/OrderDetailTable";
 
 const _DashBoardPage = () => {
   const user = useAuthStore((state) => state.getUser());
-  const { data: waitOrderDetails } = useGetListSellerOrderDetailQuery({ sellerId: user.id, orderStatus: "PAY_COMPLETE_CONFIRM", orderDetailStatus: "ORDER_COMPLETE" });
-  const { data: recentOrderDetails } = useGetListSellerOrderDetailQuery({ sellerId: user.id, orderStatus: null, orderDetailStatus: null });
+  const { data: waitOrderDetails } = useListSellerOrderDetailQuery({ sellerId: user.id, orderStatus: "PAY_COMPLETE_CONFIRM", orderDetailStatus: "ORDER_COMPLETE" });
+  const { data: recentOrderDetails } = useListSellerOrderDetailQuery({ sellerId: user.id, orderStatus: null, orderDetailStatus: null });
 
   const { data: summary } = useOrderDetailSummaryQuery({ sellerId: user.id });
   const totalAmount = useMemo(() => {
@@ -52,7 +52,7 @@ const _DashBoardPage = () => {
               <Link to={ROUTES.DASHBOARD__ORDERS}>전체 주문내역</Link>
             </Button>
           </CardHeader>
-          <CardContent>{recentOrderDetails && <OrderDetailTable orderDetails={recentOrderDetails} />}</CardContent>
+          <CardContent>{recentOrderDetails && <OrderDetailTable orderDetails={recentOrderDetails.data} />}</CardContent>
         </Card>
 
         {/* 대기주문 내역, 테이블 */}
@@ -63,7 +63,7 @@ const _DashBoardPage = () => {
               <Link to={ROUTES.DASHBOARD__ORDERS}>전체 주문내역</Link>
             </Button>
           </CardHeader>
-          <CardContent>{waitOrderDetails && <OrderDetailTable orderDetails={waitOrderDetails} />}</CardContent>
+          <CardContent>{waitOrderDetails && <OrderDetailTable orderDetails={waitOrderDetails.data} />}</CardContent>
         </Card>
       </Row>
     </Column>
