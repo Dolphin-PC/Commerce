@@ -1,5 +1,5 @@
 import { Category } from "@/features/category/model/type";
-import { useProductListCategoryQuery } from "@/features/product/api/get_list-product_category";
+import { useProductListCategoryQuery } from "@/features/product/api/get-list-product-category";
 import ProductCard from "@/features/product/ui/ProductCard";
 import Grid from "@/shared/components/atoms/Grid";
 import Row from "@/shared/components/atoms/Row";

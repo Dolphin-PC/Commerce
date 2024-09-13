@@ -1,5 +1,5 @@
 import { useAuthStore } from "@/features/@auth/store/auth.store";
-import { useProductListCategoryInfiniteQuery } from "@/features/product/api/get_list-product_category";
+import { useProductListCategoryInfiniteQuery } from "@/features/product/api/get-list-product-category";
 import DashboardProductCard from "@/features/product/ui/DashboardProductCard";
 import Grid from "@/shared/components/atoms/Grid";
 import Row from "@/shared/components/atoms/Row";

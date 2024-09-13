@@ -1,5 +1,5 @@
 import { Category } from "@/features/category/model/type";
-import { useProductListCategorySuspenseQuery } from "@/features/product/api/get_list-product_category";
+import { useProductListCategorySuspenseQuery } from "@/features/product/api/get-list-product-category";
 import { Product } from "@/features/product/type/type";
 import ProductCard from "@/features/product/ui/ProductCard";
 import Column from "@/shared/components/atoms/Column";

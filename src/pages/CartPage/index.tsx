@@ -1,5 +1,5 @@
 import { useAuthStore } from "@/features/@auth/store/auth.store";
-import { useCartProductCategoryQuery } from "@/features/cart/api/get_list-cart_product_category";
+import { useCartProductCategoryQuery } from "@/features/cart/api/get-list-cart-product-category";
 import Cart from "@/features/cart/ui/Cart";
 import Column from "@/shared/components/atoms/Column";
 import Row from "@/shared/components/atoms/Row";

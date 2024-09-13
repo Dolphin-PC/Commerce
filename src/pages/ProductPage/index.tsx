@@ -1,4 +1,4 @@
-import { useProductListCategoryInfiniteQuery } from "@/features/product/api/get_list-product_category";
+import { useProductListCategoryInfiniteQuery } from "@/features/product/api/get-list-product-category";
 import ProductCard from "@/features/product/ui/ProductCard";
 import Row from "@/shared/components/atoms/Row";
 import { GridWindowLayout, ListWindowLayout } from "@/shared/components/templates/WindowLayout";

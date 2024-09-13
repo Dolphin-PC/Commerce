@@ -23,7 +23,7 @@ interface Return extends OrderDetail {
 }
 
 const getListSellerOrderDetail = async ({ sellerId, orderDetailStatus, orderStatus }: Props): Promise<Return[]> => {
-  const q = supabase
+  let q = supabase
     .from("order_detail")
     .select(
       `
@@ -37,8 +37,8 @@ const getListSellerOrderDetail = async ({ sellerId, orderDetailStatus, orderStat
     )
     .eq("product.sellerId", sellerId);
 
-  if (orderStatus) q.eq("order.status", orderStatus);
-  if (orderDetailStatus) q.eq("status", orderDetailStatus);
+  if (orderStatus) q = q.eq("order.status", orderStatus);
+  if (orderDetailStatus) q = q.eq("status", orderDetailStatus);
 
   const { data, error } = await q.order("id");
   if (error) throw error;
