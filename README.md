@@ -1,8 +1,8 @@
 # Banana Store
 
-> 프로젝트 회고문서 : https://dolphin-pc.notion.site/14a2ffc42d5d492da5cdb5b5c44fdc1e?v=1089870838e380b1861b000cc6e8857f&pvs=4
+> [🔗 프로젝트 회고문서](https://dolphin-pc.notion.site/14a2ffc42d5d492da5cdb5b5c44fdc1e?v=1089870838e380b1861b000cc6e8857f&pvs=4)
 
-> 프로젝트 Issues : https://github.com/Dolphin-PC/Commerce/issues?q=is%3Aissue+is%3Aclosed
+> [🔗 프로젝트 Issues](https://github.com/Dolphin-PC/Commerce/issues?q=is%3Aissue+is%3Aclosed)
 
 ## 📌 프로젝트 소개
 
@@ -26,80 +26,8 @@
 
 ### 🔨 아키텍처
 
-#### Database
-
-- 크게 `user`, `product`, `order`, `pay_history` 가 있습니다.
-  ![DB](./docs/DB.png)
-
-#### FE Folder구조
-
-- FSD를 기반으로 `app > widgets > pages > features > shared` 순으로 참초할 수 있는 계층을 나누었습니다.
-  (왼쪽에서 오른쪽은 참조가능하나, 오른쪽에서 왼쪽은 참조가 불가합니다.)
-
-  - **app** : 어디에도 재사용되지 않습니다. 주로 앱 설정과 관련된 파일입니다. (ex. Router)
-  - **widgets** : 특정 feature기능들의 조합으로 만들어진 components가 위치합니다. (Header)
-  - **pages** : 화면단위로 나눈 컴포넌트입니다.
-  - **features** : 도메인 단위로 나눈 컴포넌트입니다. (@가 붙은 폴더는 DB와 관련되지 않습니다.)
-  - **shared** : 어디에도 종속되지 않는 컴포넌트로, 재사용성이 가장 높습니다.
-
-  <details>
-  <summary>폴더구조 펼치기</summary>
-
-  ```
-  📦src
-  ┣ 📂app
-  ┃ ┣ 📂Common
-  ┃ ┣ 📂providers
-  ┃ ┣ 📂routers
-  ┃ ┣ 📜App.tsx
-  ┃ ┣ 📜index.css
-  ┃ ┗ 📜main.tsx
-  ┣ 📂features
-  ┃ ┣ 📂@auth
-  ┃ ┣ 📂@portOne
-  ┃ ┣ 📂@storage
-  ┃ ┣ 📂cart
-  ┃ ┣ 📂category
-  ┃ ┣ 📂order
-  ┃ ┣ 📂order_detail
-  ┃ ┣ 📂pay_history
-  ┃ ┣ 📂product
-  ┃ ┣ 📂product_image
-  ┃ ┣ 📂refund_history
-  ┃ ┗ 📂user
-  ┣ 📂pages
-  ┃ ┣ 📂CartPage
-  ┃ ┣ 📂DashBoardPage
-  ┃ ┣ 📂DashboardOrderDetailPage
-  ┃ ┣ 📂DashboardOrderPage
-  ┃ ┣ 📂DashboardProductDetailPage
-  ┃ ┣ 📂DashboardProductEditPage
-  ┃ ┣ 📂DashboardProductNewPage
-  ┃ ┣ 📂DashboardProductPage
-  ┃ ┣ 📂HomePage
-  ┃ ┣ 📂MyOrderDetailPage
-  ┃ ┣ 📂MyOrderPage
-  ┃ ┣ 📂MyPage
-  ┃ ┣ 📂OrderPage
-  ┃ ┣ 📂OrderRedirectPage
-  ┃ ┣ 📂ProductDetailPage
-  ┃ ┣ 📂ProductPage
-  ┃ ┣ 📂SignInPage
-  ┃ ┣ 📂SignupOAuthPage
-  ┃ ┣ 📂SignupPage
-  ┃ ┗ 📜Helmets.tsx
-  ┣ 📂shared
-  ┃ ┣ 📂assets
-  ┃ ┣ 📂components
-  ┃ ┣ 📂config
-  ┃ ┣ 📂consts
-  ┃ ┣ 📂hooks
-  ┃ ┣ 📂lib
-  ┃ ┗ 📂types
-  ┣ 📂widgets
-  ```
-
-    </details>
+#### [📄 Database ERD](https://github.com/Dolphin-PC/Commerce/wiki/DB,-ERD)
+#### [📄 FE Folder구조](https://github.com/Dolphin-PC/Commerce/wiki/FE%ED%8F%B4%EB%8D%94-%EA%B5%AC%EC%A1%B0-(FSD))
 
 ## 🎯 서비스 기능
 
@@ -149,7 +77,7 @@ sequenceDiagram
     end
 ```
 
-<img src="./docs/아임포트 상품 결제.gif"/>
+<img src="./docs/아임포트 상품 결제.gif" style="width:300px"/>
 
 - 아임포트 결제 완료시, 웹사이트에서 redirect가 되지 않는 문제점이 있었습니다. [💥 아임포트 redirectUrl](https://dolphin-pc.notion.site/redirectUrl-5bb15243d15340ae9710ddf9b95cd734?pvs=4)
 
@@ -163,22 +91,17 @@ sequenceDiagram
 
 - 상품 이미지가 많은 이커머스 사이트 특성을 고려하여, 이미지 사이즈를 감소하여 로딩 속도를 개선했습니다.
 - 상품 목록화면의 경우, 이미지 thumnail을 적용해 **이미지 사이즈를 50% 감소**시켰습니다. (157KB -> 64.3KB)
-- 판매자가 상품을 등록할 때, 이미지를 변환&Resizing하여 업로드합니다. [📝 이미지 최적화 2. Image Resize](https://dolphin-pc.notion.site/2-Image-Resize-1eafb2f29fa5431383f5c51f38c6e506?pvs=4)
-<div style="display:flex;">
-  <img src="./docs/이미지 썸네일.png" style="width:50%">
-  <img src="./docs/이미지 상세.png" style="width:50%">
-</div>
+- 판매자가 상품을 등록할 때, 이미지를 변환&Resizing하여 업로드합니다.
+- [📝 이미지 최적화 2. Image Resize](https://dolphin-pc.notion.site/2-Image-Resize-1eafb2f29fa5431383f5c51f38c6e506?pvs=4)
+- <img src="./docs/이미지 썸네일.png" style="width:45%"> <img src="./docs/이미지 상세.png" style="width:45%">
+
 
 ### 💥⚙️ 4. React Windowing, 렌더링 지연 98%감소
 
 - 무한 스크롤 기능으로 인해, 많은 컴포넌트가 쌓이게 된다면 렌더링의 지연이 발생하게 됩니다.
 - 이를 개선하기 위해, Viewport 외 컴포넌트는 렌더링되지 않도록 windowing기법을 도입했습니다.
   ![react-window](./docs/react-window.gif)
-
-- 10만개의 데이터로 테스트했을 때, 초기 렌더링 시간이 `976ms > 16ms로, 98%감소`된 것을 확인할 수 있었습니다.
+- 10만개의 데이터로 테스트했을 때, 초기 렌더링 시간이 **976ms > 16ms로, 98%감소**된 것을 확인할 수 있었습니다.
 - [📝 react-window](https://dolphin-pc.notion.site/react-window-41289d25da9a42c4bab241166d760a6d?pvs=4)
+- <img src="./docs/적용전.png" style="width:45%"> <img src="./docs/적용후.png" style="width:45%">
 
-<div style="display:flex;">
-<img src="./docs/적용전.png" style="width:50%">
-<img src="./docs/적용후.png" style="width:50%">
-</div>
