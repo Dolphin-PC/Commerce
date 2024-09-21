@@ -164,10 +164,10 @@ sequenceDiagram
 - 상품 이미지가 많은 이커머스 사이트 특성을 고려하여, 이미지 사이즈를 감소하여 로딩 속도를 개선했습니다.
 - 상품 목록화면의 경우, 이미지 thumnail을 적용해 **이미지 사이즈를 50% 감소**시켰습니다. (157KB -> 64.3KB)
 - 판매자가 상품을 등록할 때, 이미지를 변환&Resizing하여 업로드합니다. [📝 이미지 최적화 2. Image Resize](https://dolphin-pc.notion.site/2-Image-Resize-1eafb2f29fa5431383f5c51f38c6e506?pvs=4)
-	<div style="display:flex;">
-	<img src="https://private-user-images.githubusercontent.com/43159931/363008677-8bd9ab83-013c-4016-920b-6a2ade06e4a9.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MjY4OTEzMDQsIm5iZiI6MTcyNjg5MTAwNCwicGF0aCI6Ii80MzE1OTkzMS8zNjMwMDg2NzctOGJkOWFiODMtMDEzYy00MDE2LTkyMGItNmEyYWRlMDZlNGE5LnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNDA5MjElMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjQwOTIxVDAzNTY0NFomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPWNhNDg2YjU1MWMyYTM3ZjIyODQ0MjUzNDg3YTQwNmI1ZmVlNTlhYmE0MWRmYTBlNTQ2MmNhYTY5YmJkZmNiOWYmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.J4GKqWoc3Eh5L89N1mkNCgU_ngpRhNxEMu4Go8u-ND8" style="width:50%">
-	<img src="https://private-user-images.githubusercontent.com/43159931/363010312-9445a671-9f53-4374-8145-e97251f69aba.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MjY4OTEzMDQsIm5iZiI6MTcyNjg5MTAwNCwicGF0aCI6Ii80MzE1OTkzMS8zNjMwMTAzMTItOTQ0NWE2NzEtOWY1My00Mzc0LTgxNDUtZTk3MjUxZjY5YWJhLnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNDA5MjElMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjQwOTIxVDAzNTY0NFomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTNjYTFmNjNjNzY4NGY5MTU0NDI2OWMzYWU0MDMxOTg2OTVmMDcwNjdkYzE2M2QyODFkNWExYmExMDI2YjY3M2ImWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.QuIRMFjYu4HM4crKLuv4_4UnAkmDdYnj9FGG6Et4iKU" style="width:50%">
-	</div>
+<div style="display:flex;">
+  <img src="./docs/이미지 썸네일.png" style="width:50%">
+  <img src="./docs/이미지 상세.png" style="width:50%">
+</div>
 
 ### 💥⚙️ 4. React Windowing, 렌더링 지연 98%감소
 
@@ -178,7 +178,7 @@ sequenceDiagram
 - 10만개의 데이터로 테스트했을 때, 초기 렌더링 시간이 `976ms > 16ms로, 98%감소`된 것을 확인할 수 있었습니다.
 - [📝 react-window](https://dolphin-pc.notion.site/react-window-41289d25da9a42c4bab241166d760a6d?pvs=4)
 
-	<div style="display:flex;">
-	<img src="./docs/적용전.png" style="width:50%">
-	<img src="./docs/적용후.png" style="width:50%">
-	</div>
+<div style="display:flex;">
+<img src="./docs/적용전.png" style="width:50%">
+<img src="./docs/적용후.png" style="width:50%">
+</div>
