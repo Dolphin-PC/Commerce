@@ -1,6 +1,6 @@
 # Banana Store
 
-> 프로젝트 회고문서 : https://www.notion.so/dolphin-pc/14a2ffc42d5d492da5cdb5b5c44fdc1e?v=1089870838e380b1861b000cc6e8857f&pvs=4
+> 프로젝트 회고문서 : https://dolphin-pc.notion.site/14a2ffc42d5d492da5cdb5b5c44fdc1e?v=1089870838e380b1861b000cc6e8857f&pvs=4
 
 > 프로젝트 Issues : https://github.com/Dolphin-PC/Commerce/issues?q=is%3Aissue+is%3Aclosed
 
@@ -13,7 +13,7 @@
 <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=black">
 <img src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=Vite&logoColor=white">
 <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=TypeScript&logoColor=white">
-
+<br/>
 <img src="https://img.shields.io/badge/Supabase-181818?style=for-the-badge&logo=supabase&logoColor=white"><small>Typescript/관계형 DB의 지원이 있어 선택하게 되었습니다.</small>
 <br/>
 <img src="https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=Axios&logoColor=purple">
@@ -40,7 +40,8 @@
 
 #### FE Folder구조
 
-- FSD를 기반으로 `app > widgets > pages > features > shared` 순으로 참초할 수 있는 계층을 나누었습니다. (왼쪽에서 오른쪽은 참조가능하나, 오른쪽에서 왼쪽은 참조가 불가합니다.)
+- FSD를 기반으로 `app > widgets > pages > features > shared` 순으로 참초할 수 있는 계층을 나누었습니다.
+  (왼쪽에서 오른쪽은 참조가능하나, 오른쪽에서 왼쪽은 참조가 불가합니다.)
 
   - **app** : 어디에도 재사용되지 않습니다. 주로 앱 설정과 관련된 파일입니다. (ex. Router)
   - **widgets** : 특정 feature기능들의 조합으로 만들어진 components가 위치합니다. (Header)
@@ -105,7 +106,7 @@
   ┣ 📂widgets
   ```
 
-  </details>
+    </details>
 
 ## 🎯 서비스 기능
 
@@ -127,11 +128,37 @@
 > 💥 트러블슈팅
 > ⚙️ 성능최적화
 
-### ✅ 1. 아임포트 결제 기능
+### ✅💥 1. 아임포트 결제 기능
 
 - 아임포트 SDK를 활용해 가상결제 기능을 구현했습니다.
-- [📝 상품구매](https://github.com/Dolphin-PC/Commerce/issues/61)
-  ![아임포트 결제 기능](</docs/아임포트 상품 결제.gif>)
+
+```mermaid
+sequenceDiagram
+    actor User
+    participant 상품상세페이지
+    participant Order/OrderDetail
+    participant Product
+    participant Iamport
+    participant PayHistory
+
+    User->>상품상세페이지: 구매버튼 클릭
+		상품상세페이지-->>Order/OrderDetail: 생성
+    Order/OrderDetail-->>Product: 재고수량 우선감소
+    Iamport->>User: 결제창 불러오기
+    alt 결제 취소
+        Iamport-->>Product: 재고수량 원상복구
+        Product-->>Order/OrderDetail: 주문 삭제
+    else 결제 완료
+        Iamport->>User: 결제완료 화면 Redirect
+        User-->>Iamport: paymentId로 결제조회API 요청
+        Iamport-->>PayHistory: 결제내역 추가
+        PayHistory-->>Order/OrderDetail: 주문상태 업데이트(결제완료 확인)
+    end
+```
+
+<img src="./docs/아임포트 상품 결제.gif"/>
+
+- [💥 아임포트 redirectUrl](https://dolphin-pc.notion.site/redirectUrl-5bb15243d15340ae9710ddf9b95cd734?pvs=4)
 
 ### ⚙️ 2. 상품 이미지 최적화(Lazy Loading)
 
@@ -157,7 +184,7 @@
   ![react-window](./docs/react-window.gif)
 
 - 10만개의 데이터로 테스트했을 때, 초기 렌더링 시간이 `976ms > 16ms로, 98%감소`된 것을 확인할 수 있었습니다.
-  [📝 react-window](https://dolphin-pc.notion.site/react-window-41289d25da9a42c4bab241166d760a6d?pvs=4)
+- [📝 react-window](https://dolphin-pc.notion.site/react-window-41289d25da9a42c4bab241166d760a6d?pvs=4)
 
 <div style="display:flex;">
 <img src="./docs/적용전.png" style="width:50%">
