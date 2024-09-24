@@ -1,13 +1,13 @@
 - [Banana Store](#banana-store)
-  * [📌 프로젝트 소개](#-프로젝트-소개)
-    + [⚙️ 사용기술](#%EF%B8%8F-사용기술)
-    + [🔨 아키텍처](#-아키텍처)
-  * [🎯 서비스 기능](#-서비스-기능)
-  * [🎯 주요 기능 소개](#-주요-기능-소개)
-    + [✅💥 1. 아임포트 결제 기능](#-1-아임포트-결제-기능)
-    + [⚙️ 2. 상품 이미지 최적화(Lazy Loading)](#%EF%B8%8F-2-상품-이미지-최적화lazy-loading)
-    + [💥⚙️ 3. 상품 이미지 최적화(Image Resize & Webp), 사이즈 50%감소](#%EF%B8%8F-3-상품-이미지-최적화image-resize--webp-사이즈-50감소)
-    + [💥⚙️ 4. React Windowing, 렌더링 지연 98%감소](#%EF%B8%8F-4-react-windowing-렌더링-지연-98감소)
+  - [📌 프로젝트 소개](#-프로젝트-소개)
+    - [⚙️ 사용기술](#%EF%B8%8F-사용기술)
+    - [🔨 아키텍처](#-아키텍처)
+  - [🎯 서비스 기능](#-서비스-기능)
+  - [🎯 주요 기능 소개](#-주요-기능-소개)
+    - [✅💥 1. 아임포트 결제 기능](#-1-아임포트-결제-기능)
+    - [⚙️ 2. 상품 이미지 최적화(Lazy Loading)](#%EF%B8%8F-2-상품-이미지-최적화lazy-loading)
+    - [💥⚙️ 3. 상품 이미지 최적화(Image Resize & Webp), 사이즈 50%감소](#%EF%B8%8F-3-상품-이미지-최적화image-resize--webp-사이즈-50감소)
+    - [💥⚙️ 4. React Windowing, 렌더링 지연 98%감소](#%EF%B8%8F-4-react-windowing-렌더링-지연-98감소)
 
 ---
 
@@ -18,7 +18,6 @@
 > [🔗 프로젝트 Issues](https://github.com/Dolphin-PC/Commerce/issues?q=is%3Aissue+is%3Aclosed)
 
 목차
-	
 
 ## 📌 프로젝트 소개
 
@@ -43,7 +42,8 @@
 ### 🔨 아키텍처
 
 #### [📄 Database ERD](https://github.com/Dolphin-PC/Commerce/wiki/DB,-ERD)
-#### [📄 FE Folder구조](https://github.com/Dolphin-PC/Commerce/wiki/FE%ED%8F%B4%EB%8D%94-%EA%B5%AC%EC%A1%B0-(FSD))
+
+#### [📄 FE Folder구조](<https://github.com/Dolphin-PC/Commerce/wiki/FE%ED%8F%B4%EB%8D%94-%EA%B5%AC%EC%A1%B0-(FSD)>)
 
 ## 🎯 서비스 기능
 
@@ -68,6 +68,7 @@
 ### ✅💥 1. 아임포트 결제 기능
 
 - 아임포트 SDK를 활용해 가상결제 기능을 구현했습니다.
+  <img src="./docs/아임포트 상품 결제.gif"/>
 
 ```mermaid
 sequenceDiagram
@@ -93,15 +94,13 @@ sequenceDiagram
     end
 ```
 
-<img src="./docs/아임포트 상품 결제.gif" style="width:300px"/>
-
 - 아임포트 결제 완료시, 웹사이트에서 redirect가 되지 않는 문제점이 있었습니다. [💥 아임포트 redirectUrl](https://dolphin-pc.notion.site/redirectUrl-5bb15243d15340ae9710ddf9b95cd734?pvs=4)
 
 ### ⚙️ 2. 상품 이미지 최적화(Lazy Loading)
 
 - viewport 영역에 들어온 이미지만 로드하여, 웹페이지 초기 로딩 속도를 개선했습니다.
 - [📝 이미지 최적화 1. Image Lazy Loading](https://dolphin-pc.notion.site/1-Lazy-Loading-b7f6ffe10c034ef1aa2aa1cbfc255440?pvs=4)
-  ![Lazy Loading](https://file.notion.so/f/f/231a861b-88a7-4a1d-bfa3-082686e82101/12f07b05-2c92-4f4f-ac0e-d52c75a1509e/%E1%84%8B%E1%85%B5%E1%84%86%E1%85%B5%E1%84%8C%E1%85%B5_lazy_loading.gif?table=block&id=f6d3b93d-bd78-475c-8a6a-9d8df34f7357&spaceId=231a861b-88a7-4a1d-bfa3-082686e82101&expirationTimestamp=1726977600000&signature=NMZjKkjLc2Tiamq5M1ZmLrEC8tcOqBHZqA_25kCjJYQ)
+  <img src="./docs/이미지 lazy loading.gif"/>
 
 ### 💥⚙️ 3. 상품 이미지 최적화(Image Resize & Webp), 사이즈 50%감소
 
@@ -111,7 +110,6 @@ sequenceDiagram
 - [📝 이미지 최적화 2. Image Resize](https://dolphin-pc.notion.site/2-Image-Resize-1eafb2f29fa5431383f5c51f38c6e506?pvs=4)
 - <img src="./docs/이미지 썸네일.png" style="width:45%"> <img src="./docs/이미지 상세.png" style="width:45%">
 
-
 ### 💥⚙️ 4. React Windowing, 렌더링 지연 98%감소
 
 - 무한 스크롤 기능으로 인해, 많은 컴포넌트가 쌓이게 된다면 렌더링의 지연이 발생하게 됩니다.
@@ -120,4 +118,3 @@ sequenceDiagram
 - 10만개의 데이터로 테스트했을 때, 초기 렌더링 시간이 **976ms > 16ms로, 98%감소**된 것을 확인할 수 있었습니다.
 - [📝 react-window](https://dolphin-pc.notion.site/react-window-41289d25da9a42c4bab241166d760a6d?pvs=4)
 - <img src="./docs/적용전.png" style="width:45%"> <img src="./docs/적용후.png" style="width:45%">
-
