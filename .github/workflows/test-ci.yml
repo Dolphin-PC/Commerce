@@ -1,9 +1,6 @@
 name: Test CI 자동화
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - main
