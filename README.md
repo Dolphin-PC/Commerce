@@ -68,7 +68,7 @@
 ### ✅💥 1. 아임포트 결제 기능
 
 - 아임포트 SDK를 활용해 가상결제 기능을 구현했습니다.
-  <img src="./docs/아임포트 상품 결제.gif"/>
+- ![import.gif](./docs/import.gif)
 
 ```mermaid
 sequenceDiagram
@@ -100,7 +100,7 @@ sequenceDiagram
 
 - viewport 영역에 들어온 이미지만 로드하여, 웹페이지 초기 로딩 속도를 개선했습니다.
 - [📝 이미지 최적화 1. Image Lazy Loading](https://dolphin-pc.notion.site/1-Lazy-Loading-b7f6ffe10c034ef1aa2aa1cbfc255440?pvs=4)
-  <img src="./docs/이미지 lazy loading.gif"/>
+- ![image_lazy_loading.gif](./docs/image_lazy_loading.gif)
 
 ### 💥⚙️ 3. 상품 이미지 최적화(Image Resize & Webp), 사이즈 50%감소
 
